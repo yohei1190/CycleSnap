@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct CategoryListScreen: View {
+    @State private var isPresentingCategoryAdditionalAlert = false
+    @State private var categoryName = ""
+
+    private var trimmedCategoryName: String {
+        categoryName.trimmingCharacters(in: .whitespaces)
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -24,7 +31,7 @@ struct CategoryListScreen: View {
                 HStack {
                     Spacer()
                     Button {
-                        // action
+                        isPresentingCategoryAdditionalAlert = true
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
                     }
@@ -35,6 +42,16 @@ struct CategoryListScreen: View {
             .navigationTitle("Categories")
             .toolbar {
                 EditButton()
+            }
+            .alert("New Category", isPresented: $isPresentingCategoryAdditionalAlert) {
+                TextField("category name", text: $categoryName)
+                Button("Cancel", role: .cancel, action: {})
+                Button("Save") {
+                    // TODO: save処理
+                }
+                .disabled(!trimmedCategoryName.isEmpty)
+            } message: {
+                Text("Please enter the name of this category")
             }
         }
     }
