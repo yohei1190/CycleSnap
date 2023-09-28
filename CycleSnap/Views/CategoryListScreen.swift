@@ -9,7 +9,7 @@ import RealmSwift
 import SwiftUI
 
 struct CategoryListScreen: View {
-    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: false)) var categoryList
+    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
     @State private var isPresentingCategoryAdditionalAlert = false
     @State private var categoryName = ""
@@ -32,6 +32,23 @@ struct CategoryListScreen: View {
         $categoryList.append(newCategory)
     }
 
+    private func move(fromOffsets: IndexSet, toOffset: Int) {
+        var revisedCategoryList: [Category] = categoryList.map { $0 }
+        revisedCategoryList.move(fromOffsets: fromOffsets, toOffset: toOffset)
+
+        do {
+            let realm = try Realm()
+            try realm.write {
+                for (index, revisedCategory) in revisedCategoryList.enumerated() {
+                    let category = realm.objects(Category.self).filter("_id == %@", revisedCategory._id).first!
+                    category.orderIndex = index
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -41,7 +58,7 @@ struct CategoryListScreen: View {
                             .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
                     }
                     .onDelete(perform: $categoryList.remove)
-                    .onMove(perform: { _, _ in })
+                    .onMove(perform: move)
                 }
                 .listStyle(.plain)
 
