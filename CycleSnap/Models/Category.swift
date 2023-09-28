@@ -11,8 +11,8 @@ import RealmSwift
 class Category: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
-    // TODO: 保存時にincrementする
     @Persisted var orderIndex: Int
+    @Persisted var photos: List<Photo> = .init()
 }
 
 extension Category {
