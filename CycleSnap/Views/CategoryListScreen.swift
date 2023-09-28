@@ -5,9 +5,12 @@
 //  Created by yohei shimizu on 2023/09/27.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct CategoryListScreen: View {
+    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: false)) var categoryList
+
     @State private var isPresentingCategoryAdditionalAlert = false
     @State private var categoryName = ""
 
@@ -15,12 +18,26 @@ struct CategoryListScreen: View {
         categoryName.trimmingCharacters(in: .whitespaces)
     }
 
+    private func save() {
+        let newCategory = Category()
+
+        newCategory.name = trimmedCategoryName
+
+        var maxOrderIndex = -1
+        if !categoryList.isEmpty {
+            maxOrderIndex = categoryList.max(of: \.orderIndex)!
+        }
+        newCategory.orderIndex = maxOrderIndex + 1
+
+        $categoryList.append(newCategory)
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(0 ... 5, id: \.self) { _ in
-                        CategoryCellView()
+                    ForEach(categoryList) { category in
+                        CategoryCellView(category: category)
                             .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
                     }
                     .onDelete(perform: { _ in })
@@ -45,9 +62,12 @@ struct CategoryListScreen: View {
             }
             .alert("New Category", isPresented: $isPresentingCategoryAdditionalAlert) {
                 TextField("category name", text: $categoryName)
-                Button("Cancel", role: .cancel, action: {})
+                Button("Cancel", role: .cancel) {
+                    categoryName = ""
+                }
                 Button("Save") {
-                    // TODO: save処理
+                    save()
+                    categoryName = ""
                 }
                 .disabled(!trimmedCategoryName.isEmpty)
             } message: {
