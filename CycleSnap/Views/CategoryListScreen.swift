@@ -11,7 +11,7 @@ import SwiftUI
 struct CategoryListScreen: View {
     @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
-    @State private var isPresentingCategoryAdditionalAlert = false
+    @State private var isPresented = false
     @State private var categoryName = ""
 
     private var trimmedCategoryName: String {
@@ -65,7 +65,7 @@ struct CategoryListScreen: View {
                 HStack {
                     Spacer()
                     Button {
-                        isPresentingCategoryAdditionalAlert = true
+                        isPresented = true
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
                     }
@@ -73,11 +73,26 @@ struct CategoryListScreen: View {
                 .padding(.top, 8)
             }
             .padding()
+            .overlay {
+                if categoryList.isEmpty {
+                    VStack(spacing: 12) {
+                        Text("Empty Category")
+                            .font(.title)
+                            .bold()
+                        Text("Tap the button in the bottom right to add your first category.")
+                            .font(.title3)
+                            .opacity(0.6)
+                    }
+                    .padding(.horizontal, 32)
+                }
+            }
             .navigationTitle("Categories")
             .toolbar {
-                EditButton()
+                if !categoryList.isEmpty {
+                    EditButton()
+                }
             }
-            .alert("New Category", isPresented: $isPresentingCategoryAdditionalAlert) {
+            .alert("New Category", isPresented: $isPresented) {
                 TextField("category name", text: $categoryName)
                 Button("Cancel", role: .cancel) {
                     categoryName = ""
