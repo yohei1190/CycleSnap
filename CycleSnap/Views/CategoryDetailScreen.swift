@@ -5,10 +5,22 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct CategoryDetailScreen: View {
+    @ObservedRealmObject var category: Category
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
+
+    private func loadImage(_ path: String) -> UIImage? {
+        let documentsDirectory = URL.documentsDirectory
+        let imageURL = documentsDirectory.appendingPathComponent(path)
+        guard let imageData = try? Data(contentsOf: imageURL) else {
+            return nil
+        }
+
+        return UIImage(data: imageData)
+    }
 
     var body: some View {
         VStack {
@@ -16,6 +28,7 @@ struct CategoryDetailScreen: View {
                 LazyVGrid(columns: columns) {
                     Rectangle()
                         .fill(Color.gray.opacity(0.2))
+                        .aspectRatio(1, contentMode: .fill)
                         .overlay {
                             Image(systemName: "plus")
                                 .foregroundColor(.blue)
@@ -23,16 +36,18 @@ struct CategoryDetailScreen: View {
                                 .bold()
                         }
 
-                    ForEach(0 ... 20, id: \.self) { _ in
-                        Image("sample")
-                            .resizable()
-                            .scaledToFill()
-                            .overlay(alignment: .bottomTrailing) {
-                                Text("2023/09/28")
-                                    .font(.footnote)
-                                    .foregroundColor(.white)
-                                    .background(.black.opacity(0.4))
-                            }
+                    ForEach(category.photos) { photo in
+                        if let uiImage = loadImage(photo.path) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fill)
+                                .overlay(alignment: .bottomTrailing) {
+                                    Text(photo.captureDate, style: .date)
+                                        .font(.caption2)
+                                        .foregroundColor(.white)
+                                        .background(.black.opacity(0.4))
+                                }
+                        }
                     }
                 }
             }
@@ -40,7 +55,7 @@ struct CategoryDetailScreen: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip")
+        .navigationTitle(category.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
@@ -75,7 +90,7 @@ struct CategoryDetailScreen: View {
 struct CategoryDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CategoryDetailScreen()
+            CategoryDetailScreen(category: Category.sampleCategory1)
         }
     }
 }

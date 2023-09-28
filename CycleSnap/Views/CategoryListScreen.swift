@@ -57,7 +57,7 @@ struct CategoryListScreen: View {
                 List {
                     ForEach(categoryList) { category in
                         NavigationLink {
-                            CategoryDetailScreen()
+                            CategoryDetailScreen(category: category)
                         } label: {
                             CategoryCellView(category: category)
                                 .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
