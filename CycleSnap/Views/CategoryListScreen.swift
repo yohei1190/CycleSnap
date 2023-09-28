@@ -40,7 +40,7 @@ struct CategoryListScreen: View {
                         CategoryCellView(category: category)
                             .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
                     }
-                    .onDelete(perform: { _ in })
+                    .onDelete(perform: $categoryList.remove)
                     .onMove(perform: { _, _ in })
                 }
                 .listStyle(.plain)
