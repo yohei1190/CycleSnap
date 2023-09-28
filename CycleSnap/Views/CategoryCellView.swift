@@ -5,9 +5,12 @@
 //  Created by yohei shimizu on 2023/09/27.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct CategoryCellView: View {
+    @ObservedRealmObject var category: Category
+
     var body: some View {
         HStack(spacing: 12) {
             // 画像なしの場合
@@ -30,7 +33,7 @@ struct CategoryCellView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
 
             VStack(alignment: .leading, spacing: 12) {
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure ")
+                Text(category.name)
                     .lineLimit(2)
                     .font(.title3)
                 Text("2020/01/01 ~ 2023/12/31")
@@ -43,7 +46,7 @@ struct CategoryCellView: View {
 
 struct CategoryCellView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryCellView()
+        CategoryCellView(category: Category.sampleCategory1)
             .padding()
     }
 }
