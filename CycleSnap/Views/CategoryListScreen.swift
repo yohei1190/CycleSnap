@@ -56,8 +56,12 @@ struct CategoryListScreen: View {
             VStack {
                 List {
                     ForEach(categoryList) { category in
-                        CategoryCellView(category: category)
-                            .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+                        NavigationLink {
+                            CategoryDetailScreen()
+                        } label: {
+                            CategoryCellView(category: category)
+                                .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+                        }
                     }
                     .onDelete { indexSet in
                         indicesToDelete = indexSet
