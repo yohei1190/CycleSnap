@@ -11,8 +11,10 @@ import SwiftUI
 struct CategoryListScreen: View {
     @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
-    @State private var isPresented = false
     @State private var categoryName = ""
+    @State private var isPresentingAlert = false
+    @State private var indicesToDelete: IndexSet?
+    @State private var isPresentingConfirmationDialog = false
 
     private var trimmedCategoryName: String {
         categoryName.trimmingCharacters(in: .whitespaces)
@@ -57,7 +59,10 @@ struct CategoryListScreen: View {
                         CategoryCellView(category: category)
                             .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
                     }
-                    .onDelete(perform: $categoryList.remove)
+                    .onDelete { indexSet in
+                        indicesToDelete = indexSet
+                        isPresentingConfirmationDialog = true
+                    }
                     .onMove(perform: move)
                 }
                 .listStyle(.plain)
@@ -65,7 +70,7 @@ struct CategoryListScreen: View {
                 HStack {
                     Spacer()
                     Button {
-                        isPresented = true
+                        isPresentingAlert = true
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
                     }
@@ -92,7 +97,7 @@ struct CategoryListScreen: View {
                     EditButton()
                 }
             }
-            .alert("New Category", isPresented: $isPresented) {
+            .alert("New Category", isPresented: $isPresentingAlert) {
                 TextField("category name", text: $categoryName)
                 Button("Cancel", role: .cancel) {
                     categoryName = ""
@@ -104,6 +109,16 @@ struct CategoryListScreen: View {
                 .disabled(!trimmedCategoryName.isEmpty)
             } message: {
                 Text("Please enter the name of this category")
+            }
+            .alert("Do you want to delete the category?", isPresented: $isPresentingConfirmationDialog) {
+                Button("Delete", role: .destructive) {
+                    if let indicesToDelete {
+                        $categoryList.remove(atOffsets: indicesToDelete)
+                    }
+                    indicesToDelete = nil
+                }
+            } message: {
+                Text("This action will delete all photos in this category.")
             }
         }
     }
