@@ -10,6 +10,9 @@ import SwiftUI
 
 struct CategoryDetailScreen: View {
     @ObservedRealmObject var category: Category
+    // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
+    @State private var isLatest = false
+
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
     private func loadImage(_ path: String) -> UIImage? {
@@ -36,7 +39,7 @@ struct CategoryDetailScreen: View {
                                 .bold()
                         }
 
-                    ForEach(category.photos) { photo in
+                    ForEach(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest)) { photo in
                         if let uiImage = loadImage(photo.path) {
                             Image(uiImage: uiImage)
                                 .resizable()
@@ -58,31 +61,11 @@ struct CategoryDetailScreen: View {
         .navigationTitle(category.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    Button {} label: {
-                        HStack {
-                            Text("Oldest First")
-                            Image(systemName: "arrow.up")
-                        }
-                    }
-                    Button {} label: {
-                        HStack {
-                            Text("Newest First")
-                            Image(systemName: "arrow.down")
-                        }
-                    }
-                    Button {} label: {
-                        HStack {
-                            Text("Edit Category name")
-                            Image(systemName: "square.and.pencil")
-                        }
-                    }
-
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .font(.title2)
-                }
+                CategoryDetailToolbarMenu(category: category, isLatest: $isLatest)
             }
+        }
+        .onAppear {
+            isLatest = category.isLatestFirst
         }
     }
 }
@@ -90,7 +73,7 @@ struct CategoryDetailScreen: View {
 struct CategoryDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CategoryDetailScreen(category: Category.sampleCategory1)
+            CategoryDetailScreen(category: Realm.previewRealm.objects(Category.self).first!)
         }
     }
 }

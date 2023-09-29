@@ -14,7 +14,7 @@ class RealmConfiguration {
     }
 
     func updateSchema() {
-        let config = Realm.Configuration(schemaVersion: 1)
+        let config = Realm.Configuration(schemaVersion: 3)
         Realm.Configuration.defaultConfiguration = config
         _ = try! Realm()
     }
