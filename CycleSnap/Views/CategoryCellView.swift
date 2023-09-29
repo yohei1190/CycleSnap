@@ -46,7 +46,7 @@ struct CategoryCellView: View {
 
 struct CategoryCellView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryCellView(category: Category.sampleCategory1)
+        CategoryCellView(category: Realm.previewRealm.objects(Category.self).first!)
             .padding()
     }
 }

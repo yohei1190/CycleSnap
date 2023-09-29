@@ -131,5 +131,6 @@ struct CategoryListScreen: View {
 struct CategoryListScreen_Previews: PreviewProvider {
     static var previews: some View {
         CategoryListScreen()
+            .environment(\.realm, Realm.previewRealm)
     }
 }
