@@ -12,6 +12,8 @@ struct CategoryDetailScreen: View {
     @ObservedRealmObject var category: Category
     // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
     @State private var isLatest = false
+    @State private var deletingPhoto: Photo?
+    @State private var isPresentingDeleteDialog = false
 
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
@@ -23,6 +25,29 @@ struct CategoryDetailScreen: View {
         }
 
         return UIImage(data: imageData)
+    }
+
+    private func delete() {
+        guard let deletingPhoto else {
+            return
+        }
+
+        do {
+            // NOTE: RealmDBからオブジェクトを削除
+            let realm = try Realm()
+            guard let photoObject = realm.objects(Photo.self).filter("_id == %@", deletingPhoto._id).first else {
+                return
+            }
+            try realm.write {
+                realm.delete(photoObject)
+            }
+            // NOTE: Documentsディレクトリから画像ファイルを削除
+            let documentsDirectory = URL.documentsDirectory
+            let imageURL = documentsDirectory.appendingPathComponent(deletingPhoto.path)
+            try FileManager.default.removeItem(at: imageURL)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 
     var body: some View {
@@ -50,6 +75,14 @@ struct CategoryDetailScreen: View {
                                         .foregroundColor(.white)
                                         .background(.black.opacity(0.4))
                                 }
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        isPresentingDeleteDialog = true
+                                        deletingPhoto = photo
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
                 }
@@ -62,6 +95,12 @@ struct CategoryDetailScreen: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 CategoryDetailToolbarMenu(category: category, isLatest: $isLatest)
+            }
+        }
+        .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
+            Button("Delete photo", role: .destructive) {
+                delete()
+                deletingPhoto = nil
             }
         }
         .onAppear {
