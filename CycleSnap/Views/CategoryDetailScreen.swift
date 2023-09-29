@@ -18,8 +18,7 @@ struct CategoryDetailScreen: View {
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
     private func loadImage(_ path: String) -> UIImage? {
-        let documentsDirectory = URL.documentsDirectory
-        let imageURL = documentsDirectory.appendingPathComponent(path)
+        let imageURL = FileHelper.getFileURL(path: path)
         guard let imageData = try? Data(contentsOf: imageURL) else {
             return nil
         }
@@ -28,9 +27,7 @@ struct CategoryDetailScreen: View {
     }
 
     private func delete() {
-        guard let deletingPhoto else {
-            return
-        }
+        guard let deletingPhoto else { return }
 
         do {
             // NOTE: RealmDBからオブジェクトを削除
@@ -38,12 +35,12 @@ struct CategoryDetailScreen: View {
             guard let photoObject = realm.objects(Photo.self).filter("_id == %@", deletingPhoto._id).first else {
                 return
             }
+
             try realm.write {
                 realm.delete(photoObject)
             }
             // NOTE: Documentsディレクトリから画像ファイルを削除
-            let documentsDirectory = URL.documentsDirectory
-            let imageURL = documentsDirectory.appendingPathComponent(deletingPhoto.path)
+            let imageURL = FileHelper.getFileURL(path: deletingPhoto.path)
             try FileManager.default.removeItem(at: imageURL)
         } catch {
             print(error.localizedDescription)
