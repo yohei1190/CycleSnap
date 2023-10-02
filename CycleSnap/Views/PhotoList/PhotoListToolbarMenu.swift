@@ -1,5 +1,5 @@
 //
-//  CategoryDetailToolbarMenu.swift
+//  PhotoListToolbarMenu.swift
 //  CycleSnap
 //
 //  Created by yohei shimizu on 2023/09/29.
@@ -8,7 +8,7 @@
 import RealmSwift
 import SwiftUI
 
-struct CategoryDetailToolbarMenu: View {
+struct PhotoListToolbarMenu: View {
     let category: Category
     @Binding var isLatest: Bool
     @Binding var isPresentingAlert: Bool
@@ -70,8 +70,8 @@ struct CategoryDetailToolbarMenu: View {
     }
 }
 
-struct CategoryDetailToolbarMenu_Previews: PreviewProvider {
+struct PhotoListToolbarMenuToolbarMenu_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryDetailToolbarMenu(category: Realm.previewRealm.objects(Category.self).first!, isLatest: .constant(false), isPresentingAlert: .constant(false))
+        PhotoListToolbarMenu(category: Realm.previewRealm.objects(Category.self).first!, isLatest: .constant(false), isPresentingAlert: .constant(false))
     }
 }

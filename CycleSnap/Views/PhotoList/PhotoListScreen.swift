@@ -1,5 +1,5 @@
 //
-//  CategoryDetailScreen.swift
+//  PhotoListScreen.swift
 //  CycleSnap
 //
 //  Created by yohei shimizu on 2023/09/28.
@@ -8,7 +8,7 @@
 import RealmSwift
 import SwiftUI
 
-struct CategoryDetailScreen: View {
+struct PhotoListScreen: View {
     @ObservedRealmObject var category: Category
     // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
     @State private var isLatest = false
@@ -94,7 +94,7 @@ struct CategoryDetailScreen: View {
         .toolbar {
             if !isPresentingAlert {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    CategoryDetailToolbarMenu(category: category, isLatest: $isLatest, isPresentingAlert: $isPresentingAlert)
+                    PhotoListToolbarMenu(category: category, isLatest: $isLatest, isPresentingAlert: $isPresentingAlert)
                 }
             }
         }
@@ -120,10 +120,10 @@ struct CategoryDetailScreen: View {
     }
 }
 
-struct CategoryDetailScreen_Previews: PreviewProvider {
+struct PhotoListScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CategoryDetailScreen(category: Realm.previewRealm.objects(Category.self).first!)
+            PhotoListScreen(category: Realm.previewRealm.objects(Category.self).first!)
         }
     }
 }
