@@ -12,8 +12,8 @@ struct CategoryListScreen: View {
     @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
     @State private var deletingCategory: Category?
-    @State private var isPresentingAlert = false
-    @State private var isPresentingConfirmationDialog = false
+    @State private var isPresentingCategoryNameAlert = false
+    @State private var isPresentingCategoryDeletingAlert = false
 
     private func move(fromOffsets: IndexSet, toOffset: Int) {
         var revisedCategoryList: [Category] = categoryList.map { $0 }
@@ -68,7 +68,7 @@ struct CategoryListScreen: View {
                     }
                     .onDelete { indexSet in
                         deletingCategory = categoryList[indexSet.first!]
-                        isPresentingConfirmationDialog = true
+                        isPresentingCategoryDeletingAlert = true
                     }
                     .onMove(perform: move)
                 }
@@ -78,7 +78,7 @@ struct CategoryListScreen: View {
                     Spacer()
                     Button {
                         withAnimation {
-                            isPresentingAlert = true
+                            isPresentingCategoryNameAlert = true
                         }
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
@@ -89,7 +89,7 @@ struct CategoryListScreen: View {
             .padding()
             .navigationTitle("Categories")
             .toolbar {
-                if !categoryList.isEmpty && !isPresentingAlert {
+                if !categoryList.isEmpty && !isPresentingCategoryNameAlert {
                     EditButton()
                 }
             }
@@ -107,9 +107,9 @@ struct CategoryListScreen: View {
                 }
             }
             .overlay {
-                CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: nil)
+                CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: nil)
             }
-            .alert("Do you want to delete \"\(deletingCategory?.name ?? "")\"?", isPresented: $isPresentingConfirmationDialog) {
+            .alert("Do you want to delete \"\(deletingCategory?.name ?? "")\"?", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("Delete", role: .destructive) {
                     delete()
                     deletingCategory = nil
