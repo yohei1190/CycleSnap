@@ -104,13 +104,6 @@ struct PhotoListScreen: View {
                 deletingPhoto = nil
             }
         }
-//        .alert("Rename Category", isPresented: $isPresentingAlert) {
-//            TextField("category name", text: $editingCategoryName)
-//            Button("Cancel", role: .cancel) {}
-//            Button("Save") {
-//                updateCategoryName()
-//            }
-//        }
         .overlay {
             CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: category)
         }
