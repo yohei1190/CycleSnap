@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryDetailToolbarMenu: View {
     let category: Category
     @Binding var isLatest: Bool
+    @Binding var isPresentingAlert: Bool
 
     private func updatePhotoOrder(isLatestFirst: Bool) {
         do {
@@ -51,7 +52,11 @@ struct CategoryDetailToolbarMenu: View {
                 Image(systemName: "arrow.up.arrow.down")
             }
 
-            Button {} label: {
+            Button {
+                withAnimation {
+                    isPresentingAlert = true
+                }
+            } label: {
                 HStack {
                     Text("Edit Category name")
                     Image(systemName: "square.and.pencil")
@@ -67,6 +72,6 @@ struct CategoryDetailToolbarMenu: View {
 
 struct CategoryDetailToolbarMenu_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryDetailToolbarMenu(category: Realm.previewRealm.objects(Category.self).first!, isLatest: .constant(false))
+        CategoryDetailToolbarMenu(category: Realm.previewRealm.objects(Category.self).first!, isLatest: .constant(false), isPresentingAlert: .constant(false))
     }
 }

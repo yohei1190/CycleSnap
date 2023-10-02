@@ -14,6 +14,7 @@ struct CategoryDetailScreen: View {
     @State private var isLatest = false
     @State private var deletingPhoto: Photo?
     @State private var isPresentingDeleteDialog = false
+    @State private var isPresentingAlert = false
 
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
@@ -32,7 +33,7 @@ struct CategoryDetailScreen: View {
         do {
             // NOTE: RealmDBからオブジェクトを削除
             let realm = try Realm()
-            guard let photoObject = realm.objects(Photo.self).filter("_id == %@", deletingPhoto._id).first else {
+            guard let photoObject = realm.object(ofType: Photo.self, forPrimaryKey: deletingPhoto._id) else {
                 return
             }
 
@@ -89,9 +90,12 @@ struct CategoryDetailScreen: View {
         }
         .padding()
         .navigationTitle(category.name)
+        .navigationBarBackButtonHidden(isPresentingAlert ? true : false)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                CategoryDetailToolbarMenu(category: category, isLatest: $isLatest)
+            if !isPresentingAlert {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    CategoryDetailToolbarMenu(category: category, isLatest: $isLatest, isPresentingAlert: $isPresentingAlert)
+                }
             }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
@@ -99,6 +103,16 @@ struct CategoryDetailScreen: View {
                 delete()
                 deletingPhoto = nil
             }
+        }
+//        .alert("Rename Category", isPresented: $isPresentingAlert) {
+//            TextField("category name", text: $editingCategoryName)
+//            Button("Cancel", role: .cancel) {}
+//            Button("Save") {
+//                updateCategoryName()
+//            }
+//        }
+        .overlay {
+            CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: category)
         }
         .onAppear {
             isLatest = category.isLatestFirst
