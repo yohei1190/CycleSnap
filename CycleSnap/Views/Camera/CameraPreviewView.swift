@@ -18,7 +18,7 @@ struct CameraPreviewView: View {
                 .ignoresSafeArea()
 
             if let capturedImage {
-                let viewWidth = UIScreen.main.bounds.width // 画面の幅を取得
+                let viewWidth = UIScreen.main.bounds.width
                 let viewHeight = viewWidth * 4 / 3
 
                 Image(uiImage: capturedImage)
@@ -53,6 +53,6 @@ struct CameraPreviewView: View {
 
 struct CameraPreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraPreviewView(cameraService: CameraService(), capturedImage: .constant(UIImage(named: "sample")), isPresentingCamera: .constant(true))
+        CameraPreviewView(cameraService: CameraService(), capturedImage: .constant(nil), isPresentingCamera: .constant(true))
     }
 }

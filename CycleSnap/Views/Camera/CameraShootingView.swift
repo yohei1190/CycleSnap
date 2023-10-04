@@ -10,6 +10,8 @@ import SwiftUI
 struct CameraShootingView: View {
     @Binding var isPresentingCamera: Bool
     @Binding var capturedImage: UIImage?
+    @State private var overlayOpacity: CGFloat = 0.5
+    let latestPhoto: Image?
 
     let cameraService = CameraService()
 
@@ -28,29 +30,62 @@ struct CameraShootingView: View {
                 }
             }
 
+            if let latestPhoto {
+                let viewWidth = UIScreen.main.bounds.width
+                let viewHeight = viewWidth * 4 / 3
+                latestPhoto
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: viewWidth, height: viewHeight)
+                    .clipped()
+                    .opacity(overlayOpacity)
+            }
+
             VStack {
                 HStack {
-                    Spacer()
-                    Button("X") {
+                    Button("Cancel") {
                         cameraService.stop()
                         isPresentingCamera = false
                     }
-                }
-                Spacer()
-                Button {
-                    cameraService.capturePhoto()
-                } label: {
-                    ZStack {
-                        Circle()
-                            .fill(.white)
-                            .frame(width: 65, height: 65)
-                        Circle()
-                            .stroke(.white, lineWidth: 2)
-                            .frame(width: 75, height: 75)
+
+                    Spacer()
+
+                    Button {
+                        cameraService.switchCamera()
+                    } label: {
+                        Image(systemName: "arrow.triangle.2.circlepath.camera")
                     }
+                    .font(.title)
+                }
+                .foregroundColor(.white)
+
+                Spacer()
+
+                if latestPhoto != nil {
+                    Slider(value: $overlayOpacity)
+                        .padding(.bottom, 40)
+                        .tint(.white)
+                }
+
+                HStack {
+                    Spacer()
+                    Button {
+                        cameraService.capturePhoto()
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 60, height: 60)
+                            Circle()
+                                .stroke(.white, lineWidth: 5)
+                                .frame(width: 75, height: 75)
+                        }
+                    }
+                    Spacer()
                 }
             }
-            .padding(.bottom, 60)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 72)
         }
         .ignoresSafeArea()
         .overlay {
@@ -63,6 +98,6 @@ struct CameraShootingView: View {
 
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraShootingView(isPresentingCamera: .constant(true), capturedImage: .constant(nil))
+        CameraShootingView(isPresentingCamera: .constant(true), capturedImage: .constant(nil), latestPhoto: Image("sample2"))
     }
 }
