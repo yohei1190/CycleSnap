@@ -9,10 +9,9 @@ import AVFoundation
 import Foundation
 
 class CameraService {
-    var session: AVCaptureSession?
+    var session = AVCaptureSession()
     // 写真をビューに提供するためにdelegateが必要
     var delegate: AVCapturePhotoCaptureDelegate?
-
     let output = AVCapturePhotoOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
 
@@ -26,7 +25,7 @@ class CameraService {
     }
 
     func stop() {
-        session?.stopRunning()
+        session.stopRunning()
     }
 
     private func checkPermissions(completion: @escaping (Error?) -> Void) {
@@ -51,7 +50,6 @@ class CameraService {
     }
 
     private func setupCamera(completion: @escaping (Error?) -> Void) {
-        let session = AVCaptureSession()
         if let device = AVCaptureDevice.default(for: .video) {
             do {
                 let input = try AVCaptureDeviceInput(device: device)
@@ -67,11 +65,46 @@ class CameraService {
                 previewLayer.session = session
 
                 DispatchQueue.global(qos: .background).async {
-                    session.startRunning()
+                    self.session.startRunning()
                 }
             } catch {
                 completion(error)
             }
         }
+    }
+
+    func switchCamera() {
+        session.beginConfiguration()
+
+        let newDevice: AVCaptureDevice?
+
+        if let currentInput = session.inputs.first as? AVCaptureDeviceInput {
+            if currentInput.device.position == .front {
+                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+            } else {
+                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+            }
+        } else {
+            newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        }
+        // 現在の入力を取得して削除
+        for input in session.inputs {
+            session.removeInput(input)
+        }
+
+        // 新しい入力を作成して追加
+        if let newDevice {
+            do {
+                let newInput = try AVCaptureDeviceInput(device: newDevice)
+                if session.canAddInput(newInput) {
+                    session.addInput(newInput)
+                }
+            } catch {
+                print("Failed to create input for new device: \(error)")
+            }
+        } else {
+            print("Could not find camera device")
+        }
+        session.commitConfiguration()
     }
 }
