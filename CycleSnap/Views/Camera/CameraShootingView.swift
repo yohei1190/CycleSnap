@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CameraShootingView: View {
     @Binding var isPresentingCamera: Bool
-    @Binding var capturedImage: UIImage?
+    @State private var capturedImage: UIImage?
     @State private var overlayOpacity: CGFloat = 0.5
-    let latestPhoto: Image?
 
+    let latestPhotoPath: String?
     let cameraService = CameraService()
 
     var body: some View {
@@ -30,10 +30,10 @@ struct CameraShootingView: View {
                 }
             }
 
-            if let latestPhoto {
+            if let latestPhotoPath, let uiImage = FileHelper.loadImage(latestPhotoPath) {
                 let viewWidth = UIScreen.main.bounds.width
                 let viewHeight = viewWidth * 4 / 3
-                latestPhoto
+                Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: viewWidth, height: viewHeight)
@@ -61,7 +61,7 @@ struct CameraShootingView: View {
 
                 Spacer()
 
-                if latestPhoto != nil {
+                if latestPhotoPath != nil {
                     Slider(value: $overlayOpacity)
                         .padding(.bottom, 40)
                         .tint(.white)
@@ -98,6 +98,6 @@ struct CameraShootingView: View {
 
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraShootingView(isPresentingCamera: .constant(true), capturedImage: .constant(nil), latestPhoto: Image("sample2"))
+        CameraShootingView(isPresentingCamera: .constant(true), latestPhotoPath: nil)
     }
 }
