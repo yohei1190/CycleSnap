@@ -40,7 +40,7 @@ extension Realm {
                         for j in 1 ... 5 {
                             // Creating sample photo
                             let photo = Photo()
-                            photo.path = "PhotosTest/sample\(j).jpeg"
+                            photo.path = "photos/sample\(j).jpg"
                             photo.captureDate = Calendar.current.date(byAdding: .day, value: j, to: Date())!
                             category.photos.append(photo)
                         }
