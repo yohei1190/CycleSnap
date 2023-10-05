@@ -9,8 +9,6 @@ import AVFoundation
 import SwiftUI
 
 struct ImagePickerView: UIViewControllerRepresentable {
-//    typealias UIViewControllerType = UIViewController
-
     let cameraService: CameraService
     let didFinishProcessingPhoto: (Result<AVCapturePhoto, Error>) -> Void
 
@@ -27,9 +25,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
         viewController.view.backgroundColor = .black
         // UI画面にpreviewLayerを追加する
         viewController.view.layer.addSublayer(cameraService.previewLayer)
-        // previewLayerを全画面にする
-//        cameraService.previewLayer.frame = viewController.view.bounds
-
         let screenBounds = UIScreen.main.bounds
         let screenWidth = screenBounds.width
         let screenHeight = screenBounds.height

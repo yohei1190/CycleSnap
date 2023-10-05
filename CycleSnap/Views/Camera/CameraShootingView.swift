@@ -5,6 +5,7 @@
 //  Created by yohei shimizu on 2023/10/04.
 //
 
+import AVFoundation
 import RealmSwift
 import SwiftUI
 
@@ -12,6 +13,7 @@ struct CameraShootingView: View {
     @Binding var isPresentingCamera: Bool
     @State private var capturedImage: UIImage?
     @State private var overlayOpacity: CGFloat = 0.5
+    @State private var isPresentingAlert = true
 
     let latestPhotoPath: String?
     let cameraService = CameraService()
@@ -94,6 +96,23 @@ struct CameraShootingView: View {
             if capturedImage != nil {
                 CameraPreviewView(cameraService: cameraService, capturedImage: $capturedImage, isPresentingCamera: $isPresentingCamera, category: category)
             }
+        }
+        .onAppear {
+            if AVCaptureDevice.authorizationStatus(for: .video) == .denied {
+                isPresentingAlert = true
+            }
+        }
+        .alert("Allow CycleSpan access to your camera", isPresented: $isPresentingAlert) {
+            Button("Go to settings") {
+                if let appSettingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(appSettingsURL)
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                isPresentingCamera = false
+            }
+        } message: {
+            Text("Camera access lets you take photos. You can change this access later in your system settings.")
         }
     }
 }
