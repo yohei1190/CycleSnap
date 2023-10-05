@@ -15,17 +15,9 @@ struct PhotoListScreen: View {
     @State private var deletingPhoto: Photo?
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingAlert = false
+    @State private var isPresentingCamera = false
 
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
-
-    private func loadImage(_ path: String) -> UIImage? {
-        let imageURL = FileHelper.getFileURL(path: path)
-        guard let imageData = try? Data(contentsOf: imageURL) else {
-            return nil
-        }
-
-        return UIImage(data: imageData)
-    }
 
     private func delete() {
         guard let deletingPhoto else { return }
@@ -41,8 +33,7 @@ struct PhotoListScreen: View {
                 realm.delete(photoObject)
             }
             // NOTE: Documentsディレクトリから画像ファイルを削除
-            let imageURL = FileHelper.getFileURL(path: deletingPhoto.path)
-            try FileManager.default.removeItem(at: imageURL)
+            try FileHelper.removePhotoInDocuments(path: deletingPhoto.path)
         } catch {
             print(error.localizedDescription)
         }
@@ -61,9 +52,12 @@ struct PhotoListScreen: View {
                                 .font(.title2)
                                 .bold()
                         }
+                        .onTapGesture {
+                            isPresentingCamera = true
+                        }
 
                     ForEach(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest)) { photo in
-                        if let uiImage = loadImage(photo.path) {
+                        if let uiImage = FileHelper.loadImage(photo.path) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .aspectRatio(1, contentMode: .fill)
@@ -109,6 +103,9 @@ struct PhotoListScreen: View {
         }
         .onAppear {
             isLatest = category.isLatestFirst
+        }
+        .fullScreenCover(isPresented: $isPresentingCamera) {
+            CameraShootingView(isPresentingCamera: $isPresentingCamera, latestPhotoPath: category.photos.last?.path, category: category)
         }
     }
 }

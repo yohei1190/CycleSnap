@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31622ACCE1C6004F5626 /* CameraService.swift */; };
+		473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31642ACCE1DC004F5626 /* ImagePickerView.swift */; };
+		473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31662ACD1B52004F5626 /* CameraShootingView.swift */; };
+		473A31692ACD1D3E004F5626 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31682ACD1D3E004F5626 /* CameraPreviewView.swift */; };
+		473A316C2ACE7616004F5626 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A316B2ACE7616004F5626 /* String+Extensions.swift */; };
 		4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750433D2AC39AC300DD9AB2 /* CategoryListScreen.swift */; };
 		475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750433F2AC3A46000DD9AB2 /* CategoryCellView.swift */; };
 		475DF8F12AC553E000B96808 /* PhotoListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F02AC553E000B96808 /* PhotoListScreen.swift */; };
@@ -25,6 +30,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		473A31622ACCE1C6004F5626 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		473A31642ACCE1DC004F5626 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		473A31662ACD1B52004F5626 /* CameraShootingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShootingView.swift; sourceTree = "<group>"; };
+		473A31682ACD1D3E004F5626 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		473A316B2ACE7616004F5626 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		4750433D2AC39AC300DD9AB2 /* CategoryListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListScreen.swift; sourceTree = "<group>"; };
 		4750433F2AC3A46000DD9AB2 /* CategoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellView.swift; sourceTree = "<group>"; };
 		475DF8F02AC553E000B96808 /* PhotoListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListScreen.swift; sourceTree = "<group>"; };
@@ -54,12 +64,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		473A31612ACCE1A5004F5626 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				473A31622ACCE1C6004F5626 /* CameraService.swift */,
+				473A31642ACCE1DC004F5626 /* ImagePickerView.swift */,
+				473A31662ACD1B52004F5626 /* CameraShootingView.swift */,
+				473A31682ACD1D3E004F5626 /* CameraPreviewView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		473A316D2ACE7661004F5626 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				473A316B2ACE7616004F5626 /* String+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		4750433C2AC39A9F00DD9AB2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				47BD869F2ACB8826000894CC /* Common */,
 				47BD869D2ACB8608000894CC /* CategoryList */,
 				47BD86A02ACB8A11000894CC /* PhotoList */,
+				473A31612ACCE1A5004F5626 /* Camera */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -108,6 +138,7 @@
 		47A7408E2ABABF0800C67B1C /* CycleSnap */ = {
 			isa = PBXGroup;
 			children = (
+				473A316D2ACE7661004F5626 /* Extensions */,
 				475DF8FB2AC6A05A00B96808 /* Utilities */,
 				475DF8F62AC5929500B96808 /* Configurations */,
 				4799633C2AC4E695009EDBE2 /* Models */,
@@ -234,14 +265,19 @@
 			files = (
 				475DF8F82AC592A900B96808 /* RealmConfiguration.swift in Sources */,
 				475DF8F52AC58F6600B96808 /* Photo.swift in Sources */,
+				473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */,
 				475DF8F12AC553E000B96808 /* PhotoListScreen.swift in Sources */,
+				473A316C2ACE7616004F5626 /* String+Extensions.swift in Sources */,
 				475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */,
 				4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */,
 				4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */,
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
+				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,
 				475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */,
+				473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */,
 				47A740902ABABF0800C67B1C /* CycleSnapApp.swift in Sources */,
+				473A31692ACD1D3E004F5626 /* CameraPreviewView.swift in Sources */,
 				475DF8FD2AC6A06C00B96808 /* FileHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +410,7 @@
 				DEVELOPMENT_TEAM = 3DN56K82YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to capture photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -406,6 +443,7 @@
 				DEVELOPMENT_TEAM = 3DN56K82YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to capture photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
