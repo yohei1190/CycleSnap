@@ -25,6 +25,41 @@ class CameraService {
         output.capturePhoto(with: settings, delegate: delegate!)
     }
 
+    func switchCamera() {
+        session.beginConfiguration()
+
+        let newDevice: AVCaptureDevice?
+
+        if let currentInput = session.inputs.first as? AVCaptureDeviceInput {
+            if currentInput.device.position == .front {
+                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+            } else {
+                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+            }
+        } else {
+            newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        }
+        // 現在の入力を取得して削除
+        for input in session.inputs {
+            session.removeInput(input)
+        }
+
+        // 新しい入力を作成して追加
+        if let newDevice {
+            do {
+                let newInput = try AVCaptureDeviceInput(device: newDevice)
+                if session.canAddInput(newInput) {
+                    session.addInput(newInput)
+                }
+            } catch {
+                print("Failed to create input for new device: \(error)")
+            }
+        } else {
+            print("Could not find camera device")
+        }
+        session.commitConfiguration()
+    }
+
     func stop() {
         session.stopRunning()
     }
@@ -75,40 +110,5 @@ class CameraService {
                 completion(error)
             }
         }
-    }
-
-    func switchCamera() {
-        session.beginConfiguration()
-
-        let newDevice: AVCaptureDevice?
-
-        if let currentInput = session.inputs.first as? AVCaptureDeviceInput {
-            if currentInput.device.position == .front {
-                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-            } else {
-                newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
-            }
-        } else {
-            newDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        }
-        // 現在の入力を取得して削除
-        for input in session.inputs {
-            session.removeInput(input)
-        }
-
-        // 新しい入力を作成して追加
-        if let newDevice {
-            do {
-                let newInput = try AVCaptureDeviceInput(device: newDevice)
-                if session.canAddInput(newInput) {
-                    session.addInput(newInput)
-                }
-            } catch {
-                print("Failed to create input for new device: \(error)")
-            }
-        } else {
-            print("Could not find camera device")
-        }
-        session.commitConfiguration()
     }
 }

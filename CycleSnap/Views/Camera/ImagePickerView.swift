@@ -52,7 +52,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
             self.didFinishProcessingPhoto = didFinishProcessingPhoto
         }
 
-        // この2番目の引数ラベルが気に入らない
         func photoOutput(_: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
             if let error {
                 didFinishProcessingPhoto(.failure(error))
