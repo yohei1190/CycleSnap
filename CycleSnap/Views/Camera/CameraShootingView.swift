@@ -59,7 +59,7 @@ struct CameraShootingView: View {
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath.camera")
                     }
-                    .font(.title)
+                    .font(.title2)
                 }
                 .foregroundColor(.white)
 
