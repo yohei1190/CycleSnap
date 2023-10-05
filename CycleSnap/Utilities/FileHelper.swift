@@ -34,15 +34,14 @@ struct FileHelper {
         }
 
         let folderPath = URL.documentsDirectory.appendingPathComponent(photosFolder)
-
         let fileManager = FileManager.default
         if !fileManager.fileExists(atPath: folderPath.path) {
             try fileManager.createDirectory(at: folderPath, withIntermediateDirectories: true)
         }
-        let photoName = photoIDString + "/" + ".jpg"
-        let fileURL = folderPath.appendingPathComponent(photoName)
 
+        let photoName = photoIDString + ".jpg"
+        let fileURL = folderPath.appendingPathComponent(photoName)
         try data.write(to: fileURL)
-        return photosFolder + photoName
+        return photosFolder + "/" + photoName
     }
 }

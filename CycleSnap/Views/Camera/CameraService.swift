@@ -14,6 +14,7 @@ class CameraService {
     var delegate: AVCapturePhotoCaptureDelegate?
     let output = AVCapturePhotoOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
+    var closeCameraView: (() -> Void)?
 
     func start(delegate: AVCapturePhotoCaptureDelegate, completion: @escaping (Error?) -> Void) {
         self.delegate = delegate
@@ -33,9 +34,12 @@ class CameraService {
         case .notDetermined:
             // requestAccessのコールバックはバックグラウンドスレッドで実行される可能性があるため、これに続くUI関連の操作はメインスレッドで実行できるようにディスパッチしている。
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                guard granted else { return }
                 DispatchQueue.main.async {
-                    self?.setupCamera(completion: completion)
+                    if granted {
+                        self?.setupCamera(completion: completion)
+                    } else {
+                        self?.closeCameraView?()
+                    }
                 }
             }
         case .authorized:

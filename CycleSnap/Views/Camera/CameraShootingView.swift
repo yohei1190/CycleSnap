@@ -13,7 +13,7 @@ struct CameraShootingView: View {
     @Binding var isPresentingCamera: Bool
     @State private var capturedImage: UIImage?
     @State private var overlayOpacity: CGFloat = 0.5
-    @State private var isPresentingAlert = true
+    @State private var isPresentingAlert = false
 
     let latestPhotoPath: String?
     let cameraService = CameraService()
@@ -98,7 +98,14 @@ struct CameraShootingView: View {
             }
         }
         .onAppear {
-            if AVCaptureDevice.authorizationStatus(for: .video) == .denied {
+            let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            if authorizationStatus == .notDetermined {
+                // 初回確認時にdeniedを選択された場合、カメラ画面を閉じる
+                cameraService.closeCameraView = {
+                    isPresentingCamera = false
+                }
+            } else if authorizationStatus == .denied {
+                // denied状態でカメラ画面に再アクセスされた場合、設定画面に飛ばすアラートを出す
                 isPresentingAlert = true
             }
         }
