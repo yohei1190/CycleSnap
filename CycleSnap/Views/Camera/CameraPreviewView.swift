@@ -14,28 +14,18 @@ struct CameraPreviewView: View {
     @Binding var isPresentingCamera: Bool
     @ObservedRealmObject var category: Category
 
-    private func savePhotoToDocuments(directoryName: String, photoName: String) {
-        guard let data = capturedImage?.jpegData(compressionQuality: 1) else {
-            return
-        }
-
-        let folderPath = URL.documentsDirectory.appendingPathComponent(directoryName)
-
-        let fileManager = FileManager.default
-        if !fileManager.fileExists(atPath: folderPath.path) {
-            do {
-                try fileManager.createDirectory(at: folderPath, withIntermediateDirectories: true)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        let fileURL = folderPath.appendingPathComponent(photoName)
-
+    private func save() {
         do {
-            try data.write(to: fileURL)
-            print(fileURL.path)
+            let photo = Photo()
+            photo.captureDate = Date()
+            // Documentsに保存
+            let savedPath = try FileHelper.savePhotoToDocuments(image: capturedImage, photoIDString: photo._id.stringValue)
+
+            // Realmに保存
+            photo.path = savedPath
+            $category.photos.append(photo)
         } catch {
-            print("Error writing image data: \(error)")
+            print(error.localizedDescription)
         }
     }
 
@@ -63,18 +53,8 @@ struct CameraPreviewView: View {
                     }
                     Spacer()
                     Button("Save") {
-                        let photo = Photo()
-                        let directoryName = "photos"
-                        let photoName = "\(photo._id).jpg"
-                        // Documentsに保存
-                        savePhotoToDocuments(directoryName: directoryName, photoName: photoName)
+                        save()
 
-                        // Categoryに保存
-                        photo.path = directoryName + "/" + photoName
-                        photo.captureDate = Date()
-                        $category.photos.append(photo)
-
-                        // 終了処理
                         cameraService.stop()
                         capturedImage = nil
                         isPresentingCamera = false

@@ -104,9 +104,7 @@ struct CameraShootingView: View {
         }
         .alert("Allow CycleSpan access to your camera", isPresented: $isPresentingAlert) {
             Button("Go to settings") {
-                if let appSettingsURL = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(appSettingsURL)
-                }
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
             Button("Cancel", role: .cancel) {
                 isPresentingCamera = false

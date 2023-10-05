@@ -33,8 +33,7 @@ struct PhotoListScreen: View {
                 realm.delete(photoObject)
             }
             // NOTE: Documentsディレクトリから画像ファイルを削除
-            let imageURL = FileHelper.getFileURL(path: deletingPhoto.path)
-            try FileManager.default.removeItem(at: imageURL)
+            try FileHelper.removePhotoInDocuments(path: deletingPhoto.path)
         } catch {
             print(error.localizedDescription)
         }
