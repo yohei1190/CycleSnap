@@ -5,6 +5,7 @@
 //  Created by yohei shimizu on 2023/10/04.
 //
 
+import RealmSwift
 import SwiftUI
 
 struct CameraShootingView: View {
@@ -14,6 +15,7 @@ struct CameraShootingView: View {
 
     let latestPhotoPath: String?
     let cameraService = CameraService()
+    @ObservedRealmObject var category: Category
 
     var body: some View {
         ZStack {
@@ -90,7 +92,7 @@ struct CameraShootingView: View {
         .ignoresSafeArea()
         .overlay {
             if capturedImage != nil {
-                CameraPreviewView(cameraService: cameraService, capturedImage: $capturedImage, isPresentingCamera: $isPresentingCamera)
+                CameraPreviewView(cameraService: cameraService, capturedImage: $capturedImage, isPresentingCamera: $isPresentingCamera, category: category)
             }
         }
     }
@@ -98,6 +100,6 @@ struct CameraShootingView: View {
 
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraShootingView(isPresentingCamera: .constant(true), latestPhotoPath: nil)
+        CameraShootingView(isPresentingCamera: .constant(true), latestPhotoPath: nil, category: Realm.previewRealm.objects(Category.self).first!)
     }
 }
