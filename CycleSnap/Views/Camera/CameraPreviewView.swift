@@ -33,14 +33,8 @@ struct CameraPreviewView: View {
                 .ignoresSafeArea()
 
             if let capturedImage {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
-
                 Image(uiImage: capturedImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: viewWidth, height: viewHeight)
-                    .clipped()
+                    .resizeFourThreeAspectRatio()
             }
 
             VStack {

@@ -48,15 +48,10 @@ struct TimeLineScreen: View {
             Color(.black).ignoresSafeArea()
 
             VStack(spacing: 24) {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
                 ZStack {
                     ForEach(0 ... maxPhotoIndex, id: \.self) { index in
                         Image(uiImage: photoImages[index])
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: viewWidth, height: viewHeight)
-                            .clipped()
+                            .resizeFourThreeAspectRatio()
                             .opacity(calculateOpacity(for: index))
                     }
                 }

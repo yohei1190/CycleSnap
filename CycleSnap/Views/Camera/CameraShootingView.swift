@@ -35,13 +35,8 @@ struct CameraShootingView: View {
             }
 
             if let latestPhotoPath, let uiImage = FileHelper.loadImage(latestPhotoPath) {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
                 Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: viewWidth, height: viewHeight)
-                    .clipped()
+                    .resizeFourThreeAspectRatio()
                     .opacity(overlayOpacity)
             }
 
