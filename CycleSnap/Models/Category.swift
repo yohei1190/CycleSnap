@@ -14,4 +14,5 @@ class Category: Object, ObjectKeyIdentifiable {
     @Persisted var orderIndex: Int
     @Persisted var photos: List<Photo>
     @Persisted var isLatestFirst: Bool = true
+    @Persisted var createdAt: Date = .init()
 }

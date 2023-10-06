@@ -17,7 +17,6 @@ struct CameraPreviewView: View {
     private func save() {
         do {
             let photo = Photo()
-            photo.captureDate = Date()
             // Documentsに保存
             let savedPath = try FileHelper.savePhotoToDocuments(image: capturedImage, photoIDString: photo._id.stringValue)
             // Realmに保存
