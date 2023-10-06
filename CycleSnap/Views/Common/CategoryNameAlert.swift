@@ -33,11 +33,9 @@ struct CategoryNameAlert: View {
     private func update(categoryName: String, category: Category) {
         do {
             let realm = try Realm()
-            guard let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: category._id) else {
-                return
-            }
+            let updatingCategory = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
             try realm.write {
-                categoryObject.name = categoryName
+                updatingCategory.name = categoryName
             }
         } catch {
             print(error.localizedDescription)
@@ -60,21 +58,16 @@ struct CategoryNameAlert: View {
 
     var body: some View {
         if isPresenting {
-            Rectangle()
-                .fill(Color.clear)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {}
-                .allowsHitTesting(isPresenting)
-
             ZStack {
                 Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
+                    .ignoresSafeArea()
                     .onTapGesture {}
 
-                VStack(spacing: 24) {
+                VStack(spacing: 32) {
                     Text(existingCategory != nil ? "Rename Category" : "New Category")
                         .font(.title3)
                         .bold()
+
                     TextField("Category Name", text: $editingCategoryName)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocus)
@@ -83,9 +76,9 @@ struct CategoryNameAlert: View {
                                 editingCategoryName = ""
                             } label: {
                                 Image(systemName: "x.circle.fill")
+                                    .padding(12)
+                                    .foregroundColor(.gray)
                             }
-                            .padding(.trailing, 8)
-                            .tint(.gray)
                         }
 
                     HStack {
