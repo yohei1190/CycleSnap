@@ -5,6 +5,7 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
+import Algorithms
 import RealmSwift
 import SwiftUI
 
@@ -60,8 +61,7 @@ struct PhotoListScreen: View {
                             isPresentingCamera = true
                         }
 
-                    ForEach(photoList.indices, id: \.self) { index in
-                        let photo = photoList[index]
+                    ForEach(photoList.indexed(), id: \.element) { index, photo in
                         if let uiImage = FileHelper.loadImage(photo.path) {
                             NavigationLink {
                                 TimeLineScreen(photoList: photoList, index: index)
