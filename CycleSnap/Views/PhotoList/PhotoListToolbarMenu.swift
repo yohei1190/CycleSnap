@@ -16,7 +16,7 @@ struct PhotoListToolbarMenu: View {
     private func updatePhotoOrder(isLatestFirst: Bool) {
         do {
             let realm = try Realm()
-            let editingCategory = realm.objects(Category.self).first(where: { $0._id == category._id })!
+            let editingCategory = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
             try realm.write {
                 editingCategory.isLatestFirst = isLatestFirst
             }

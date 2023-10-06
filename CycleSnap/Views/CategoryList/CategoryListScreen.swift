@@ -23,7 +23,7 @@ struct CategoryListScreen: View {
             let realm = try Realm()
             try realm.write {
                 for (index, revisedCategory) in revisedCategoryList.enumerated() {
-                    let category = realm.objects(Category.self).filter("_id == %@", revisedCategory._id).first!
+                    let category = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!
                     category.orderIndex = index
                 }
             }
@@ -39,7 +39,7 @@ struct CategoryListScreen: View {
             let realm = try Realm()
             try realm.write {
                 // NOTE: RealmDBからオブジェクトを削除
-                let categoryObject = realm.objects(Category.self).where { $0._id == deletingCategory._id }.first!
+                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: deletingCategory._id)!
                 realm.delete(categoryObject.photos)
                 realm.delete(categoryObject)
 
