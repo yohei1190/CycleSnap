@@ -19,6 +19,10 @@ struct PhotoListScreen: View {
 
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
+    private var photoList: [Photo] {
+        Array(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest))
+    }
+
     private func delete() {
         guard let deletingPhoto else { return }
 
@@ -56,25 +60,30 @@ struct PhotoListScreen: View {
                             isPresentingCamera = true
                         }
 
-                    ForEach(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest)) { photo in
+                    ForEach(0 ... photoList.count - 1, id: \.self) { index in
+                        let photo = photoList[index]
                         if let uiImage = FileHelper.loadImage(photo.path) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fill)
-                                .overlay(alignment: .bottomTrailing) {
-                                    Text(photo.captureDate, style: .date)
-                                        .font(.caption2)
-                                        .foregroundColor(.white)
-                                        .background(.black.opacity(0.4))
-                                }
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        isPresentingDeleteDialog = true
-                                        deletingPhoto = photo
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
+                            NavigationLink {
+                                TimeLineScreen(photoList: photoList, index: index)
+                            } label: {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .aspectRatio(1, contentMode: .fill)
+                                    .overlay(alignment: .bottomTrailing) {
+                                        Text(photo.captureDate, style: .date)
+                                            .font(.caption2)
+                                            .foregroundColor(.white)
+                                            .background(.black.opacity(0.4))
                                     }
-                                }
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            isPresentingDeleteDialog = true
+                                            deletingPhoto = photo
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                            }
                         }
                     }
                 }
