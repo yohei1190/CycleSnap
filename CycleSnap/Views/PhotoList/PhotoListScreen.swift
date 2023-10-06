@@ -46,7 +46,7 @@ struct PhotoListScreen: View {
 
     var body: some View {
         VStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns) {
                     Rectangle()
                         .fill(Color.gray.opacity(0.2))
