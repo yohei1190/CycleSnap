@@ -20,6 +20,8 @@
 		475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */; };
 		475DF8FD2AC6A06C00B96808 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FC2AC6A06C00B96808 /* FileHelper.swift */; };
 		475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FE2AC9515600B96808 /* CategoryNameAlert.swift */; };
+		4795F4BD2ACEB7AE004A1604 /* TimeLineScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BC2ACEB7AE004A1604 /* TimeLineScreen.swift */; };
+		4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */; };
 		479963392AC4E585009EDBE2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 479963382AC4E585009EDBE2 /* Realm */; };
 		4799633B2AC4E585009EDBE2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4799633A2AC4E585009EDBE2 /* RealmSwift */; };
 		4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799633D2AC4E6DB009EDBE2 /* Category.swift */; };
@@ -43,6 +45,8 @@
 		475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListToolbarMenu.swift; sourceTree = "<group>"; };
 		475DF8FC2AC6A06C00B96808 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		475DF8FE2AC9515600B96808 /* CategoryNameAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryNameAlert.swift; sourceTree = "<group>"; };
+		4795F4BC2ACEB7AE004A1604 /* TimeLineScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineScreen.swift; sourceTree = "<group>"; };
+		4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardAndForwardButton.swift; sourceTree = "<group>"; };
 		4799633D2AC4E6DB009EDBE2 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		47A7408C2ABABF0800C67B1C /* CycleSnap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CycleSnap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A7408F2ABABF0800C67B1C /* CycleSnapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleSnapApp.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 				47BD869D2ACB8608000894CC /* CategoryList */,
 				47BD86A02ACB8A11000894CC /* PhotoList */,
 				473A31612ACCE1A5004F5626 /* Camera */,
+				4795F4BB2ACEB77E004A1604 /* Timeline */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -108,6 +113,15 @@
 				475DF8FC2AC6A06C00B96808 /* FileHelper.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		4795F4BB2ACEB77E004A1604 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				4795F4BC2ACEB7AE004A1604 /* TimeLineScreen.swift */,
+				4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */,
+			);
+			path = Timeline;
 			sourceTree = "<group>";
 		};
 		4799633C2AC4E695009EDBE2 /* Models */ = {
@@ -267,6 +281,7 @@
 				475DF8F52AC58F6600B96808 /* Photo.swift in Sources */,
 				473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */,
 				475DF8F12AC553E000B96808 /* PhotoListScreen.swift in Sources */,
+				4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */,
 				473A316C2ACE7616004F5626 /* String+Extensions.swift in Sources */,
 				475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */,
 				4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */,
@@ -274,6 +289,7 @@
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
 				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,
+				4795F4BD2ACEB7AE004A1604 /* TimeLineScreen.swift in Sources */,
 				475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */,
 				473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */,
 				47A740902ABABF0800C67B1C /* CycleSnapApp.swift in Sources */,
