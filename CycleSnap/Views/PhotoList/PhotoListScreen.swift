@@ -60,7 +60,7 @@ struct PhotoListScreen: View {
                             isPresentingCamera = true
                         }
 
-                    ForEach(0 ... photoList.count - 1, id: \.self) { index in
+                    ForEach(photoList.indices, id: \.self) { index in
                         let photo = photoList[index]
                         if let uiImage = FileHelper.loadImage(photo.path) {
                             NavigationLink {
