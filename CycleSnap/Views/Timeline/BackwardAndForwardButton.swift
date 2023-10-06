@@ -29,6 +29,7 @@ struct BackwardAndForwardButton: View {
 struct BackwardAndForwardButton_Previews: PreviewProvider {
     static var previews: some View {
         BackwardAndForwardButton(action: {}, symbolName: "chevron.backward.2")
+            .background(.black)
             .previewLayout(.sizeThatFits)
     }
 }

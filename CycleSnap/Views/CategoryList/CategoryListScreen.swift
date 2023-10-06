@@ -82,6 +82,7 @@ struct CategoryListScreen: View {
                         }
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                 }
                 .padding()

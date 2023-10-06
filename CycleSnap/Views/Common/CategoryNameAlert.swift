@@ -76,20 +76,19 @@ struct CategoryNameAlert: View {
                                 editingCategoryName = ""
                             } label: {
                                 Image(systemName: "x.circle.fill")
-                                    .padding(12)
+                                    .frame(minWidth: 44, minHeight: 44)
                                     .foregroundColor(.gray)
                             }
                         }
 
-                    HStack {
+                    HStack(spacing: 16) {
                         Button {
                             withAnimation {
                                 isPresenting = false
                             }
                         } label: {
                             Text("Cancel")
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 20)
+                                .frame(width: 88, height: 44)
                         }
                         .buttonStyle(.bordered)
 
@@ -99,9 +98,7 @@ struct CategoryNameAlert: View {
                                 isPresenting = false
                             }
                         } label: {
-                            Text("Save")
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 20)
+                            Text("Save").frame(width: 88, height: 44)
                         }
                         .disabled(editingCategoryName.isEmpty)
                         .buttonStyle(.borderedProminent)

@@ -46,16 +46,22 @@ struct CameraPreviewView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Button("Retake") {
+                    Button {
                         capturedImage = nil
+                    } label: {
+                        Text("Retake")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     Spacer()
-                    Button("Save") {
+                    Button {
                         save()
 
                         cameraService.stop()
                         capturedImage = nil
                         isPresentingCamera = false
+                    } label: {
+                        Text("Save")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                 }
                 .foregroundColor(.white)

@@ -47,9 +47,12 @@ struct CameraShootingView: View {
 
             VStack {
                 HStack {
-                    Button("Cancel") {
+                    Button {
                         cameraService.stop()
                         isPresentingCamera = false
+                    } label: {
+                        Text("Cancel")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
 
                     Spacer()
@@ -58,6 +61,7 @@ struct CameraShootingView: View {
                         cameraService.switchCamera()
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath.camera")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     .font(.title2)
                 }
