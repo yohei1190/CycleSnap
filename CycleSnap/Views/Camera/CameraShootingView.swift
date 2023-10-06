@@ -16,7 +16,7 @@ struct CameraShootingView: View {
     @State private var isPresentingAlert = false
 
     let latestPhotoPath: String?
-    let cameraService = CameraService()
+    private let cameraService = CameraService()
     @ObservedRealmObject var category: Category
 
     var body: some View {
@@ -123,6 +123,10 @@ struct CameraShootingView: View {
 
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraShootingView(isPresentingCamera: .constant(true), latestPhotoPath: nil, category: Realm.previewRealm.objects(Category.self).first!)
+        CameraShootingView(
+            isPresentingCamera: .constant(true),
+            latestPhotoPath: nil,
+            category: Realm.previewRealm.objects(Category.self).first!
+        )
     }
 }

@@ -18,7 +18,7 @@ struct PhotoListScreen: View {
     @State private var isPresentingAlert = false
     @State private var isPresentingCamera = false
 
-    let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
+    private let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
 
     private var photoList: [Photo] {
         Array(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest))

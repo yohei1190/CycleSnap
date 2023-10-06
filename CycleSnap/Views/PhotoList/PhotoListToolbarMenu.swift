@@ -72,6 +72,10 @@ struct PhotoListToolbarMenu: View {
 
 struct PhotoListToolbarMenuToolbarMenu_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoListToolbarMenu(category: Realm.previewRealm.objects(Category.self).first!, isLatest: .constant(false), isPresentingAlert: .constant(false))
+        PhotoListToolbarMenu(
+            category: Realm.previewRealm.objects(Category.self).first!,
+            isLatest: .constant(false),
+            isPresentingAlert: .constant(false)
+        )
     }
 }

@@ -69,6 +69,11 @@ struct CameraPreviewView: View {
 
 struct CameraPreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraPreviewView(cameraService: CameraService(), capturedImage: .constant(nil), isPresentingCamera: .constant(true), category: Realm.previewRealm.objects(Category.self).first!)
+        CameraPreviewView(
+            cameraService: CameraService(),
+            capturedImage: .constant(nil),
+            isPresentingCamera: .constant(true),
+            category: Realm.previewRealm.objects(Category.self).first!
+        )
     }
 }

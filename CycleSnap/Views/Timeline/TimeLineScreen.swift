@@ -112,11 +112,9 @@ struct TimeLineScreen: View {
 }
 
 struct TimeLineScreen_Previews: PreviewProvider {
-    static let photoList = Realm.previewRealm.objects(Category.self).first!.photos
-
     static var previews: some View {
         TimeLineScreen(
-            photoList: Array(photoList),
+            photoList: Array(Realm.previewRealm.objects(Category.self).first!.photos),
             index: 1
         )
     }
