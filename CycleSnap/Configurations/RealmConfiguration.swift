@@ -37,7 +37,7 @@ extension Realm {
                         category.orderIndex = i
                         category.isLatestFirst = true
 
-                        for j in 1 ... 5 {
+                        for j in 0 ... 4 {
                             // Creating sample photo
                             let photo = Photo()
                             photo.path = "photos/sample\(j).jpg"
