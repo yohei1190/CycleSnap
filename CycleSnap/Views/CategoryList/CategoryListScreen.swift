@@ -84,9 +84,8 @@ struct CategoryListScreen: View {
                         Label("Add Category", systemImage: "plus.circle.fill")
                     }
                 }
-                .padding(.top, 8)
+                .padding()
             }
-            .padding()
             .navigationTitle("Categories")
             .toolbar {
                 if !categoryList.isEmpty && !isPresentingCategoryNameAlert {
