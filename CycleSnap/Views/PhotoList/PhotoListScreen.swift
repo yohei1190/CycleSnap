@@ -18,7 +18,8 @@ struct PhotoListScreen: View {
     @State private var isPresentingAlert = false
     @State private var isPresentingCamera = false
 
-    private let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
+    private let screenWidth = UIScreen.main.bounds.size.width
+    private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
     private var photoList: [Photo] {
         Array(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest))
@@ -47,10 +48,10 @@ struct PhotoListScreen: View {
     var body: some View {
         VStack {
             ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: columns, spacing: 4) {
                     Rectangle()
                         .fill(Color.gray.opacity(0.2))
-                        .aspectRatio(1, contentMode: .fill)
+                        .scaledToFill()
                         .overlay {
                             Image(systemName: "plus")
                                 .foregroundColor(.blue)
@@ -68,7 +69,9 @@ struct PhotoListScreen: View {
                             } label: {
                                 Image(uiImage: uiImage)
                                     .resizable()
-                                    .aspectRatio(1, contentMode: .fill)
+                                    .scaledToFill()
+                                    .frame(width: screenWidth / 3, height: screenWidth / 3)
+                                    .clipped()
                                     .overlay(alignment: .bottomTrailing) {
                                         Text(photo.captureDate, style: .date)
                                             .font(.caption2)
@@ -91,7 +94,6 @@ struct PhotoListScreen: View {
 
             Spacer()
         }
-        .padding()
         .navigationTitle(category.name)
         .navigationBarBackButtonHidden(isPresentingAlert ? true : false)
         .toolbar {
