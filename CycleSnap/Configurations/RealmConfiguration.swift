@@ -14,7 +14,17 @@ class RealmConfiguration {
     }
 
     func updateSchema() {
-        let config = Realm.Configuration(schemaVersion: 3)
+        let config = Realm.Configuration(schemaVersion: 4) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 4 {
+                migration.enumerateObjects(ofType: Category.className()) { _, newObject in
+                    newObject?["createdAt"] = Date()
+                }
+                migration.enumerateObjects(ofType: Photo.className()) { _, newObject in
+                    newObject?["captureDate"] = Date()
+                }
+            }
+        }
+
         Realm.Configuration.defaultConfiguration = config
         _ = try! Realm()
     }
@@ -41,7 +51,6 @@ extension Realm {
                             // Creating sample photo
                             let photo = Photo()
                             photo.path = "photos/sample\(j).jpg"
-                            photo.captureDate = Calendar.current.date(byAdding: .day, value: j, to: Date())!
                             category.photos.append(photo)
                         }
 

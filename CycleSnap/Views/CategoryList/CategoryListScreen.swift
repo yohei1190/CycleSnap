@@ -15,15 +15,15 @@ struct CategoryListScreen: View {
     @State private var isPresentingCategoryNameAlert = false
     @State private var isPresentingCategoryDeletingAlert = false
 
-    private func move(fromOffsets: IndexSet, toOffset: Int) {
+    private func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
         var revisedCategoryList: [Category] = categoryList.map { $0 }
-        revisedCategoryList.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
 
         do {
             let realm = try Realm()
             try realm.write {
                 for (index, revisedCategory) in revisedCategoryList.enumerated() {
-                    let category = realm.objects(Category.self).filter("_id == %@", revisedCategory._id).first!
+                    let category = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!
                     category.orderIndex = index
                 }
             }
@@ -39,14 +39,13 @@ struct CategoryListScreen: View {
             let realm = try Realm()
             try realm.write {
                 // NOTE: RealmDBからオブジェクトを削除
-                let categoryObject = realm.objects(Category.self).where { $0._id == deletingCategory._id }.first!
+                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: deletingCategory._id)!
                 realm.delete(categoryObject.photos)
                 realm.delete(categoryObject)
 
                 // NOTE: Documentsディレクトリから画像ファイルを削除
                 for photo in deletingCategory.photos {
-                    let imageURL = FileHelper.getFileURLInDocuments(path: photo.path)
-                    try FileManager.default.removeItem(at: imageURL)
+                    try DocumentsFileHelper.remove(at: photo.path)
                 }
             }
         } catch {
@@ -82,11 +81,11 @@ struct CategoryListScreen: View {
                         }
                     } label: {
                         Label("Add Category", systemImage: "plus.circle.fill")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                 }
-                .padding(.top, 8)
+                .padding()
             }
-            .padding()
             .navigationTitle("Categories")
             .toolbar {
                 if !categoryList.isEmpty && !isPresentingCategoryNameAlert {

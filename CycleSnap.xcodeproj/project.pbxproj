@@ -18,8 +18,10 @@
 		475DF8F52AC58F6600B96808 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F42AC58F6600B96808 /* Photo.swift */; };
 		475DF8F82AC592A900B96808 /* RealmConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F72AC592A900B96808 /* RealmConfiguration.swift */; };
 		475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */; };
-		475DF8FD2AC6A06C00B96808 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FC2AC6A06C00B96808 /* FileHelper.swift */; };
+		475DF8FD2AC6A06C00B96808 /* DocumentsFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */; };
 		475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FE2AC9515600B96808 /* CategoryNameAlert.swift */; };
+		478D8B472ACFED0E007E4007 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 478D8B462ACFED0E007E4007 /* Algorithms */; };
+		478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478D8B482AD00E78007E4007 /* View+Extensions.swift */; };
 		4795F4BD2ACEB7AE004A1604 /* TimeLineScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BC2ACEB7AE004A1604 /* TimeLineScreen.swift */; };
 		4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */; };
 		479963392AC4E585009EDBE2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 479963382AC4E585009EDBE2 /* Realm */; };
@@ -43,8 +45,9 @@
 		475DF8F42AC58F6600B96808 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		475DF8F72AC592A900B96808 /* RealmConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfiguration.swift; sourceTree = "<group>"; };
 		475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListToolbarMenu.swift; sourceTree = "<group>"; };
-		475DF8FC2AC6A06C00B96808 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
+		475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsFileHelper.swift; sourceTree = "<group>"; };
 		475DF8FE2AC9515600B96808 /* CategoryNameAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryNameAlert.swift; sourceTree = "<group>"; };
+		478D8B482AD00E78007E4007 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		4795F4BC2ACEB7AE004A1604 /* TimeLineScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineScreen.swift; sourceTree = "<group>"; };
 		4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardAndForwardButton.swift; sourceTree = "<group>"; };
 		4799633D2AC4E6DB009EDBE2 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -60,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				478D8B472ACFED0E007E4007 /* Algorithms in Frameworks */,
 				4799633B2AC4E585009EDBE2 /* RealmSwift in Frameworks */,
 				479963392AC4E585009EDBE2 /* Realm in Frameworks */,
 			);
@@ -83,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				473A316B2ACE7616004F5626 /* String+Extensions.swift */,
+				478D8B482AD00E78007E4007 /* View+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -110,7 +115,7 @@
 		475DF8FB2AC6A05A00B96808 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				475DF8FC2AC6A06C00B96808 /* FileHelper.swift */,
+				475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 			packageProductDependencies = (
 				479963382AC4E585009EDBE2 /* Realm */,
 				4799633A2AC4E585009EDBE2 /* RealmSwift */,
+				478D8B462ACFED0E007E4007 /* Algorithms */,
 			);
 			productName = CycleSnap;
 			productReference = 47A7408C2ABABF0800C67B1C /* CycleSnap.app */;
@@ -250,6 +256,7 @@
 			mainGroup = 47A740832ABABF0800C67B1C;
 			packageReferences = (
 				479963372AC4E585009EDBE2 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				478D8B452ACFED0E007E4007 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 47A7408D2ABABF0800C67B1C /* Products */;
 			projectDirPath = "";
@@ -288,13 +295,14 @@
 				4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */,
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
+				478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */,
 				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,
 				4795F4BD2ACEB7AE004A1604 /* TimeLineScreen.swift in Sources */,
 				475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */,
 				473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */,
 				47A740902ABABF0800C67B1C /* CycleSnapApp.swift in Sources */,
 				473A31692ACD1D3E004F5626 /* CameraPreviewView.swift in Sources */,
-				475DF8FD2AC6A06C00B96808 /* FileHelper.swift in Sources */,
+				475DF8FD2AC6A06C00B96808 /* DocumentsFileHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +513,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		478D8B452ACFED0E007E4007 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		479963372AC4E585009EDBE2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -516,6 +532,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		478D8B462ACFED0E007E4007 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 478D8B452ACFED0E007E4007 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		479963382AC4E585009EDBE2 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 479963372AC4E585009EDBE2 /* XCRemoteSwiftPackageReference "realm-swift" */;

@@ -17,37 +17,37 @@ struct CategoryNameAlert: View {
 
     let existingCategory: Category?
 
+    private var trimmedCategoryName: String {
+        editingCategoryName.trimmingCharacters(in: .whitespaces)
+    }
+
     private func saveOrUpdate() {
-        let trimmedCategoryName = editingCategoryName.trimmingCharacters(in: .whitespaces)
         guard !trimmedCategoryName.isEmpty else {
             return
         }
 
         if let existingCategory {
-            update(categoryName: trimmedCategoryName, category: existingCategory)
+            update(existingCategory)
         } else {
-            save(categoryName: trimmedCategoryName)
+            save()
         }
     }
 
-    private func update(categoryName: String, category: Category) {
+    private func update(_ category: Category) {
         do {
             let realm = try Realm()
-            guard let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: category._id) else {
-                return
-            }
+            let updatingCategory = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
             try realm.write {
-                categoryObject.name = categoryName
+                updatingCategory.name = trimmedCategoryName
             }
         } catch {
             print(error.localizedDescription)
         }
     }
 
-    private func save(categoryName: String) {
+    private func save() {
         let newCategory = Category()
-
-        newCategory.name = categoryName
+        newCategory.name = trimmedCategoryName
 
         var maxOrderIndex = -1
         if !categoryList.isEmpty {
@@ -60,21 +60,16 @@ struct CategoryNameAlert: View {
 
     var body: some View {
         if isPresenting {
-            Rectangle()
-                .fill(Color.clear)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {}
-                .allowsHitTesting(isPresenting)
-
             ZStack {
                 Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
+                    .ignoresSafeArea()
                     .onTapGesture {}
 
-                VStack(spacing: 24) {
+                VStack(spacing: 32) {
                     Text(existingCategory != nil ? "Rename Category" : "New Category")
                         .font(.title3)
                         .bold()
+
                     TextField("Category Name", text: $editingCategoryName)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocus)
@@ -83,20 +78,19 @@ struct CategoryNameAlert: View {
                                 editingCategoryName = ""
                             } label: {
                                 Image(systemName: "x.circle.fill")
+                                    .frame(minWidth: 44, minHeight: 44)
+                                    .foregroundColor(.gray)
                             }
-                            .padding(.trailing, 8)
-                            .tint(.gray)
                         }
 
-                    HStack {
+                    HStack(spacing: 16) {
                         Button {
                             withAnimation {
                                 isPresenting = false
                             }
                         } label: {
                             Text("Cancel")
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 20)
+                                .frame(width: 88, height: 44)
                         }
                         .buttonStyle(.bordered)
 
@@ -106,9 +100,7 @@ struct CategoryNameAlert: View {
                                 isPresenting = false
                             }
                         } label: {
-                            Text("Save")
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 20)
+                            Text("Save").frame(width: 88, height: 44)
                         }
                         .disabled(editingCategoryName.isEmpty)
                         .buttonStyle(.borderedProminent)

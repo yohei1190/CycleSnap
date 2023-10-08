@@ -15,11 +15,12 @@ struct CameraPreviewView: View {
     @ObservedRealmObject var category: Category
 
     private func save() {
+        guard let capturedImage else { return }
+
         do {
             let photo = Photo()
-            photo.captureDate = Date()
             // Documentsに保存
-            let savedPath = try FileHelper.savePhotoToDocuments(image: capturedImage, photoIDString: photo._id.stringValue)
+            let savedPath = try DocumentsFileHelper.saveImage(capturedImage, photoIDString: photo._id.stringValue)
             // Realmに保存
             photo.path = savedPath
             $category.photos.append(photo)
@@ -34,29 +35,29 @@ struct CameraPreviewView: View {
                 .ignoresSafeArea()
 
             if let capturedImage {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
-
                 Image(uiImage: capturedImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: viewWidth, height: viewHeight)
-                    .clipped()
+                    .resizeFourThreeAspectRatio()
             }
 
             VStack {
                 Spacer()
                 HStack {
-                    Button("Retake") {
+                    Button {
                         capturedImage = nil
+                    } label: {
+                        Text("Retake")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     Spacer()
-                    Button("Save") {
+                    Button {
                         save()
 
                         cameraService.stop()
                         capturedImage = nil
                         isPresentingCamera = false
+                    } label: {
+                        Text("Save")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                 }
                 .foregroundColor(.white)
@@ -70,6 +71,11 @@ struct CameraPreviewView: View {
 
 struct CameraPreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraPreviewView(cameraService: CameraService(), capturedImage: .constant(nil), isPresentingCamera: .constant(true), category: Realm.previewRealm.objects(Category.self).first!)
+        CameraPreviewView(
+            cameraService: CameraService(),
+            capturedImage: .constant(nil),
+            isPresentingCamera: .constant(true),
+            category: Realm.previewRealm.objects(Category.self).first!
+        )
     }
 }

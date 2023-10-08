@@ -20,7 +20,7 @@ struct TimeLineScreen: View {
     private var photoImages: [UIImage] {
         var photoImages: [UIImage] = []
         for photo in photoList {
-            if let uiImage = FileHelper.loadImage(photo.path) {
+            if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
                 photoImages.append(uiImage)
             }
         }
@@ -48,15 +48,10 @@ struct TimeLineScreen: View {
             Color(.black).ignoresSafeArea()
 
             VStack(spacing: 24) {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
                 ZStack {
                     ForEach(0 ... maxPhotoIndex, id: \.self) { index in
                         Image(uiImage: photoImages[index])
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: viewWidth, height: viewHeight)
-                            .clipped()
+                            .resizeFourThreeAspectRatio()
                             .opacity(calculateOpacity(for: index))
                     }
                 }
@@ -117,11 +112,9 @@ struct TimeLineScreen: View {
 }
 
 struct TimeLineScreen_Previews: PreviewProvider {
-    static let photoList = Realm.previewRealm.objects(Category.self).first!.photos
-
     static var previews: some View {
         TimeLineScreen(
-            photoList: Array(photoList),
+            photoList: Array(Realm.previewRealm.objects(Category.self).first!.photos),
             index: 1
         )
     }

@@ -16,7 +16,7 @@ struct CameraShootingView: View {
     @State private var isPresentingAlert = false
 
     let latestPhotoPath: String?
-    let cameraService = CameraService()
+    private let cameraService = CameraService()
     @ObservedRealmObject var category: Category
 
     var body: some View {
@@ -34,22 +34,20 @@ struct CameraShootingView: View {
                 }
             }
 
-            if let latestPhotoPath, let uiImage = FileHelper.loadImage(latestPhotoPath) {
-                let viewWidth = UIScreen.main.bounds.width
-                let viewHeight = viewWidth * 4 / 3
+            if let latestPhotoPath, let uiImage = DocumentsFileHelper.loadUIImage(at: latestPhotoPath) {
                 Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: viewWidth, height: viewHeight)
-                    .clipped()
+                    .resizeFourThreeAspectRatio()
                     .opacity(overlayOpacity)
             }
 
             VStack {
                 HStack {
-                    Button("Cancel") {
+                    Button {
                         cameraService.stop()
                         isPresentingCamera = false
+                    } label: {
+                        Text("Cancel")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
 
                     Spacer()
@@ -58,6 +56,7 @@ struct CameraShootingView: View {
                         cameraService.switchCamera()
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath.camera")
+                            .frame(minWidth: 44, minHeight: 44)
                     }
                     .font(.title2)
                 }
@@ -124,6 +123,10 @@ struct CameraShootingView: View {
 
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraShootingView(isPresentingCamera: .constant(true), latestPhotoPath: nil, category: Realm.previewRealm.objects(Category.self).first!)
+        CameraShootingView(
+            isPresentingCamera: .constant(true),
+            latestPhotoPath: nil,
+            category: Realm.previewRealm.objects(Category.self).first!
+        )
     }
 }
