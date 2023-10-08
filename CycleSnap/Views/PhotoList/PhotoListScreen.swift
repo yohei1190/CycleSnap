@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
-import Algorithms
 import RealmSwift
 import SwiftUI
 
@@ -13,16 +12,22 @@ struct PhotoListScreen: View {
     @ObservedRealmObject var category: Category
     // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
     @State private var isLatest = false
-    @State private var deletingPhoto: Photo?
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingAlert = false
     @State private var isPresentingCamera = false
+    @State private var deletingPhoto: Photo?
+    @State private var selectedPhoto: IndexedPhoto?
 
     private let screenWidth = UIScreen.main.bounds.size.width
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
-    private var photoList: [Photo] {
-        Array(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest))
+    private var indexedPhotoList: [IndexedPhoto] {
+        category.photos
+            .sorted(byKeyPath: "captureDate", ascending: !isLatest)
+            .enumerated()
+            .map { index, photo in
+                IndexedPhoto(id: index, photo: photo)
+            }
     }
 
     private func delete() {
@@ -46,53 +51,75 @@ struct PhotoListScreen: View {
     }
 
     var body: some View {
-        VStack {
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 4) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .scaledToFill()
-                        .overlay {
-                            Image(systemName: "plus")
-                                .foregroundColor(.blue)
-                                .font(.title2)
-                                .bold()
-                        }
-                        .onTapGesture {
-                            isPresentingCamera = true
-                        }
+        ZStack {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: columns, spacing: 4) {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.2))
+                            .scaledToFill()
+                            .overlay {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.blue)
+                                    .font(.title2)
+                                    .bold()
+                            }
+                            .onTapGesture {
+                                isPresentingCamera = true
+                            }
 
-                    ForEach(photoList.indexed(), id: \.element) { index, photo in
-                        if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
-                            NavigationLink {
-                                TimeLineScreen(photoList: photoList, index: index)
-                            } label: {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: screenWidth / 3, height: screenWidth / 3)
-                                    .clipped()
-                                    .overlay(alignment: .bottomTrailing) {
-                                        Text(photo.captureDate, style: .date)
-                                            .font(.caption2)
-                                            .foregroundColor(.white)
-                                            .background(.black.opacity(0.4))
-                                    }
-                                    .contextMenu {
-                                        Button(role: .destructive) {
-                                            isPresentingDeleteDialog = true
-                                            deletingPhoto = photo
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
+                        ForEach(indexedPhotoList) { indexedPhoto in
+                            let photo = indexedPhoto.photo
+                            if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
+                                Button {
+                                    selectedPhoto = indexedPhoto
+                                } label: {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: screenWidth / 3, height: screenWidth / 3)
+                                        .clipped()
+                                        .overlay(alignment: .bottomTrailing) {
+                                            Text(photo.captureDate, style: .date)
+                                                .font(.caption2)
+                                                .foregroundColor(.white)
+                                                .background(.black.opacity(0.4))
                                         }
-                                    }
+                                        .contextMenu {
+                                            Button(role: .destructive) {
+                                                isPresentingDeleteDialog = true
+                                                deletingPhoto = photo
+                                            } label: {
+                                                Label("Delete", systemImage: "trash")
+                                            }
+                                        }
+                                }
                             }
                         }
                     }
+                    Spacer()
+                        .frame(minHeight: 80)
                 }
+                Spacer()
             }
 
-            Spacer()
+            if indexedPhotoList.count >= 2 {
+                VStack {
+                    Spacer()
+                    HStack {
+                        NavigationLink {
+                            ComparisonScreen(firstIndexedPhoto: indexedPhotoList.first!, lastIndexedPhoto: indexedPhotoList.last!)
+                        } label: {
+                            Label("Compare Old and New Photos", systemImage: "photo.stack.fill")
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(RoundedRectangle(cornerRadius: 40).fill(.blue))
+                                .shadow(radius: 4)
+                        }
+                    }
+                }
+                .padding(.bottom)
+            }
         }
         .navigationTitle(category.name)
         .navigationBarBackButtonHidden(isPresentingAlert ? true : false)
@@ -112,11 +139,14 @@ struct PhotoListScreen: View {
         .overlay {
             CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: category)
         }
-        .onAppear {
-            isLatest = category.isLatestFirst
-        }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(isPresentingCamera: $isPresentingCamera, latestPhotoPath: category.photos.last?.path, category: category)
+        }
+        .sheet(item: $selectedPhoto) { indexedPhoto in
+            PhotoCloseUpSheet(indexedPhoto: indexedPhoto, count: indexedPhotoList.count)
+        }
+        .onAppear {
+            isLatest = category.isLatestFirst
         }
     }
 }
