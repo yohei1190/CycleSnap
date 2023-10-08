@@ -46,53 +46,71 @@ struct PhotoListScreen: View {
     }
 
     var body: some View {
-        VStack {
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 4) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .scaledToFill()
-                        .overlay {
-                            Image(systemName: "plus")
-                                .foregroundColor(.blue)
-                                .font(.title2)
-                                .bold()
-                        }
-                        .onTapGesture {
-                            isPresentingCamera = true
-                        }
+        ZStack {
+            VStack {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: columns, spacing: 4) {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.2))
+                            .scaledToFill()
+                            .overlay {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.blue)
+                                    .font(.title2)
+                                    .bold()
+                            }
+                            .onTapGesture {
+                                isPresentingCamera = true
+                            }
 
-                    ForEach(photoList.indexed(), id: \.element) { index, photo in
-                        if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
-                            NavigationLink {
-                                TimeLineScreen(photoList: photoList, index: index)
-                            } label: {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: screenWidth / 3, height: screenWidth / 3)
-                                    .clipped()
-                                    .overlay(alignment: .bottomTrailing) {
-                                        Text(photo.captureDate, style: .date)
-                                            .font(.caption2)
-                                            .foregroundColor(.white)
-                                            .background(.black.opacity(0.4))
-                                    }
-                                    .contextMenu {
-                                        Button(role: .destructive) {
-                                            isPresentingDeleteDialog = true
-                                            deletingPhoto = photo
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
+                        ForEach(photoList.indexed(), id: \.element) { _, photo in
+                            if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
+                                NavigationLink {
+//                                    TimeLineScreen(photoList: photoList, index: index)
+                                } label: {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: screenWidth / 3, height: screenWidth / 3)
+                                        .clipped()
+                                        .overlay(alignment: .bottomTrailing) {
+                                            Text(photo.captureDate, style: .date)
+                                                .font(.caption2)
+                                                .foregroundColor(.white)
+                                                .background(.black.opacity(0.4))
                                         }
-                                    }
+                                        .contextMenu {
+                                            Button(role: .destructive) {
+                                                isPresentingDeleteDialog = true
+                                                deletingPhoto = photo
+                                            } label: {
+                                                Label("Delete", systemImage: "trash")
+                                            }
+                                        }
+                                }
                             }
                         }
                     }
                 }
+                Spacer()
             }
 
-            Spacer()
+            if photoList.count >= 2 {
+                VStack {
+                    Spacer()
+                    HStack {
+                        NavigationLink {
+                            ComparisonScreen()
+                        } label: {
+                            Label("Compare Old and New Photos", systemImage: "photo.stack.fill")
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(RoundedRectangle(cornerRadius: 40).fill(.blue))
+                                .shadow(radius: 4)
+                        }
+                    }
+                }
+            }
         }
         .navigationTitle(category.name)
         .navigationBarBackButtonHidden(isPresentingAlert ? true : false)
