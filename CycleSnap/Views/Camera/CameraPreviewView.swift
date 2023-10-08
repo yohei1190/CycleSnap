@@ -15,6 +15,8 @@ struct CameraPreviewView: View {
     @ObservedRealmObject var category: Category
 
     private func save() {
+        guard let capturedImage else { return }
+
         do {
             let photo = Photo()
             // Documentsに保存

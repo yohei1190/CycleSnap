@@ -28,9 +28,9 @@ struct DocumentsFileHelper {
         try FileManager.default.removeItem(at: fileURL)
     }
 
-    static func saveImage(_ image: UIImage?, photoIDString fileNameWithoutExtension: String) throws -> String {
-        guard let data = image?.jpegData(compressionQuality: 1) else {
-            throw "jpeg形式の変換に失敗"
+    static func saveImage(_ image: UIImage, photoIDString fileNameWithoutExtension: String) throws -> String {
+        guard let data = image.jpegData(compressionQuality: 1) else {
+            throw "Failed to converting jpeg format"
         }
 
         let folderURL = URL.documentsDirectory.appendingPathComponent(photosFolder)
