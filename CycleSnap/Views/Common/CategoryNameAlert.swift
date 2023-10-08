@@ -17,35 +17,37 @@ struct CategoryNameAlert: View {
 
     let existingCategory: Category?
 
+    private var trimmedCategoryName: String {
+        editingCategoryName.trimmingCharacters(in: .whitespaces)
+    }
+
     private func saveOrUpdate() {
-        let trimmedCategoryName = editingCategoryName.trimmingCharacters(in: .whitespaces)
         guard !trimmedCategoryName.isEmpty else {
             return
         }
 
         if let existingCategory {
-            update(categoryName: trimmedCategoryName, category: existingCategory)
+            update(existingCategory)
         } else {
-            save(categoryName: trimmedCategoryName)
+            save()
         }
     }
 
-    private func update(categoryName: String, category: Category) {
+    private func update(_ category: Category) {
         do {
             let realm = try Realm()
             let updatingCategory = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
             try realm.write {
-                updatingCategory.name = categoryName
+                updatingCategory.name = trimmedCategoryName
             }
         } catch {
             print(error.localizedDescription)
         }
     }
 
-    private func save(categoryName: String) {
+    private func save() {
         let newCategory = Category()
-
-        newCategory.name = categoryName
+        newCategory.name = trimmedCategoryName
 
         var maxOrderIndex = -1
         if !categoryList.isEmpty {
