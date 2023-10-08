@@ -20,7 +20,7 @@ struct TimeLineScreen: View {
     private var photoImages: [UIImage] {
         var photoImages: [UIImage] = []
         for photo in photoList {
-            if let uiImage = FileHelper.loadImage(photo.path) {
+            if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
                 photoImages.append(uiImage)
             }
         }

@@ -34,7 +34,7 @@ struct CameraShootingView: View {
                 }
             }
 
-            if let latestPhotoPath, let uiImage = FileHelper.loadImage(latestPhotoPath) {
+            if let latestPhotoPath, let uiImage = DocumentsFileHelper.loadUIImage(at: latestPhotoPath) {
                 Image(uiImage: uiImage)
                     .resizeFourThreeAspectRatio()
                     .opacity(overlayOpacity)

@@ -45,8 +45,7 @@ struct CategoryListScreen: View {
 
                 // NOTE: Documentsディレクトリから画像ファイルを削除
                 for photo in deletingCategory.photos {
-                    let imageURL = FileHelper.getFileURLInDocuments(path: photo.path)
-                    try FileManager.default.removeItem(at: imageURL)
+                    try DocumentsFileHelper.remove(at: photo.path)
                 }
             }
         } catch {

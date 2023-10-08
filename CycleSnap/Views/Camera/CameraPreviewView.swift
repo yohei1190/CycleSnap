@@ -18,7 +18,7 @@ struct CameraPreviewView: View {
         do {
             let photo = Photo()
             // Documentsに保存
-            let savedPath = try FileHelper.savePhotoToDocuments(image: capturedImage, photoIDString: photo._id.stringValue)
+            let savedPath = try DocumentsFileHelper.saveImage(capturedImage, photoIDString: photo._id.stringValue)
             // Realmに保存
             photo.path = savedPath
             $category.photos.append(photo)

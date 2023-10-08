@@ -39,7 +39,7 @@ struct PhotoListScreen: View {
                 realm.delete(photoObject)
             }
             // NOTE: Documentsディレクトリから画像ファイルを削除
-            try FileHelper.removePhotoInDocuments(path: deletingPhoto.path)
+            try DocumentsFileHelper.remove(at: deletingPhoto.path)
         } catch {
             print(error.localizedDescription)
         }
@@ -63,7 +63,7 @@ struct PhotoListScreen: View {
                         }
 
                     ForEach(photoList.indexed(), id: \.element) { index, photo in
-                        if let uiImage = FileHelper.loadImage(photo.path) {
+                        if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
                             NavigationLink {
                                 TimeLineScreen(photoList: photoList, index: index)
                             } label: {

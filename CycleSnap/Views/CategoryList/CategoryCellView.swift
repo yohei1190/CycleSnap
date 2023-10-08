@@ -14,7 +14,7 @@ struct CategoryCellView: View {
     var body: some View {
         HStack(spacing: 12) {
             if let latestPhoto = category.photos.last,
-               let image = FileHelper.loadImage(latestPhoto.path)
+               let image = DocumentsFileHelper.loadUIImage(at: latestPhoto.path)
             {
                 // 画像ありの場合
                 Image(uiImage: image)
