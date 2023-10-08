@@ -100,7 +100,7 @@ struct PhotoListScreen: View {
                     Spacer()
                     HStack {
                         NavigationLink {
-                            ComparisonScreen()
+                            ComparisonScreen(firstPhoto: photoList.first!, lastPhoto: photoList.last!)
                         } label: {
                             Label("Compare Old and New Photos", systemImage: "photo.stack.fill")
                                 .padding()

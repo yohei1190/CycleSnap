@@ -5,16 +5,67 @@
 //  Created by yohei shimizu on 2023/10/08.
 //
 
+import Algorithms
+import RealmSwift
 import SwiftUI
 
 struct ComparisonScreen: View {
+    @State private var value: CGFloat = 0
+
+    let firstPhoto: Photo
+    let lastPhoto: Photo
+    private var comparingPhotos: [Photo] {
+        [firstPhoto, lastPhoto]
+    }
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color(.black).ignoresSafeArea()
+
+            VStack(spacing: 24) {
+                ZStack {
+                    ForEach(comparingPhotos.indexed(), id: \.element) { index, photo in
+                        if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
+                            Image(uiImage: uiImage)
+                                .resizeFourThreeAspectRatio()
+                                .opacity(index == 0 ? 1 : value)
+                        }
+                    }
+                }
+
+                VStack(spacing: 24) {
+                    Slider(value: $value, in: 0 ... 1, step: 0.1)
+                        .tint(.white)
+                    HStack(spacing: 60) {
+                        BackwardAndForwardButton(
+                            action: { value = 0 },
+                            symbolName: "chevron.backward.2"
+                        )
+                        BackwardAndForwardButton(
+                            action: { value = 1 },
+                            symbolName: "chevron.forward.2"
+                        )
+                    }
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 48)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Photo Comparison")
+                    .foregroundColor(.white)
+                    .font(.title2)
+            }
+        }
     }
 }
 
 struct ComparisonScreen_Previews: PreviewProvider {
+    static let photos = Realm.previewRealm.objects(Category.self).first!.photos
     static var previews: some View {
-        ComparisonScreen()
+        NavigationStack {
+            ComparisonScreen(firstPhoto: photos.first!, lastPhoto: photos.last!)
+        }
     }
 }
