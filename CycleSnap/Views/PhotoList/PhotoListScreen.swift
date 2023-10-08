@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
-import Algorithms
 import RealmSwift
 import SwiftUI
 
@@ -13,16 +12,22 @@ struct PhotoListScreen: View {
     @ObservedRealmObject var category: Category
     // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
     @State private var isLatest = false
-    @State private var deletingPhoto: Photo?
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingAlert = false
     @State private var isPresentingCamera = false
+    @State private var deletingPhoto: Photo?
+    @State private var selectedPhoto: IndexedPhoto?
 
     private let screenWidth = UIScreen.main.bounds.size.width
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
-    private var photoList: [Photo] {
-        Array(category.photos.sorted(byKeyPath: "captureDate", ascending: !isLatest))
+    private var indexedPhotoList: [IndexedPhoto] {
+        category.photos
+            .sorted(byKeyPath: "captureDate", ascending: !isLatest)
+            .enumerated()
+            .map { index, photo in
+                IndexedPhoto(id: index, photo: photo)
+            }
     }
 
     private func delete() {
@@ -63,10 +68,11 @@ struct PhotoListScreen: View {
                                 isPresentingCamera = true
                             }
 
-                        ForEach(photoList.indexed(), id: \.element) { _, photo in
+                        ForEach(indexedPhotoList) { indexedPhoto in
+                            let photo = indexedPhoto.photo
                             if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
-                                NavigationLink {
-//                                    TimeLineScreen(photoList: photoList, index: index)
+                                Button {
+                                    selectedPhoto = indexedPhoto
                                 } label: {
                                     Image(uiImage: uiImage)
                                         .resizable()
@@ -91,16 +97,18 @@ struct PhotoListScreen: View {
                             }
                         }
                     }
+                    Spacer()
+                        .frame(minHeight: 80)
                 }
                 Spacer()
             }
 
-            if photoList.count >= 2 {
+            if indexedPhotoList.count >= 2 {
                 VStack {
                     Spacer()
                     HStack {
                         NavigationLink {
-                            ComparisonScreen(firstPhoto: photoList.first!, lastPhoto: photoList.last!)
+                            ComparisonScreen(firstIndexedPhoto: indexedPhotoList.first!, lastIndexedPhoto: indexedPhotoList.last!)
                         } label: {
                             Label("Compare Old and New Photos", systemImage: "photo.stack.fill")
                                 .padding()
@@ -110,6 +118,7 @@ struct PhotoListScreen: View {
                         }
                     }
                 }
+                .padding(.bottom)
             }
         }
         .navigationTitle(category.name)
@@ -130,11 +139,14 @@ struct PhotoListScreen: View {
         .overlay {
             CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: category)
         }
-        .onAppear {
-            isLatest = category.isLatestFirst
-        }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(isPresentingCamera: $isPresentingCamera, latestPhotoPath: category.photos.last?.path, category: category)
+        }
+        .sheet(item: $selectedPhoto) { indexedPhoto in
+            PhotoCloseUpSheet(indexedPhoto: indexedPhoto, count: indexedPhotoList.count)
+        }
+        .onAppear {
+            isLatest = category.isLatestFirst
         }
     }
 }

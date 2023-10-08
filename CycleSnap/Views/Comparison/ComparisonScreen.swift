@@ -5,18 +5,14 @@
 //  Created by yohei shimizu on 2023/10/08.
 //
 
-import Algorithms
 import RealmSwift
 import SwiftUI
 
 struct ComparisonScreen: View {
     @State private var value: CGFloat = 0
 
-    let firstPhoto: Photo
-    let lastPhoto: Photo
-    private var comparingPhotos: [Photo] {
-        [firstPhoto, lastPhoto]
-    }
+    let firstIndexedPhoto: IndexedPhoto
+    let lastIndexedPhoto: IndexedPhoto
 
     var body: some View {
         ZStack {
@@ -24,11 +20,11 @@ struct ComparisonScreen: View {
 
             VStack(spacing: 24) {
                 ZStack {
-                    ForEach(comparingPhotos.indexed(), id: \.element) { index, photo in
-                        if let uiImage = DocumentsFileHelper.loadUIImage(at: photo.path) {
+                    ForEach([firstIndexedPhoto, lastIndexedPhoto]) { indexedPhoto in
+                        if let uiImage = DocumentsFileHelper.loadUIImage(at: indexedPhoto.photo.path) {
                             Image(uiImage: uiImage)
                                 .resizeFourThreeAspectRatio()
-                                .opacity(index == 0 ? 1 : value)
+                                .opacity(indexedPhoto.id == 0 ? 1 : value)
                         }
                     }
                 }
@@ -55,7 +51,6 @@ struct ComparisonScreen: View {
             ToolbarItem(placement: .principal) {
                 Text("Photo Comparison")
                     .foregroundColor(.white)
-                    .font(.title2)
             }
         }
     }
@@ -65,7 +60,10 @@ struct ComparisonScreen_Previews: PreviewProvider {
     static let photos = Realm.previewRealm.objects(Category.self).first!.photos
     static var previews: some View {
         NavigationStack {
-            ComparisonScreen(firstPhoto: photos.first!, lastPhoto: photos.last!)
+            ComparisonScreen(
+                firstIndexedPhoto: IndexedPhoto(id: 0, photo: photos.first!),
+                lastIndexedPhoto: IndexedPhoto(id: 1, photo: photos.last!)
+            )
         }
     }
 }
