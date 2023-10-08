@@ -15,9 +15,9 @@ struct CategoryListScreen: View {
     @State private var isPresentingCategoryNameAlert = false
     @State private var isPresentingCategoryDeletingAlert = false
 
-    private func move(fromOffsets: IndexSet, toOffset: Int) {
+    private func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
         var revisedCategoryList: [Category] = categoryList.map { $0 }
-        revisedCategoryList.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
 
         do {
             let realm = try Realm()
