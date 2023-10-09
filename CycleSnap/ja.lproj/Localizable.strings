@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  CycleSnap
+
+  Created by yohei shimizu on 2023/10/09.
+  
+*/
+
+// Common
+"Cancel" = "キャンセル";
+"Save" = "保存";
+"Close" = "閉じる";
+
+// CategoryNameAlert
+"RenameCategory" = "カテゴリー名変更";
+"NewCategory" = "新規カテゴリー";
+"CategoryName" = "カテゴリー名";
+
+// CategoryListScreen
+"AddCategory" = "カテゴリー追加";
+"Categories" = "カテゴリー";
+"EmptyCategory" = "カテゴリーはありません";
+"EmptyCategoryMessage" = "右下の\"カテゴリー追加ボタン\"から、最初のカテゴリーを追加しましょう";
+"CategoryDeletingAlertTitle %@" = "\"%@\"を削除しますか？";
+"DeleteCategory" = "カテゴリーを削除";
+"CategoryDeletingAlertMessage" = "この操作によりこのカテゴリーにある写真がすべて削除されます";
+
+// PhotoListScreen
+"DeletePhoto" = "写真を削除";
+"ToComparisonScreenLabel" = "新旧写真を比較";
+
+// PhotoListToolbarMenu
+"OldestFirst" = "古い順";
+"NewestFirst" = "新しい順";
+"SortOrder" = "並び替え";
+"EditCategoryName" = "カテゴリー名を変更";
+
+// CameraShootingView
+"CameraPermissionAlertTitle" = "カメラへのアクセスを許可してください";
+"CameraPermissionAlertMessage" = "カメラアクセスにより、写真を撮影できるようになります。このアクセスは,
+後でシステム設定から変更できます。";
+"GoToSettings" = "設定に移動";
+
+// CameraPreviewView
+"Retake" = "再撮影";
+
+// ComparisonScreen
+"ComparisonScreenTitle" = "新旧写真比較";

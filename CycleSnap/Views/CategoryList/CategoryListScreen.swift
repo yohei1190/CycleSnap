@@ -80,7 +80,7 @@ struct CategoryListScreen: View {
                             isPresentingCategoryNameAlert = true
                         }
                     } label: {
-                        Label("Add Category", systemImage: "plus.circle.fill")
+                        Label("AddCategory", systemImage: "plus.circle.fill")
                             .frame(minWidth: 44, minHeight: 44)
                     }
                 }
@@ -95,10 +95,10 @@ struct CategoryListScreen: View {
             .overlay {
                 if categoryList.isEmpty {
                     VStack(spacing: 12) {
-                        Text("Empty Category")
+                        Text("EmptyCategory")
                             .font(.title)
                             .bold()
-                        Text("Tap the button in the bottom right to add your first category.")
+                        Text("EmptyCategoryMessage")
                             .font(.title3)
                             .opacity(0.6)
                     }
@@ -108,13 +108,13 @@ struct CategoryListScreen: View {
             .overlay {
                 CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: nil)
             }
-            .alert("Do you want to delete \"\(deletingCategory?.name ?? "")\"?", isPresented: $isPresentingCategoryDeletingAlert) {
-                Button("Delete", role: .destructive) {
+            .alert("CategoryDeletingAlertTitle \(deletingCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
+                Button("DeleteCategory", role: .destructive) {
                     delete()
                     deletingCategory = nil
                 }
             } message: {
-                Text("This action will delete all photos in this category.")
+                Text("CategoryDeletingAlertMessage")
             }
         }
     }

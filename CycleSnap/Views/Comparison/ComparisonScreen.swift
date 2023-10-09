@@ -49,7 +49,7 @@ struct ComparisonScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Photo Comparison")
+                Text("ComparisonScreenTitle")
                     .foregroundColor(.white)
             }
         }

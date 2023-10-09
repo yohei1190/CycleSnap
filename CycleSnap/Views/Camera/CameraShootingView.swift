@@ -108,15 +108,15 @@ struct CameraShootingView: View {
                 isPresentingAlert = true
             }
         }
-        .alert("Allow CycleSpan access to your camera", isPresented: $isPresentingAlert) {
-            Button("Go to settings") {
+        .alert("CameraPermissionAlertTitle", isPresented: $isPresentingAlert) {
+            Button("GoToSettings") {
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
             Button("Cancel", role: .cancel) {
                 isPresentingCamera = false
             }
         } message: {
-            Text("Camera access lets you take photos. You can change this access later in your system settings.")
+            Text("CameraPermissionAlertMessage")
         }
     }
 }
