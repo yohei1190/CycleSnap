@@ -66,11 +66,11 @@ struct CategoryNameAlert: View {
                     .onTapGesture {}
 
                 VStack(spacing: 32) {
-                    Text(existingCategory != nil ? "Rename Category" : "New Category")
+                    Text(existingCategory != nil ? "RenameCategory" : "NewCategory")
                         .font(.title3)
                         .bold()
 
-                    TextField("Category Name", text: $editingCategoryName)
+                    TextField("CategoryName", text: $editingCategoryName)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocus)
                         .overlay(alignment: .trailing) {

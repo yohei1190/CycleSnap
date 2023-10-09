@@ -39,7 +39,7 @@ struct PhotoListToolbarMenu: View {
                 Button {
                     sortPhotos(by: .oldest)
                 } label: {
-                    Text("Oldest First")
+                    Text("OldestFirst")
                     if !isLatest {
                         Image(systemName: "checkmark")
                     }
@@ -47,13 +47,13 @@ struct PhotoListToolbarMenu: View {
                 Button {
                     sortPhotos(by: .latest)
                 } label: {
-                    Text("Newest First")
+                    Text("NewestFirst")
                     if isLatest {
                         Image(systemName: "checkmark")
                     }
                 }
             } label: {
-                Text("Sort Order")
+                Text("SortOrder")
                 Image(systemName: "arrow.up.arrow.down")
             }
 
@@ -63,7 +63,7 @@ struct PhotoListToolbarMenu: View {
                 }
             } label: {
                 HStack {
-                    Text("Edit Category name")
+                    Text("EditCategoryName")
                     Image(systemName: "square.and.pencil")
                 }
             }

@@ -90,7 +90,7 @@ struct PhotoListScreen: View {
                                                 isPresentingDeleteDialog = true
                                                 deletingPhoto = photo
                                             } label: {
-                                                Label("Delete", systemImage: "trash")
+                                                Label("DeletePhoto", systemImage: "trash")
                                             }
                                         }
                                 }
@@ -110,7 +110,7 @@ struct PhotoListScreen: View {
                         NavigationLink {
                             ComparisonScreen(firstIndexedPhoto: indexedPhotoList.first!, lastIndexedPhoto: indexedPhotoList.last!)
                         } label: {
-                            Label("Compare Old and New Photos", systemImage: "photo.stack.fill")
+                            Label("ToComparisonScreenLabel", systemImage: "photo.stack.fill")
                                 .padding()
                                 .foregroundColor(.white)
                                 .background(RoundedRectangle(cornerRadius: 40).fill(.blue))
@@ -131,8 +131,11 @@ struct PhotoListScreen: View {
             }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
-            Button("Delete photo", role: .destructive) {
+            Button("DeletePhoto", role: .destructive) {
                 delete()
+                deletingPhoto = nil
+            }
+            Button("Cancel", role: .cancel) {
                 deletingPhoto = nil
             }
         }
