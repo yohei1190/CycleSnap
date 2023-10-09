@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryNameAlert: View {
     @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
+    @Environment(\.colorScheme) private var colorScheme
     @Binding var isPresenting: Bool
     @State private var editingCategoryName = ""
     @FocusState private var isFocus: Bool
@@ -65,34 +66,42 @@ struct CategoryNameAlert: View {
                     .ignoresSafeArea()
                     .onTapGesture {}
 
-                VStack(spacing: 32) {
-                    Text(existingCategory != nil ? "RenameCategory" : "NewCategory")
-                        .font(.title3)
-                        .bold()
+                VStack {
+                    VStack(spacing: 28) {
+                        Text(existingCategory != nil ? "RenameCategory" : "NewCategory")
+                            .font(.title3)
+                            .bold()
 
-                    TextField("CategoryName", text: $editingCategoryName)
-                        .textFieldStyle(.roundedBorder)
-                        .focused($isFocus)
-                        .overlay(alignment: .trailing) {
-                            Button {
-                                editingCategoryName = ""
-                            } label: {
-                                Image(systemName: "x.circle.fill")
-                                    .frame(minWidth: 44, minHeight: 44)
-                                    .foregroundColor(.gray)
+                        TextField("CategoryName", text: $editingCategoryName)
+                            .frame(minHeight: 44)
+                            .padding(.leading, 8)
+                            .padding(.trailing, 36)
+                            .background(RoundedRectangle(cornerRadius: 12).fill(colorScheme == .dark ? .black.opacity(0.8) : .white))
+                            .focused($isFocus)
+                            .overlay(alignment: .trailing) {
+                                Button {
+                                    editingCategoryName = ""
+                                } label: {
+                                    Image(systemName: "x.circle.fill")
+                                        .frame(minWidth: 44, minHeight: 44)
+                                        .foregroundColor(.gray)
+                                }
                             }
-                        }
+                    }
 
-                    HStack(spacing: 16) {
+                    Divider()
+
+                    HStack(spacing: 20) {
                         Button {
                             withAnimation {
                                 isPresenting = false
                             }
                         } label: {
                             Text("Cancel")
-                                .frame(width: 88, height: 44)
+                                .bold()
+                                .frame(minWidth: 80, minHeight: 44)
+                                .padding(.horizontal)
                         }
-                        .buttonStyle(.bordered)
 
                         Button {
                             saveOrUpdate()
@@ -100,13 +109,14 @@ struct CategoryNameAlert: View {
                                 isPresenting = false
                             }
                         } label: {
-                            Text("Save").frame(width: 88, height: 44)
+                            Text("Save")
+                                .frame(minWidth: 80, minHeight: 44)
+                                .padding(.horizontal)
                         }
                         .disabled(editingCategoryName.isEmpty)
-                        .buttonStyle(.borderedProminent)
                     }
                 }
-                .padding(20)
+                .padding()
                 .background(.ultraThickMaterial)
                 .cornerRadius(24)
                 .frame(width: 300)
