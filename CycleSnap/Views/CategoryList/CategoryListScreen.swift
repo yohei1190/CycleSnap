@@ -43,10 +43,8 @@ struct CategoryListScreen: View {
                 realm.delete(categoryObject.photos)
                 realm.delete(categoryObject)
 
-                // NOTE: Documentsディレクトリから画像ファイルを削除
-                for photo in deletingCategory.photos {
-                    try DocumentsFileHelper.remove(at: photo.path)
-                }
+                // NOTE: Documentsディレクトリの画像フォルダを削除
+                try DocumentsFileHelper.remove(at: "photos/" + deletingCategory._id.stringValue)
             }
         } catch {
             print(error.localizedDescription)
