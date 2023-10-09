@@ -25,7 +25,9 @@ struct DocumentsFileHelper {
 
     static func remove(at relativePath: String) throws {
         let targetURL = getURL(at: relativePath)
-        try FileManager.default.removeItem(at: targetURL)
+        if FileManager.default.fileExists(atPath: targetURL.path()) {
+            try FileManager.default.removeItem(at: targetURL)
+        }
     }
 
     static func saveImage(_ image: UIImage, categoryIDString categoryFolderName: String, photoIDString fileNameWithoutExtension: String) throws -> String {
@@ -45,7 +47,7 @@ struct DocumentsFileHelper {
         let fileURL = categoryFolderURL.appendingPathComponent(fileNameWithoutExtension).appendingPathExtension("jpg")
         try data.write(to: fileURL)
 
-        let relativePath = fileURL.absoluteString.replacingOccurrences(of: URL.documentsDirectory.absoluteString, with: "")
+        let relativePath = fileURL.path().replacingOccurrences(of: URL.documentsDirectory.path(), with: "")
         return relativePath
     }
 }
