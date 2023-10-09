@@ -5,14 +5,20 @@
 //  Created by yohei shimizu on 2023/10/08.
 //
 
+import Algorithms
 import RealmSwift
 import SwiftUI
 
 struct ComparisonScreen: View {
     @State private var value: CGFloat = 0
+    @State private var comparisonUIImages: [UIImage] = []
 
-    let firstIndexedPhoto: IndexedPhoto
-    let lastIndexedPhoto: IndexedPhoto
+    let firstPhoto: Photo
+    let lastPhoto: Photo
+
+    private func setUIImages(_ firstPhoto: Photo, _ lastPhoto: Photo) -> [UIImage] {
+        [firstPhoto, lastPhoto].compactMap { DocumentsFileHelper.loadUIImage(at: $0.path) }
+    }
 
     var body: some View {
         ZStack {
@@ -20,12 +26,10 @@ struct ComparisonScreen: View {
 
             VStack(spacing: 24) {
                 ZStack {
-                    ForEach([firstIndexedPhoto, lastIndexedPhoto]) { indexedPhoto in
-                        if let uiImage = DocumentsFileHelper.loadUIImage(at: indexedPhoto.photo.path) {
-                            Image(uiImage: uiImage)
-                                .resizeFourThreeAspectRatio()
-                                .opacity(indexedPhoto.id == 0 ? 1 : value)
-                        }
+                    ForEach(comparisonUIImages.indexed(), id: \.element) { index, uiImage in
+                        Image(uiImage: uiImage)
+                            .resizeFourThreeAspectRatio()
+                            .opacity(index == 0 ? 1 : value)
                     }
                 }
 
@@ -47,6 +51,9 @@ struct ComparisonScreen: View {
                 .padding(.bottom, 48)
             }
         }
+        .onAppear {
+            comparisonUIImages = setUIImages(firstPhoto, lastPhoto)
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("ComparisonScreenTitle")
@@ -61,8 +68,8 @@ struct ComparisonScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ComparisonScreen(
-                firstIndexedPhoto: IndexedPhoto(id: 0, photo: photos.first!),
-                lastIndexedPhoto: IndexedPhoto(id: 1, photo: photos.last!)
+                firstPhoto: photos.first!,
+                lastPhoto: photos.last!
             )
         }
     }

@@ -108,7 +108,7 @@ struct PhotoListScreen: View {
                     Spacer()
                     HStack {
                         NavigationLink {
-                            ComparisonScreen(firstIndexedPhoto: indexedPhotoList.first!, lastIndexedPhoto: indexedPhotoList.last!)
+                            ComparisonScreen(firstPhoto: indexedPhotoList.first!.photo, lastPhoto: indexedPhotoList.last!.photo)
                         } label: {
                             Label("ToComparisonScreenLabel", systemImage: "photo.stack.fill")
                                 .padding()
