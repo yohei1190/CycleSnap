@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct DocumentsFileHelper {
-    private static let photosFolder = "photos"
+    private static let photosFolderName = "photos"
 
     private static func getURL(at relativePath: String) -> URL {
         URL.documentsDirectory.appendingPathComponent(relativePath)
@@ -24,24 +24,28 @@ struct DocumentsFileHelper {
     }
 
     static func remove(at relativePath: String) throws {
-        let fileURL = getURL(at: relativePath)
-        try FileManager.default.removeItem(at: fileURL)
+        let targetURL = getURL(at: relativePath)
+        try FileManager.default.removeItem(at: targetURL)
     }
 
-    static func saveImage(_ image: UIImage, photoIDString fileNameWithoutExtension: String) throws -> String {
+    static func saveImage(_ image: UIImage, categoryIDString categoryFolderName: String, photoIDString fileNameWithoutExtension: String) throws -> String {
         guard let data = image.jpegData(compressionQuality: 1) else {
             throw "Failed to converting jpeg format"
         }
 
-        let folderURL = URL.documentsDirectory.appendingPathComponent(photosFolder)
+        let categoryFolderURL = URL.documentsDirectory
+            .appending(path: photosFolderName, directoryHint: .isDirectory)
+            .appending(path: categoryFolderName, directoryHint: .isDirectory)
+
         let fileManager = FileManager.default
-        if !fileManager.fileExists(atPath: folderURL.path) {
-            try fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true)
+        if !fileManager.fileExists(atPath: categoryFolderURL.path) {
+            try fileManager.createDirectory(at: categoryFolderURL, withIntermediateDirectories: true)
         }
 
-        let fileName = fileNameWithoutExtension + ".jpg"
-        let fileURL = folderURL.appendingPathComponent(fileName)
+        let fileURL = categoryFolderURL.appendingPathComponent(fileNameWithoutExtension).appendingPathExtension("jpg")
         try data.write(to: fileURL)
-        return photosFolder + "/" + fileName
+
+        let relativePath = fileURL.absoluteString.replacingOccurrences(of: URL.documentsDirectory.absoluteString, with: "")
+        return relativePath
     }
 }

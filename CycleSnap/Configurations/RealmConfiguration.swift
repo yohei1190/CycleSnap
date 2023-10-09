@@ -43,14 +43,14 @@ extension Realm {
                     for i in 0 ... 2 {
                         // Creating sample category
                         let category = Category()
-                        category.name = "Sample Category \(i)"
+                        category.name = "SampleCategory\(i)"
                         category.orderIndex = i
                         category.isLatestFirst = true
 
                         for j in 0 ... 4 {
                             // Creating sample photo
                             let photo = Photo()
-                            photo.path = "photos/sample\(j).jpg"
+                            photo.path = "photos/" + category.name + "/sample\(j).jpg"
                             category.photos.append(photo)
                         }
 
