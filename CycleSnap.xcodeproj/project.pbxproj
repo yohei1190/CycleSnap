@@ -451,6 +451,7 @@
 				DEVELOPMENT_TEAM = 3DN56K82YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cycle Snap";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to capture photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -484,6 +485,7 @@
 				DEVELOPMENT_TEAM = 3DN56K82YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cycle Snap";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to capture photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
