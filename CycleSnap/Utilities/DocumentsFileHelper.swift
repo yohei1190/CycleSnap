@@ -8,7 +8,18 @@
 import Foundation
 import UIKit
 
-struct DocumentsFileHelper {
+enum FileError: LocalizedError {
+    case convertingError
+
+    var errorDescription: String? {
+        switch self {
+        case .convertingError:
+            return "Failed to converting jpeg format"
+        }
+    }
+}
+
+enum DocumentsFileHelper {
     private static let photosFolderName = "photos"
 
     private static func getURL(at relativePath: String) -> URL {
@@ -32,7 +43,7 @@ struct DocumentsFileHelper {
 
     static func saveImage(_ image: UIImage, categoryIDString categoryFolderName: String, photoIDString fileNameWithoutExtension: String) throws -> String {
         guard let data = image.jpegData(compressionQuality: 1) else {
-            throw "Failed to converting jpeg format"
+            throw FileError.convertingError
         }
 
         let categoryFolderURL = URL.documentsDirectory
