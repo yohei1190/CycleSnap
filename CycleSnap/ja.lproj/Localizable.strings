@@ -10,6 +10,7 @@
 "Cancel" = "キャンセル";
 "Save" = "保存";
 "Close" = "閉じる";
+"Delete" = "削除";
 
 // CategoryNameAlert
 "RenameCategory" = "カテゴリー名変更";
