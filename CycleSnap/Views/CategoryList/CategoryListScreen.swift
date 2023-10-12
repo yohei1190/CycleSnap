@@ -105,7 +105,8 @@ struct CategoryListScreen: View {
                             .frame(minWidth: 44, minHeight: 44)
                     }
                 }
-                .padding()
+                .padding(.trailing)
+                .background(.ultraThinMaterial)
             }
             .navigationTitle("Categories")
             .toolbar {
