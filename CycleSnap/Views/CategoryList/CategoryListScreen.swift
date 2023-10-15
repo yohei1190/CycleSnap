@@ -9,53 +9,21 @@ import RealmSwift
 import SwiftUI
 
 struct CategoryListScreen: View {
-    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
+    @StateObject private var categoryListVM: CategoryListViewModel
 
     @State private var selectedCategory: Category?
     @State private var isPresentingCategoryNameAlert = false
     @State private var isPresentingCategoryDeletingAlert = false
 
-    private func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
-        var revisedCategoryList: [Category] = categoryList.map { $0 }
-        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
-
-        do {
-            let realm = try Realm()
-            try realm.write {
-                for (index, revisedCategory) in revisedCategoryList.enumerated() {
-                    let category = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!
-                    category.orderIndex = index
-                }
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-
-    private func delete() {
-        guard let selectedCategory else { return }
-
-        do {
-            let realm = try Realm()
-            try realm.write {
-                // NOTE: RealmDBからオブジェクトを削除
-                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: selectedCategory._id)!
-                realm.delete(categoryObject.photos)
-                realm.delete(categoryObject)
-
-                // NOTE: Documentsディレクトリの画像フォルダを削除
-                try DocumentsFileHelper.remove(at: "photos/" + selectedCategory._id.stringValue)
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
+    init(categoryListVM: CategoryListViewModel = CategoryListViewModel()) {
+        _categoryListVM = StateObject(wrappedValue: categoryListVM)
     }
 
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(categoryList) { category in
+                    ForEach(categoryListVM.categoryList) { category in
                         NavigationLink {
                             PhotoListScreen(category: category)
                         } label: {
@@ -86,10 +54,10 @@ struct CategoryListScreen: View {
                         }
                     }
                     .onDelete { indexSet in
-                        selectedCategory = categoryList[indexSet.first!]
+                        selectedCategory = categoryListVM.categoryList[indexSet.first!]
                         isPresentingCategoryDeletingAlert = true
                     }
-                    .onMove(perform: move)
+                    .onMove(perform: categoryListVM.move)
                 }
                 .listStyle(.plain)
 
@@ -110,12 +78,12 @@ struct CategoryListScreen: View {
             }
             .navigationTitle("Categories")
             .toolbar {
-                if !categoryList.isEmpty && !isPresentingCategoryNameAlert {
+                if !categoryListVM.categoryList.isEmpty && !isPresentingCategoryNameAlert {
                     EditButton()
                 }
             }
             .overlay {
-                if categoryList.isEmpty {
+                if categoryListVM.categoryList.isEmpty {
                     VStack(spacing: 12) {
                         Text("EmptyCategory")
                             .font(.title)
@@ -132,7 +100,9 @@ struct CategoryListScreen: View {
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
-                    delete()
+                    if let selectedCategory {
+                        categoryListVM.delete(selectedCategory)
+                    }
                     selectedCategory = nil
                 }
             } message: {
@@ -144,7 +114,6 @@ struct CategoryListScreen: View {
 
 struct CategoryListScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryListScreen()
-            .environment(\.realm, Realm.previewRealm)
+        CategoryListScreen(categoryListVM: CategoryListViewModel(realm: Realm.previewRealm))
     }
 }
