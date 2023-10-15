@@ -90,7 +90,7 @@ struct PhotoListScreen: View {
                                                 isPresentingDeleteDialog = true
                                                 deletingPhoto = photo
                                             } label: {
-                                                Label("DeletePhoto", systemImage: "trash")
+                                                Label("Delete", systemImage: "trash")
                                             }
                                         }
                                 }

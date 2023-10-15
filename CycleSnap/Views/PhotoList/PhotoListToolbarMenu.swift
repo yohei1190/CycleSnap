@@ -53,8 +53,7 @@ struct PhotoListToolbarMenu: View {
                     }
                 }
             } label: {
-                Text("SortOrder")
-                Image(systemName: "arrow.up.arrow.down")
+                Label("SortOrder", systemImage: "arrow.up.arrow.down")
             }
 
             Button {
@@ -63,8 +62,7 @@ struct PhotoListToolbarMenu: View {
                 }
             } label: {
                 HStack {
-                    Text("EditCategoryName")
-                    Image(systemName: "square.and.pencil")
+                    Label("EditCategoryName", systemImage: "square.and.pencil")
                 }
             }
         } label: {
