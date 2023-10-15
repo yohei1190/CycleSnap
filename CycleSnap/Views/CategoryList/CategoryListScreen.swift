@@ -11,7 +11,7 @@ import SwiftUI
 struct CategoryListScreen: View {
     @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
 
-    @State private var deletingCategory: Category?
+    @State private var selectedCategory: Category?
     @State private var isPresentingCategoryNameAlert = false
     @State private var isPresentingCategoryDeletingAlert = false
 
@@ -33,18 +33,18 @@ struct CategoryListScreen: View {
     }
 
     private func delete() {
-        guard let deletingCategory else { return }
+        guard let selectedCategory else { return }
 
         do {
             let realm = try Realm()
             try realm.write {
                 // NOTE: RealmDBからオブジェクトを削除
-                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: deletingCategory._id)!
+                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: selectedCategory._id)!
                 realm.delete(categoryObject.photos)
                 realm.delete(categoryObject)
 
                 // NOTE: Documentsディレクトリの画像フォルダを削除
-                try DocumentsFileHelper.remove(at: "photos/" + deletingCategory._id.stringValue)
+                try DocumentsFileHelper.remove(at: "photos/" + selectedCategory._id.stringValue)
             }
         } catch {
             print(error.localizedDescription)
@@ -61,10 +61,32 @@ struct CategoryListScreen: View {
                         } label: {
                             CategoryCellView(category: category)
                                 .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+                                .contextMenu {
+                                    Button {
+                                        withAnimation {
+                                            selectedCategory = category
+                                            isPresentingCategoryNameAlert = true
+                                        }
+                                    } label: {
+                                        HStack {
+                                            Label("EditCategoryName", systemImage: "square.and.pencil")
+                                        }
+                                    }
+                                    Button(role: .destructive) {
+                                        withAnimation {
+                                            selectedCategory = category
+                                            isPresentingCategoryDeletingAlert = true
+                                        }
+                                    } label: {
+                                        HStack {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                }
                         }
                     }
                     .onDelete { indexSet in
-                        deletingCategory = categoryList[indexSet.first!]
+                        selectedCategory = categoryList[indexSet.first!]
                         isPresentingCategoryDeletingAlert = true
                     }
                     .onMove(perform: move)
@@ -75,6 +97,7 @@ struct CategoryListScreen: View {
                     Spacer()
                     Button {
                         withAnimation {
+                            selectedCategory = nil
                             isPresentingCategoryNameAlert = true
                         }
                     } label: {
@@ -104,12 +127,12 @@ struct CategoryListScreen: View {
                 }
             }
             .overlay {
-                CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: nil)
+                CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: selectedCategory)
             }
-            .alert("CategoryDeletingAlertTitle \(deletingCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
+            .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
                     delete()
-                    deletingCategory = nil
+                    selectedCategory = nil
                 }
             } message: {
                 Text("CategoryDeletingAlertMessage")
