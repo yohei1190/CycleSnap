@@ -31,6 +31,7 @@
 		47A740942ABABF0C00C67B1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740932ABABF0C00C67B1C /* Assets.xcassets */; };
 		47A740972ABABF0C00C67B1C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */; };
 		47B1AF012AD39119008A3BD0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 47B1AF002AD39119008A3BD0 /* Algorithms */; };
+		47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */; };
 		47EA5BE62AD2A336002A6F76 /* ComparisonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		47A740912ABABF0800C67B1C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		47A740932ABABF0C00C67B1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +156,7 @@
 				475DF8FB2AC6A05A00B96808 /* Utilities */,
 				475DF8F62AC5929500B96808 /* Configurations */,
 				4799633C2AC4E695009EDBE2 /* Models */,
+				47E0D7082ADC082F004DD422 /* ViewModels */,
 				4750433C2AC39A9F00DD9AB2 /* Views */,
 				47A7408F2ABABF0800C67B1C /* CycleSnapApp.swift */,
 				47A740912ABABF0800C67B1C /* ContentView.swift */,
@@ -197,6 +200,14 @@
 				472AC04C2AD2AFB800CD123C /* PhotoCloseUpSheet.swift */,
 			);
 			path = PhotoList;
+			sourceTree = "<group>";
+		};
+		47E0D7082ADC082F004DD422 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		47EA5BE42AD2A31F002A6F76 /* Comparison */ = {
@@ -293,6 +304,7 @@
 				475DF8F52AC58F6600B96808 /* Photo.swift in Sources */,
 				473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */,
 				475DF8F12AC553E000B96808 /* PhotoListScreen.swift in Sources */,
+				47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */,
 				4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */,
 				475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */,
 				4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */,
