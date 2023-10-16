@@ -32,6 +32,7 @@
 		47A740972ABABF0C00C67B1C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */; };
 		47B1AF012AD39119008A3BD0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 47B1AF002AD39119008A3BD0 /* Algorithms */; };
 		47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */; };
+		47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */; };
 		47EA5BE62AD2A336002A6F76 /* ComparisonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		47A740932ABABF0C00C67B1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
 		47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -206,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */,
+				47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
 				478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */,
+				47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */,
 				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,
 				475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */,
 				473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */,
