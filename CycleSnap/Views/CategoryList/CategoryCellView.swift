@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CategoryCellView: View {
     let category: Category
+    let onEdit: (Category) -> Void
+    let onDelete: (Category) -> Void
 
     var body: some View {
         HStack(spacing: 12) {
@@ -48,11 +50,28 @@ struct CategoryCellView: View {
                 .opacity(0.6)
             }
         }
+        .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+        .contextMenu {
+            Button(action: { onEdit(category) }) {
+                HStack {
+                    Label("EditCategoryName", systemImage: "square.and.pencil")
+                }
+            }
+            Button(role: .destructive, action: { onDelete(category) }) {
+                HStack {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
     }
 }
 
 struct CategoryCellView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryCellView(category: Realm.previewRealm.objects(Category.self).first!)
+        CategoryCellView(
+            category: Realm.previewRealm.objects(Category.self).first!,
+            onEdit: { _ in },
+            onDelete: { _ in }
+        )
     }
 }

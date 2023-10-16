@@ -19,38 +19,38 @@ struct CategoryListScreen: View {
         _categoryListVM = StateObject(wrappedValue: categoryListVM)
     }
 
+    private func handleEdit(category: Category) {
+        withAnimation {
+            selectedCategory = category
+            isPresentingCategoryNameAlert = true
+        }
+    }
+
+    private func handleDelete(category: Category) {
+        withAnimation {
+            selectedCategory = category
+            isPresentingCategoryDeletingAlert = true
+        }
+    }
+
+    private func handleAdd() {
+        withAnimation {
+            selectedCategory = nil
+            isPresentingCategoryNameAlert = true
+        }
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
                 List {
                     ForEach(categoryListVM.categoryList) { category in
-                        NavigationLink {
-                            PhotoListScreen(category: category)
-                        } label: {
-                            CategoryCellView(category: category)
-                                .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
-                                .contextMenu {
-                                    Button {
-                                        withAnimation {
-                                            selectedCategory = category
-                                            isPresentingCategoryNameAlert = true
-                                        }
-                                    } label: {
-                                        HStack {
-                                            Label("EditCategoryName", systemImage: "square.and.pencil")
-                                        }
-                                    }
-                                    Button(role: .destructive) {
-                                        withAnimation {
-                                            selectedCategory = category
-                                            isPresentingCategoryDeletingAlert = true
-                                        }
-                                    } label: {
-                                        HStack {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
-                                }
+                        if !category.isInvalidated {
+                            NavigationLink {
+                                PhotoListScreen(category: category)
+                            } label: {
+                                CategoryCellView(category: category, onEdit: handleEdit, onDelete: handleDelete)
+                            }
                         }
                     }
                     .onDelete { indexSet in
@@ -63,12 +63,7 @@ struct CategoryListScreen: View {
 
                 HStack {
                     Spacer()
-                    Button {
-                        withAnimation {
-                            selectedCategory = nil
-                            isPresentingCategoryNameAlert = true
-                        }
-                    } label: {
+                    Button(action: { handleAdd() }) {
                         Label("AddCategory", systemImage: "plus.circle.fill")
                             .frame(minWidth: 44, minHeight: 44)
                     }

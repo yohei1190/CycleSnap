@@ -10,13 +10,16 @@ import RealmSwift
 
 class CategoryListViewModel: ObservableObject {
     @Published var categoryList: [Category] = []
-    private var realm: Realm
-    private var categoryResults: Results<Category>
+    private let realm: Realm
 
     init(realm: Realm = try! Realm()) {
         self.realm = realm
-        categoryResults = realm.objects(Category.self).sorted(byKeyPath: "orderIndex")
-        categoryList = Array(categoryResults)
+        getAll()
+    }
+
+    private func getAll() {
+        let results = realm.objects(Category.self).sorted(by: \.orderIndex)
+        categoryList = Array(results)
     }
 
     func add(name: String) {
@@ -33,7 +36,7 @@ class CategoryListViewModel: ObservableObject {
             try realm.write {
                 realm.add(categoryToAdd)
             }
-            categoryList = Array(categoryResults)
+            getAll()
         } catch {
             print(error.localizedDescription)
         }
@@ -41,11 +44,10 @@ class CategoryListViewModel: ObservableObject {
 
     func update(_ category: Category, name: String) {
         do {
-            let categoryToUpdate = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
             try realm.write {
-                categoryToUpdate.name = name
+                category.name = name
             }
-            categoryList = Array(categoryResults)
+            getAll()
         } catch {
             print(error.localizedDescription)
         }
@@ -62,26 +64,23 @@ class CategoryListViewModel: ObservableObject {
                     categoryToMove.orderIndex = index
                 }
             }
-            categoryList = Array(categoryResults)
+            getAll()
         } catch {
             print(error.localizedDescription)
         }
     }
 
     func delete(_ category: Category) {
-        let categoryId = category._id
-
         do {
+            let categoryIdString = category._id.stringValue
             try realm.write {
-                let categoryToDelete = realm.object(ofType: Category.self, forPrimaryKey: categoryId)!
-                realm.delete(categoryToDelete.photos)
-                realm.delete(categoryToDelete)
+                realm.delete(category.photos)
+                realm.delete(category)
             }
             // NOTE: Documentsディレクトリの画像フォルダを削除
-            try DocumentsFileHelper.remove(at: "photos/" + categoryId.stringValue)
+            try DocumentsFileHelper.remove(at: "photos/" + categoryIdString)
 
-            categoryList = Array(categoryResults)
-
+            getAll()
         } catch {
             print(error.localizedDescription)
         }
