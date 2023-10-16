@@ -23,9 +23,27 @@ class CategoryListViewModel: ObservableObject {
         let categoryToAdd = Category()
         categoryToAdd.name = name
 
+        var assignedOrderIndex = 0
+        if let categoryWithMaxOrderIndex = categoryList.max(by: { $0.orderIndex < $1.orderIndex }) {
+            assignedOrderIndex = categoryWithMaxOrderIndex.orderIndex + 1
+        }
+        categoryToAdd.orderIndex = assignedOrderIndex
+
         do {
             try realm.write {
                 realm.add(categoryToAdd)
+            }
+            categoryList = Array(categoryResults)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    func update(_ category: Category, name: String) {
+        do {
+            let categoryToUpdate = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
+            try realm.write {
+                categoryToUpdate.name = name
             }
             categoryList = Array(categoryResults)
         } catch {

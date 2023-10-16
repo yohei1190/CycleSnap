@@ -9,14 +9,14 @@ import RealmSwift
 import SwiftUI
 
 struct CategoryNameAlert: View {
-    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
-
     @Environment(\.colorScheme) private var colorScheme
-    @Binding var isPresenting: Bool
     @State private var editingCategoryName = ""
     @FocusState private var isFocus: Bool
 
-    let existingCategory: Category?
+    @Binding var isPresenting: Bool
+    let updatingCategory: Category?
+    let add: (String) -> Void
+    let update: (Category, String) -> Void
 
     private var trimmedCategoryName: String {
         editingCategoryName.trimmingCharacters(in: .whitespaces)
@@ -27,36 +27,11 @@ struct CategoryNameAlert: View {
             return
         }
 
-        if let existingCategory {
-            update(existingCategory)
+        if let updatingCategory {
+            update(updatingCategory, trimmedCategoryName)
         } else {
-            save()
+            add(trimmedCategoryName)
         }
-    }
-
-    private func update(_ category: Category) {
-        do {
-            let realm = try Realm()
-            let updatingCategory = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
-            try realm.write {
-                updatingCategory.name = trimmedCategoryName
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-
-    private func save() {
-        let newCategory = Category()
-        newCategory.name = trimmedCategoryName
-
-        var maxOrderIndex = -1
-        if !categoryList.isEmpty {
-            maxOrderIndex = categoryList.max(of: \.orderIndex)!
-        }
-        newCategory.orderIndex = maxOrderIndex + 1
-
-        $categoryList.append(newCategory)
     }
 
     var body: some View {
@@ -68,7 +43,7 @@ struct CategoryNameAlert: View {
 
                 VStack {
                     VStack(spacing: 28) {
-                        Text(existingCategory != nil ? "RenameCategory" : "NewCategory")
+                        Text(updatingCategory != nil ? "RenameCategory" : "NewCategory")
                             .font(.title3)
                             .bold()
 
@@ -123,8 +98,8 @@ struct CategoryNameAlert: View {
             }
             .onAppear {
                 editingCategoryName = ""
-                if let existingCategory {
-                    editingCategoryName = existingCategory.name
+                if let updatingCategory {
+                    editingCategoryName = updatingCategory.name
                 }
                 isFocus = true
             }
@@ -134,6 +109,11 @@ struct CategoryNameAlert: View {
 
 struct CategoryNameAlert_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryNameAlert(isPresenting: .constant(true), existingCategory: nil)
+        CategoryNameAlert(
+            isPresenting: .constant(true),
+            updatingCategory: nil,
+            add: { _ in },
+            update: { _, _ in }
+        )
     }
 }

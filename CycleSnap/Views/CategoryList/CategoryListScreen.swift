@@ -96,7 +96,12 @@ struct CategoryListScreen: View {
                 }
             }
             .overlay {
-                CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: selectedCategory)
+                CategoryNameAlert(
+                    isPresenting: $isPresentingCategoryNameAlert,
+                    updatingCategory: selectedCategory,
+                    add: categoryListVM.add,
+                    update: categoryListVM.update
+                )
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
