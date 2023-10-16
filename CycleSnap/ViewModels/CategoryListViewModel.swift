@@ -69,15 +69,16 @@ class CategoryListViewModel: ObservableObject {
     }
 
     func delete(_ category: Category) {
+        let categoryId = category._id
+
         do {
             try realm.write {
-                let categoryToDelete = realm.object(ofType: Category.self, forPrimaryKey: category._id)!
+                let categoryToDelete = realm.object(ofType: Category.self, forPrimaryKey: categoryId)!
                 realm.delete(categoryToDelete.photos)
                 realm.delete(categoryToDelete)
             }
-
             // NOTE: Documentsディレクトリの画像フォルダを削除
-            try DocumentsFileHelper.remove(at: "photos/" + category._id.stringValue)
+            try DocumentsFileHelper.remove(at: "photos/" + categoryId.stringValue)
 
             categoryList = Array(categoryResults)
 
