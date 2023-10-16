@@ -13,7 +13,6 @@ struct PhotoListScreen: View {
     // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
     @State private var isLatest = false
     @State private var isPresentingDeleteDialog = false
-    @State private var isPresentingAlert = false
     @State private var isPresentingCamera = false
     @State private var deletingPhoto: Photo?
     @State private var selectedPhoto: IndexedPhoto?
@@ -122,12 +121,9 @@ struct PhotoListScreen: View {
             }
         }
         .navigationTitle(category.name)
-        .navigationBarBackButtonHidden(isPresentingAlert ? true : false)
         .toolbar {
-            if !isPresentingAlert {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    PhotoListToolbarMenu(category: category, isLatest: $isLatest, isPresentingAlert: $isPresentingAlert)
-                }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                PhotoListToolbarMenu(category: category, isLatest: $isLatest)
             }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
@@ -138,9 +134,6 @@ struct PhotoListScreen: View {
             Button("Cancel", role: .cancel) {
                 deletingPhoto = nil
             }
-        }
-        .overlay {
-            CategoryNameAlert(isPresenting: $isPresentingAlert, existingCategory: category)
         }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(isPresentingCamera: $isPresentingCamera, latestPhotoPath: category.photos.last?.path, category: category)

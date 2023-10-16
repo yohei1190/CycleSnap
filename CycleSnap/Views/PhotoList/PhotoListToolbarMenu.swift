@@ -16,7 +16,6 @@ struct PhotoListToolbarMenu: View {
 
     let category: Category
     @Binding var isLatest: Bool
-    @Binding var isPresentingAlert: Bool
 
     private func sortPhotos(by order: SortOrder) {
         do {
@@ -35,34 +34,20 @@ struct PhotoListToolbarMenu: View {
 
     var body: some View {
         Menu {
-            Menu {
-                Button {
-                    sortPhotos(by: .oldest)
-                } label: {
-                    Text("OldestFirst")
-                    if !isLatest {
-                        Image(systemName: "checkmark")
-                    }
-                }
-                Button {
-                    sortPhotos(by: .latest)
-                } label: {
-                    Text("NewestFirst")
-                    if isLatest {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            } label: {
-                Label("SortOrder", systemImage: "arrow.up.arrow.down")
-            }
-
             Button {
-                withAnimation {
-                    isPresentingAlert = true
-                }
+                sortPhotos(by: .oldest)
             } label: {
-                HStack {
-                    Label("EditCategoryName", systemImage: "square.and.pencil")
+                Text("OldestFirst")
+                if !isLatest {
+                    Image(systemName: "checkmark")
+                }
+            }
+            Button {
+                sortPhotos(by: .latest)
+            } label: {
+                Text("NewestFirst")
+                if isLatest {
+                    Image(systemName: "checkmark")
                 }
             }
         } label: {
@@ -76,8 +61,7 @@ struct PhotoListToolbarMenuToolbarMenu_Previews: PreviewProvider {
     static var previews: some View {
         PhotoListToolbarMenu(
             category: Realm.previewRealm.objects(Category.self).first!,
-            isLatest: .constant(false),
-            isPresentingAlert: .constant(false)
+            isLatest: .constant(false)
         )
     }
 }
