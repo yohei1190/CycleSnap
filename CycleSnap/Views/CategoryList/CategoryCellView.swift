@@ -9,7 +9,7 @@ import RealmSwift
 import SwiftUI
 
 struct CategoryCellView: View {
-    @ObservedRealmObject var category: Category
+    let category: Category
 
     var body: some View {
         HStack(spacing: 12) {
