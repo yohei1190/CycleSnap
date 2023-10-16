@@ -13,11 +13,10 @@ struct ComparisonScreen: View {
     @State private var value: CGFloat = 0
     @State private var comparisonUIImages: [UIImage] = []
 
-    let firstPhoto: Photo
-    let lastPhoto: Photo
-
-    private func setUIImages(_ firstPhoto: Photo, _ lastPhoto: Photo) -> [UIImage] {
-        [firstPhoto, lastPhoto].compactMap { DocumentsFileHelper.loadUIImage(at: $0.path) }
+    init(firstPhoto: Photo, lastPhoto: Photo) {
+        let uiImages = [firstPhoto, lastPhoto].compactMap { DocumentsFileHelper.loadUIImage(at: $0.path)
+        }
+        _comparisonUIImages = State(wrappedValue: uiImages)
     }
 
     var body: some View {
@@ -51,9 +50,6 @@ struct ComparisonScreen: View {
                 .padding(.bottom, 48)
             }
         }
-        .onAppear {
-            comparisonUIImages = setUIImages(firstPhoto, lastPhoto)
-        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("ComparisonScreenTitle")
@@ -65,6 +61,7 @@ struct ComparisonScreen: View {
 
 struct ComparisonScreen_Previews: PreviewProvider {
     static let photos = Realm.previewRealm.objects(Category.self).first!.photos
+
     static var previews: some View {
         NavigationStack {
             ComparisonScreen(

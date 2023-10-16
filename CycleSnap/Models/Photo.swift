@@ -13,8 +13,3 @@ class Photo: Object, ObjectKeyIdentifiable {
     @Persisted var path: String
     @Persisted var captureDate: Date = .init()
 }
-
-struct IndexedPhoto: Identifiable {
-    let id: Int
-    let photo: Photo
-}

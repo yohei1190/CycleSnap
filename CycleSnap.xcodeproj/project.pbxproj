@@ -33,6 +33,7 @@
 		47B1AF012AD39119008A3BD0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 47B1AF002AD39119008A3BD0 /* Algorithms */; };
 		47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */; };
 		47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */; };
+		47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7302ADD706A004DD422 /* PhotoCellView.swift */; };
 		47EA5BE62AD2A336002A6F76 /* ComparisonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
+		47E0D7302ADD706A004DD422 /* PhotoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellView.swift; sourceTree = "<group>"; };
 		47EA5BE52AD2A336002A6F76 /* ComparisonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				475DF8F02AC553E000B96808 /* PhotoListScreen.swift */,
+				47E0D7302ADD706A004DD422 /* PhotoCellView.swift */,
 				475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */,
 				472AC04C2AD2AFB800CD123C /* PhotoCloseUpSheet.swift */,
 			);
@@ -312,6 +315,7 @@
 				475DF8FF2AC9515600B96808 /* CategoryNameAlert.swift in Sources */,
 				4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */,
 				47EA5BE62AD2A336002A6F76 /* ComparisonScreen.swift in Sources */,
+				47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */,
 				4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */,
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
