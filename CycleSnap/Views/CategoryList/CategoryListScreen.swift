@@ -19,6 +19,13 @@ struct CategoryListScreen: View {
         _categoryListVM = StateObject(wrappedValue: categoryListVM)
     }
 
+    private func handleAdd() {
+        withAnimation {
+            selectedCategory = nil
+            isPresentingCategoryNameAlert = true
+        }
+    }
+
     private func handleEdit(category: Category) {
         withAnimation {
             selectedCategory = category
@@ -27,16 +34,13 @@ struct CategoryListScreen: View {
     }
 
     private func handleDelete(category: Category) {
-        withAnimation {
-            selectedCategory = category
-            isPresentingCategoryDeletingAlert = true
-        }
+        selectedCategory = category
+        isPresentingCategoryDeletingAlert = true
     }
 
-    private func handleAdd() {
+    private func closeCategoryNameAlert() {
         withAnimation {
-            selectedCategory = nil
-            isPresentingCategoryNameAlert = true
+            isPresentingCategoryNameAlert = false
         }
     }
 
@@ -91,12 +95,14 @@ struct CategoryListScreen: View {
                 }
             }
             .overlay {
-                CategoryNameAlert(
-                    isPresenting: $isPresentingCategoryNameAlert,
-                    updatingCategory: selectedCategory,
-                    add: categoryListVM.add,
-                    update: categoryListVM.update
-                )
+                if isPresentingCategoryNameAlert {
+                    CategoryNameAlert(
+                        updatingCategory: selectedCategory,
+                        add: categoryListVM.add,
+                        update: categoryListVM.update,
+                        closeAlert: closeCategoryNameAlert
+                    )
+                }
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
