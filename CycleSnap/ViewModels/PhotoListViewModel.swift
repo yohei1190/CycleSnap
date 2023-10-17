@@ -52,9 +52,7 @@ class PhotoListViewModel: ObservableObject {
     private func getAll() {
         let isLatest = category.isLatestFirst
         let results = category.photos.sorted(by: \.captureDate, ascending: !isLatest)
-//        withAnimation {
         photoList = Array(results)
-//        }
     }
 
     func sort(by order: SortOrder) {

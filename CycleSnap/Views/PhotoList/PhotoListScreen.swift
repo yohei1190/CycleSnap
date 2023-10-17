@@ -15,8 +15,6 @@ struct PhotoListScreen: View {
         _photoListVM = StateObject(wrappedValue: PhotoListViewModel(category: category))
     }
 
-    // NOTE: 並び替え時にanimationを追加するため、isLatestをStateとして定義
-    @State private var isLatest = false
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
     @State private var selectedPhoto: Photo?
@@ -51,7 +49,9 @@ struct PhotoListScreen: View {
                         }
 
                     ForEach(photoListVM.photoList) { photo in
-                        PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDelete)
+                        if !photo.isInvalidated {
+                            PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDelete)
+                        }
                     }
                 }
             }
@@ -78,7 +78,10 @@ struct PhotoListScreen: View {
         .navigationTitle(photoListVM.category.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                PhotoListToolbarMenu(isLatest: $isLatest, onSort: photoListVM.sort)
+                PhotoListToolbarMenu(
+                    isLatest: photoListVM.category.isLatestFirst,
+                    onSort: photoListVM.sort
+                )
             }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
@@ -101,9 +104,6 @@ struct PhotoListScreen: View {
         }
         .sheet(item: $selectedPhoto) { photo in
             PhotoCloseUpSheet(photo: photo)
-        }
-        .onAppear {
-            isLatest = photoListVM.category.isLatestFirst
         }
     }
 }

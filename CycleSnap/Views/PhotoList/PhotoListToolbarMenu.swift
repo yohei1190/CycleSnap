@@ -14,30 +14,19 @@ enum SortOrder {
 }
 
 struct PhotoListToolbarMenu: View {
-    @Binding var isLatest: Bool
+    let isLatest: Bool
     let onSort: (SortOrder) -> Void
 
     var body: some View {
         Menu {
-            Button {
-                onSort(.oldest)
-                withAnimation {
-                    isLatest = false
-                }
-            } label: {
+            Button(action: { onSort(.oldest) }) {
                 Text("OldestFirst")
                 if !isLatest {
                     Image(systemName: "checkmark")
                 }
             }
 
-            Button {
-                onSort(.latest)
-                withAnimation {
-                    isLatest = true
-                }
-            } label: {
-                Text("NewestFirst")
+            Button(action: { onSort(.latest) }) { Text("NewestFirst")
                 if isLatest {
                     Image(systemName: "checkmark")
                 }
@@ -52,7 +41,7 @@ struct PhotoListToolbarMenu: View {
 struct PhotoListToolbarMenuToolbarMenu_Previews: PreviewProvider {
     static var previews: some View {
         PhotoListToolbarMenu(
-            isLatest: .constant(true),
+            isLatest: true,
             onSort: { _ in }
         )
     }
