@@ -11,10 +11,25 @@ import RealmSwift
 class CategoryListViewModel: ObservableObject {
     @Published var categoryList: [Category] = []
     private let realm: Realm
+    private var notificationToken: NotificationToken?
 
     init(realm: Realm = try! Realm()) {
         self.realm = realm
         getAll()
+        setupNotifications()
+    }
+
+    private func setupNotifications() {
+        notificationToken = realm.objects(Category.self).observe { [weak self] (changes: RealmCollectionChange) in
+            switch changes {
+            case .update:
+                self?.getAll()
+            case let .error(error):
+                print(error.localizedDescription)
+            default:
+                break
+            }
+        }
     }
 
     private func getAll() {
@@ -36,7 +51,6 @@ class CategoryListViewModel: ObservableObject {
             try realm.write {
                 realm.add(categoryToAdd)
             }
-            getAll()
         } catch {
             print(error.localizedDescription)
         }
@@ -47,7 +61,6 @@ class CategoryListViewModel: ObservableObject {
             try realm.write {
                 category.name = name
             }
-            getAll()
         } catch {
             print(error.localizedDescription)
         }
@@ -64,7 +77,6 @@ class CategoryListViewModel: ObservableObject {
                     categoryToMove.orderIndex = index
                 }
             }
-            getAll()
         } catch {
             print(error.localizedDescription)
         }
@@ -79,10 +91,12 @@ class CategoryListViewModel: ObservableObject {
             }
             // NOTE: Documentsディレクトリの画像フォルダを削除
             try DocumentsFileHelper.remove(at: "photos/" + categoryIdString)
-
-            getAll()
         } catch {
             print(error.localizedDescription)
         }
+    }
+
+    deinit {
+        notificationToken?.invalidate()
     }
 }
