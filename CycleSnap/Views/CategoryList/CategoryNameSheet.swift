@@ -32,44 +32,38 @@ struct CategoryNameSheet: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                TextField("CategoryName", text: $editingCategoryName, onCommit: addOrUpdate)
-                    .frame(minHeight: 44)
-                    .focused($isFocus)
-                    .overlay(alignment: .trailing) {
-                        Button {
-                            editingCategoryName = ""
-                        } label: {
-                            Image(systemName: "x.circle.fill")
-                                .frame(minWidth: 44, minHeight: 44)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .textFieldStyle(.roundedBorder)
+        VStack {
+            // キーボードの1文字目が予測変換対象外になるバグがあるため、NavigationStackを削除してHstackでボタンを配置
+            HStack {
+                Button(action: { dismiss() }) {
+                    Text("Cancel").frame(minWidth: 80, minHeight: 44)
+                }
                 Spacer()
+                Text(updatingCategory != nil ? "RenameCategory" : "NewCategory").bold()
+                Spacer()
+                Button(action: addOrUpdate) {
+                    Text("Save").frame(minWidth: 80, minHeight: 44)
+                }
+                .disabled(trimmedCategoryName.isEmpty)
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { dismiss() }) {
-                        Text("Cancel")
-                            .frame(minWidth: 80, minHeight: 44)
+
+            TextField("CategoryName", text: $editingCategoryName, onCommit: addOrUpdate)
+                .frame(minHeight: 44)
+                .focused($isFocus)
+                .overlay(alignment: .trailing) {
+                    Button {
+                        editingCategoryName = ""
+                    } label: {
+                        Image(systemName: "x.circle.fill")
+                            .frame(minWidth: 44, minHeight: 44)
+                            .foregroundColor(.gray)
                     }
                 }
-                ToolbarItem(placement: .principal) {
-                    Text(updatingCategory != nil ? "RenameCategory" : "NewCategory")
-                        .bold()
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: addOrUpdate) {
-                        Text("Save")
-                            .frame(minWidth: 80, minHeight: 44)
-                    }
-                    .disabled(trimmedCategoryName.isEmpty)
-                }
-            }
+                .textFieldStyle(.roundedBorder)
+
+            Spacer()
         }
+        .padding()
         .onAppear {
             editingCategoryName = ""
             if let updatingCategory {
