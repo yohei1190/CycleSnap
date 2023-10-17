@@ -33,11 +33,10 @@ class CameraViewModel: ObservableObject {
     func save(_ uiImage: UIImage) {
         do {
             let photo = Photo()
-            // Documentsに保存
-            let savedPath = try DocumentsFileHelper.saveImage(uiImage, categoryIDString: category._id.stringValue, photoIDString: photo._id.stringValue)
-            // Realmに保存
-            photo.path = savedPath
 
+            let savedPath = try DocumentsFileHelper.saveImage(uiImage, categoryIDString: category._id.stringValue, photoIDString: photo._id.stringValue)
+
+            photo.path = savedPath
             try realm.write {
                 category.photos.append(photo)
             }

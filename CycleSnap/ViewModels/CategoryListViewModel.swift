@@ -22,8 +22,10 @@ class CategoryListViewModel: ObservableObject {
     private func setupNotifications() {
         notificationToken = realm.objects(Category.self).observe { [weak self] (changes: RealmCollectionChange) in
             switch changes {
-            case .update:
-                self?.getAll()
+            case let .update(_, deletions, _, _):
+                if deletions.isEmpty {
+                    self?.getAll()
+                }
             case let .error(error):
                 print(error.localizedDescription)
             default:
@@ -84,7 +86,10 @@ class CategoryListViewModel: ObservableObject {
 
     func delete(_ category: Category) {
         do {
+            // Viewが削除したcategoryを使用しないように、事前にcategoryListを更新しておく
+            categoryList = categoryList.filter { $0._id != category._id }
             let categoryIdString = category._id.stringValue
+
             try realm.write {
                 realm.delete(category.photos)
                 realm.delete(category)

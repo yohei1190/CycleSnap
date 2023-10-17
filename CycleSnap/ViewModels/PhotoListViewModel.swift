@@ -7,7 +7,6 @@
 
 import Foundation
 import RealmSwift
-import SwiftUI
 
 class PhotoListViewModel: ObservableObject {
     @Published var photoList: [Photo] = []
@@ -25,8 +24,10 @@ class PhotoListViewModel: ObservableObject {
     private func setupNotifications() {
         let photosToken = category.photos.observe { [weak self] (changes: RealmCollectionChange) in
             switch changes {
-            case .update:
-                self?.getAll()
+            case let .update(_, deletions, _, _):
+                if deletions.isEmpty {
+                    self?.getAll()
+                }
             case let .error(error):
                 print(error.localizedDescription)
             default:
@@ -64,56 +65,10 @@ class PhotoListViewModel: ObservableObject {
         }
     }
 
-    //    func add(name: String) {
-    //        let categoryToAdd = Category()
-    //        categoryToAdd.name = name
-    //
-    //        var assignedOrderIndex = 0
-    //        if let categoryWithMaxOrderIndex = categoryList.max(by: { $0.orderIndex < $1.orderIndex }) {
-    //            assignedOrderIndex = categoryWithMaxOrderIndex.orderIndex + 1
-    //        }
-    //        categoryToAdd.orderIndex = assignedOrderIndex
-    //
-    //        do {
-    //            try realm.write {
-    //                realm.add(categoryToAdd)
-    //            }
-    //            getAll()
-    //        } catch {
-    //            print(error.localizedDescription)
-    //        }
-    //    }
-    //
-    //    func update(_ category: Category, name: String) {
-    //        do {
-    //            try realm.write {
-    //                category.name = name
-    //            }
-    //            getAll()
-    //        } catch {
-    //            print(error.localizedDescription)
-    //        }
-    //    }
-    //
-    //    func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
-    //        var revisedCategoryList = categoryList
-    //        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
-    //
-    //        do {
-    //            try realm.write {
-    //                for (index, revisedCategory) in revisedCategoryList.enumerated() {
-    //                    let categoryToMove = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!
-    //                    categoryToMove.orderIndex = index
-    //                }
-    //            }
-    //            getAll()
-    //        } catch {
-    //            print(error.localizedDescription)
-    //        }
-    //    }
-
     func delete(_ photo: Photo) {
         do {
+            photoList = photoList.filter { $0._id != photo._id }
+
             let photoPath = photo.path
             try realm.write {
                 realm.delete(photo)
