@@ -12,7 +12,7 @@ struct CategoryListScreen: View {
     @StateObject private var categoryListVM: CategoryListViewModel
 
     @State private var selectedCategory: Category?
-    @State private var isPresentingCategoryNameAlert = false
+    @State private var isPresentingCategoryNameSheet = false
     @State private var isPresentingCategoryDeletingAlert = false
 
     init(categoryListVM: CategoryListViewModel = CategoryListViewModel()) {
@@ -22,14 +22,14 @@ struct CategoryListScreen: View {
     private func handleAdd() {
         withAnimation {
             selectedCategory = nil
-            isPresentingCategoryNameAlert = true
+            isPresentingCategoryNameSheet = true
         }
     }
 
     private func handleEdit(category: Category) {
         withAnimation {
             selectedCategory = category
-            isPresentingCategoryNameAlert = true
+            isPresentingCategoryNameSheet = true
         }
     }
 
@@ -41,12 +41,6 @@ struct CategoryListScreen: View {
     private func handleDelete(indexSet: IndexSet) {
         selectedCategory = categoryListVM.categoryList[indexSet.first!]
         isPresentingCategoryDeletingAlert = true
-    }
-
-    private func closeCategoryNameAlert() {
-        withAnimation {
-            isPresentingCategoryNameAlert = false
-        }
     }
 
     var body: some View {
@@ -79,7 +73,7 @@ struct CategoryListScreen: View {
             }
             .navigationTitle("Categories")
             .toolbar {
-                if !categoryListVM.categoryList.isEmpty && !isPresentingCategoryNameAlert {
+                if !categoryListVM.categoryList.isEmpty {
                     EditButton()
                 }
             }
@@ -96,15 +90,12 @@ struct CategoryListScreen: View {
                     .padding(.horizontal, 32)
                 }
             }
-            .overlay {
-                if isPresentingCategoryNameAlert {
-                    CategoryNameAlert(
-                        updatingCategory: selectedCategory,
-                        add: categoryListVM.add,
-                        update: categoryListVM.update,
-                        closeAlert: closeCategoryNameAlert
-                    )
-                }
+            .sheet(isPresented: $isPresentingCategoryNameSheet) {
+                CategoryNameSheet(
+                    updatingCategory: selectedCategory,
+                    add: categoryListVM.add,
+                    update: categoryListVM.update
+                )
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
