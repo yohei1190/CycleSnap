@@ -12,12 +12,11 @@ import SwiftUI
 class PhotoListViewModel: ObservableObject {
     @Published var photoList: [Photo] = []
 
-    private let realm: Realm
     let category: Category
+    private let realm: Realm = try! Realm()
     private var notificationTokens: [NotificationToken] = []
 
-    init(category: Category, realm: Realm = try! Realm()) {
-        self.realm = realm
+    init(category: Category) {
         self.category = category
         getAll()
         setupNotifications()

@@ -9,25 +9,9 @@ import RealmSwift
 import SwiftUI
 
 struct CameraPreviewView: View {
-    let cameraService: CameraService
     @Binding var capturedImage: UIImage?
-    @Binding var isPresentingCamera: Bool
-    @ObservedRealmObject var category: Category
-
-    private func save() {
-        guard let capturedImage else { return }
-
-        do {
-            let photo = Photo()
-            // Documentsに保存
-            let savedPath = try DocumentsFileHelper.saveImage(capturedImage, categoryIDString: category._id.stringValue, photoIDString: photo._id.stringValue)
-            // Realmに保存
-            photo.path = savedPath
-            $category.photos.append(photo)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
+    let cameraVM: CameraViewModel
+    let dismiss: () -> Void
 
     var body: some View {
         ZStack {
@@ -50,11 +34,12 @@ struct CameraPreviewView: View {
                     }
                     Spacer()
                     Button {
-                        save()
-
-                        cameraService.stop()
+                        if let capturedImage {
+                            cameraVM.save(capturedImage)
+                        }
+                        cameraVM.stop()
                         capturedImage = nil
-                        isPresentingCamera = false
+                        dismiss()
                     } label: {
                         Text("Save")
                             .frame(minWidth: 44, minHeight: 44)
@@ -70,12 +55,13 @@ struct CameraPreviewView: View {
 }
 
 struct CameraPreviewView_Previews: PreviewProvider {
+    static let category = Realm.previewRealm.objects(Category.self).first!
+
     static var previews: some View {
         CameraPreviewView(
-            cameraService: CameraService(),
             capturedImage: .constant(nil),
-            isPresentingCamera: .constant(true),
-            category: Realm.previewRealm.objects(Category.self).first!
+            cameraVM: CameraViewModel(category: category),
+            dismiss: {}
         )
     }
 }

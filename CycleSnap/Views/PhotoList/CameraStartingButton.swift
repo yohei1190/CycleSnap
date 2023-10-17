@@ -20,7 +20,7 @@ struct CameraStartingButton: View {
                     .font(.title2)
                     .bold()
             }
-            .onTapGesture {}
+            .onTapGesture(perform: onTap)
     }
 }
 

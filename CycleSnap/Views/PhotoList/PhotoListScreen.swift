@@ -93,9 +93,8 @@ struct PhotoListScreen: View {
         }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(
-                isPresentingCamera: $isPresentingCamera,
-                latestPhotoPath: photoListVM.category.photos.last?.path,
-                category: photoListVM.category
+                category: photoListVM.category,
+                latestPhotoPath: photoListVM.category.photos.last?.path
             )
         }
     }
