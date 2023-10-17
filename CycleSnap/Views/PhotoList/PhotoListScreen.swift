@@ -31,22 +31,15 @@ struct PhotoListScreen: View {
         isPresentingDeleteDialog = true
     }
 
+    private func handleTapCameraStartingButton() {
+        isPresentingCamera = true
+    }
+
     var body: some View {
         VStack {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .scaledToFill()
-                        .overlay {
-                            Image(systemName: "plus")
-                                .foregroundColor(.blue)
-                                .font(.title2)
-                                .bold()
-                        }
-                        .onTapGesture {
-                            isPresentingCamera = true
-                        }
+                    CameraStartingButton(onTap: handleTapCameraStartingButton)
 
                     ForEach(photoListVM.photoList) { photo in
                         if !photo.isInvalidated {
@@ -95,15 +88,15 @@ struct PhotoListScreen: View {
                 deletingPhoto = nil
             }
         }
+        .sheet(item: $selectedPhoto) { photo in
+            PhotoCloseUpSheet(photo: photo)
+        }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(
                 isPresentingCamera: $isPresentingCamera,
-                latestPhotoPath: photoListVM.photoList.last?.path,
+                latestPhotoPath: photoListVM.category.photos.last?.path,
                 category: photoListVM.category
             )
-        }
-        .sheet(item: $selectedPhoto) { photo in
-            PhotoCloseUpSheet(photo: photo)
         }
     }
 }

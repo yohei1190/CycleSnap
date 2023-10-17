@@ -67,10 +67,10 @@ class CategoryListViewModel: ObservableObject {
     }
 
     func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
-        var revisedCategoryList = categoryList
-        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
-
         do {
+            var revisedCategoryList = categoryList
+            revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
+
             try realm.write {
                 for (index, revisedCategory) in revisedCategoryList.enumerated() {
                     let categoryToMove = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!

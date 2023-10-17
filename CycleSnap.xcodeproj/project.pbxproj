@@ -26,6 +26,7 @@
 		479963392AC4E585009EDBE2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 479963382AC4E585009EDBE2 /* Realm */; };
 		4799633B2AC4E585009EDBE2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4799633A2AC4E585009EDBE2 /* RealmSwift */; };
 		4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799633D2AC4E6DB009EDBE2 /* Category.swift */; };
+		479BDE872ADE443600109146 /* CameraStartingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479BDE862ADE443600109146 /* CameraStartingButton.swift */; };
 		47A740902ABABF0800C67B1C /* CycleSnapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7408F2ABABF0800C67B1C /* CycleSnapApp.swift */; };
 		47A740922ABABF0800C67B1C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A740912ABABF0800C67B1C /* ContentView.swift */; };
 		47A740942ABABF0C00C67B1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740932ABABF0C00C67B1C /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		478D8B482AD00E78007E4007 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardAndForwardButton.swift; sourceTree = "<group>"; };
 		4799633D2AC4E6DB009EDBE2 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		479BDE862ADE443600109146 /* CameraStartingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStartingButton.swift; sourceTree = "<group>"; };
 		47A7408C2ABABF0800C67B1C /* CycleSnap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CycleSnap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A7408F2ABABF0800C67B1C /* CycleSnapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleSnapApp.swift; sourceTree = "<group>"; };
 		47A740912ABABF0800C67B1C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				47E0D7302ADD706A004DD422 /* PhotoCellView.swift */,
 				475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */,
 				472AC04C2AD2AFB800CD123C /* PhotoCloseUpSheet.swift */,
+				479BDE862ADE443600109146 /* CameraStartingButton.swift */,
 			);
 			path = PhotoList;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				472AC04D2AD2AFB800CD123C /* PhotoCloseUpSheet.swift in Sources */,
 				473A31692ACD1D3E004F5626 /* CameraPreviewView.swift in Sources */,
 				475DF8FD2AC6A06C00B96808 /* DocumentsFileHelper.swift in Sources */,
+				479BDE872ADE443600109146 /* CameraStartingButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

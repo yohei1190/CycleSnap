@@ -38,6 +38,11 @@ struct CategoryListScreen: View {
         isPresentingCategoryDeletingAlert = true
     }
 
+    private func handleDelete(indexSet: IndexSet) {
+        selectedCategory = categoryListVM.categoryList[indexSet.first!]
+        isPresentingCategoryDeletingAlert = true
+    }
+
     private func closeCategoryNameAlert() {
         withAnimation {
             isPresentingCategoryNameAlert = false
@@ -57,17 +62,14 @@ struct CategoryListScreen: View {
                             }
                         }
                     }
-                    .onDelete { indexSet in
-                        selectedCategory = categoryListVM.categoryList[indexSet.first!]
-                        isPresentingCategoryDeletingAlert = true
-                    }
+                    .onDelete(perform: handleDelete)
                     .onMove(perform: categoryListVM.move)
                 }
                 .listStyle(.plain)
 
                 HStack {
                     Spacer()
-                    Button(action: { handleAdd() }) {
+                    Button(action: handleAdd) {
                         Label("AddCategory", systemImage: "plus.circle.fill")
                             .frame(minWidth: 44, minHeight: 44)
                     }
