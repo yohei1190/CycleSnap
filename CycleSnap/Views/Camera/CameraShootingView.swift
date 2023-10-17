@@ -10,18 +10,23 @@ import RealmSwift
 import SwiftUI
 
 struct CameraShootingView: View {
-    @Binding var isPresentingCamera: Bool
+    @Environment(\.dismiss) private var dismiss
+
+    @StateObject private var cameraVM: CameraViewModel
     @State private var capturedImage: UIImage?
     @State private var overlayOpacity: CGFloat = 0.5
-    @State private var isPresentingAlert = false
+    @State private var isPresentingSettingAlert = false
 
     let latestPhotoPath: String?
-    private let cameraService = CameraService()
-    @ObservedRealmObject var category: Category
+
+    init(category: Category, latestPhotoPath: String?) {
+        _cameraVM = StateObject(wrappedValue: CameraViewModel(category: category))
+        self.latestPhotoPath = latestPhotoPath
+    }
 
     var body: some View {
         ZStack {
-            ImagePickerView(cameraService: cameraService) { result in
+            ImagePickerView(cameraService: cameraVM.cameraService) { result in
                 switch result {
                 case let .success(photo):
                     if let data = photo.fileDataRepresentation() {
@@ -34,7 +39,9 @@ struct CameraShootingView: View {
                 }
             }
 
-            if let latestPhotoPath, let uiImage = DocumentsFileHelper.loadUIImage(at: latestPhotoPath) {
+            if let latestPhotoPath,
+               let uiImage = DocumentsFileHelper.loadUIImage(at: latestPhotoPath)
+            {
                 Image(uiImage: uiImage)
                     .resizeFourThreeAspectRatio()
                     .opacity(overlayOpacity)
@@ -43,8 +50,8 @@ struct CameraShootingView: View {
             VStack {
                 HStack {
                     Button {
-                        cameraService.stop()
-                        isPresentingCamera = false
+                        cameraVM.stop()
+                        dismiss()
                     } label: {
                         Text("Cancel")
                             .frame(minWidth: 44, minHeight: 44)
@@ -52,9 +59,7 @@ struct CameraShootingView: View {
 
                     Spacer()
 
-                    Button {
-                        cameraService.switchCamera()
-                    } label: {
+                    Button(action: cameraVM.switchPosition) {
                         Image(systemName: "arrow.triangle.2.circlepath.camera")
                             .frame(minWidth: 44, minHeight: 44)
                     }
@@ -72,9 +77,7 @@ struct CameraShootingView: View {
 
                 HStack {
                     Spacer()
-                    Button {
-                        cameraService.capturePhoto()
-                    } label: {
+                    Button(action: cameraVM.capture) {
                         ZStack {
                             Circle()
                                 .fill(.white)
@@ -93,28 +96,28 @@ struct CameraShootingView: View {
         .ignoresSafeArea()
         .overlay {
             if capturedImage != nil {
-                CameraPreviewView(cameraService: cameraService, capturedImage: $capturedImage, isPresentingCamera: $isPresentingCamera, category: category)
+                CameraPreviewView(
+                    capturedImage: $capturedImage,
+                    cameraVM: cameraVM,
+                    dismiss: { dismiss() }
+                )
             }
         }
         .onAppear {
             let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
             if authorizationStatus == .notDetermined {
                 // 初回確認時にdeniedを選択された場合、カメラ画面を閉じる
-                cameraService.closeCameraView = {
-                    isPresentingCamera = false
-                }
+                cameraVM.cameraService.closeCameraView = { dismiss() }
             } else if authorizationStatus == .denied {
                 // denied状態でカメラ画面に再アクセスされた場合、設定画面に飛ばすアラートを出す
-                isPresentingAlert = true
+                isPresentingSettingAlert = true
             }
         }
-        .alert("CameraPermissionAlertTitle", isPresented: $isPresentingAlert) {
+        .alert("CameraPermissionAlertTitle", isPresented: $isPresentingSettingAlert) {
             Button("GoToSettings") {
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
-            Button("Cancel", role: .cancel) {
-                isPresentingCamera = false
-            }
+            Button("Cancel", role: .cancel, action: { dismiss() })
         } message: {
             Text("CameraPermissionAlertMessage")
         }
@@ -124,9 +127,8 @@ struct CameraShootingView: View {
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
         CameraShootingView(
-            isPresentingCamera: .constant(true),
-            latestPhotoPath: nil,
-            category: Realm.previewRealm.objects(Category.self).first!
+            category: Realm.previewRealm.objects(Category.self).first!,
+            latestPhotoPath: nil
         )
     }
 }

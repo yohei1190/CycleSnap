@@ -9,45 +9,43 @@ import RealmSwift
 import SwiftUI
 
 struct CategoryListScreen: View {
-    @ObservedResults(Category.self, sortDescriptor: SortDescriptor(keyPath: "orderIndex", ascending: true)) var categoryList
+    @StateObject private var categoryListVM: CategoryListViewModel
 
     @State private var selectedCategory: Category?
     @State private var isPresentingCategoryNameAlert = false
     @State private var isPresentingCategoryDeletingAlert = false
 
-    private func move(from sourceIndices: IndexSet, to destinationIndex: Int) {
-        var revisedCategoryList: [Category] = categoryList.map { $0 }
-        revisedCategoryList.move(fromOffsets: sourceIndices, toOffset: destinationIndex)
+    init(categoryListVM: CategoryListViewModel = CategoryListViewModel()) {
+        _categoryListVM = StateObject(wrappedValue: categoryListVM)
+    }
 
-        do {
-            let realm = try Realm()
-            try realm.write {
-                for (index, revisedCategory) in revisedCategoryList.enumerated() {
-                    let category = realm.object(ofType: Category.self, forPrimaryKey: revisedCategory._id)!
-                    category.orderIndex = index
-                }
-            }
-        } catch {
-            print(error.localizedDescription)
+    private func handleAdd() {
+        withAnimation {
+            selectedCategory = nil
+            isPresentingCategoryNameAlert = true
         }
     }
 
-    private func delete() {
-        guard let selectedCategory else { return }
+    private func handleEdit(category: Category) {
+        withAnimation {
+            selectedCategory = category
+            isPresentingCategoryNameAlert = true
+        }
+    }
 
-        do {
-            let realm = try Realm()
-            try realm.write {
-                // NOTE: RealmDBからオブジェクトを削除
-                let categoryObject = realm.object(ofType: Category.self, forPrimaryKey: selectedCategory._id)!
-                realm.delete(categoryObject.photos)
-                realm.delete(categoryObject)
+    private func handleDelete(category: Category) {
+        selectedCategory = category
+        isPresentingCategoryDeletingAlert = true
+    }
 
-                // NOTE: Documentsディレクトリの画像フォルダを削除
-                try DocumentsFileHelper.remove(at: "photos/" + selectedCategory._id.stringValue)
-            }
-        } catch {
-            print(error.localizedDescription)
+    private func handleDelete(indexSet: IndexSet) {
+        selectedCategory = categoryListVM.categoryList[indexSet.first!]
+        isPresentingCategoryDeletingAlert = true
+    }
+
+    private func closeCategoryNameAlert() {
+        withAnimation {
+            isPresentingCategoryNameAlert = false
         }
     }
 
@@ -55,52 +53,23 @@ struct CategoryListScreen: View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(categoryList) { category in
-                        NavigationLink {
-                            PhotoListScreen(category: category)
-                        } label: {
-                            CategoryCellView(category: category)
-                                .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
-                                .contextMenu {
-                                    Button {
-                                        withAnimation {
-                                            selectedCategory = category
-                                            isPresentingCategoryNameAlert = true
-                                        }
-                                    } label: {
-                                        HStack {
-                                            Label("EditCategoryName", systemImage: "square.and.pencil")
-                                        }
-                                    }
-                                    Button(role: .destructive) {
-                                        withAnimation {
-                                            selectedCategory = category
-                                            isPresentingCategoryDeletingAlert = true
-                                        }
-                                    } label: {
-                                        HStack {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
-                                }
+                    ForEach(categoryListVM.categoryList) { category in
+                        if !category.isInvalidated {
+                            NavigationLink {
+                                PhotoListScreen(category: category)
+                            } label: {
+                                CategoryCellView(category: category, onEdit: handleEdit, onDelete: handleDelete)
+                            }
                         }
                     }
-                    .onDelete { indexSet in
-                        selectedCategory = categoryList[indexSet.first!]
-                        isPresentingCategoryDeletingAlert = true
-                    }
-                    .onMove(perform: move)
+                    .onDelete(perform: handleDelete)
+                    .onMove(perform: categoryListVM.move)
                 }
                 .listStyle(.plain)
 
                 HStack {
                     Spacer()
-                    Button {
-                        withAnimation {
-                            selectedCategory = nil
-                            isPresentingCategoryNameAlert = true
-                        }
-                    } label: {
+                    Button(action: handleAdd) {
                         Label("AddCategory", systemImage: "plus.circle.fill")
                             .frame(minWidth: 44, minHeight: 44)
                     }
@@ -110,12 +79,12 @@ struct CategoryListScreen: View {
             }
             .navigationTitle("Categories")
             .toolbar {
-                if !categoryList.isEmpty && !isPresentingCategoryNameAlert {
+                if !categoryListVM.categoryList.isEmpty && !isPresentingCategoryNameAlert {
                     EditButton()
                 }
             }
             .overlay {
-                if categoryList.isEmpty {
+                if categoryListVM.categoryList.isEmpty {
                     VStack(spacing: 12) {
                         Text("EmptyCategory")
                             .font(.title)
@@ -128,11 +97,20 @@ struct CategoryListScreen: View {
                 }
             }
             .overlay {
-                CategoryNameAlert(isPresenting: $isPresentingCategoryNameAlert, existingCategory: selectedCategory)
+                if isPresentingCategoryNameAlert {
+                    CategoryNameAlert(
+                        updatingCategory: selectedCategory,
+                        add: categoryListVM.add,
+                        update: categoryListVM.update,
+                        closeAlert: closeCategoryNameAlert
+                    )
+                }
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive) {
-                    delete()
+                    if let selectedCategory {
+                        categoryListVM.delete(selectedCategory)
+                    }
                     selectedCategory = nil
                 }
             } message: {
@@ -144,7 +122,6 @@ struct CategoryListScreen: View {
 
 struct CategoryListScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryListScreen()
-            .environment(\.realm, Realm.previewRealm)
+        CategoryListScreen(categoryListVM: CategoryListViewModel(realm: Realm.previewRealm))
     }
 }

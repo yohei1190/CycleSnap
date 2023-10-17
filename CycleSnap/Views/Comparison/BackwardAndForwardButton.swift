@@ -13,10 +13,10 @@ struct BackwardAndForwardButton: View {
     let generator = UISelectionFeedbackGenerator()
 
     var body: some View {
-        Button(action: {
+        Button {
             action()
             generator.selectionChanged()
-        }) {
+        } label: {
             Image(systemName: symbolName)
                 .frame(width: 44, height: 44)
                 .background(Circle().fill(.white.opacity(0.15)))

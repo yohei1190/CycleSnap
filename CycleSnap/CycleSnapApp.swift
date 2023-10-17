@@ -13,9 +13,6 @@ struct CycleSnapApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // TODO: debug用のパスは最後に削除する
-            let _ = print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
-
             ContentView()
         }
     }
