@@ -32,8 +32,8 @@ struct PhotoListToolbarMenu: View {
                 }
             }
         } label: {
-            Image(systemName: "ellipsis.circle")
-                .font(.title2)
+            Image(systemName: "arrow.up.arrow.down.circle")
+                .font(.title3)
         }
     }
 }
