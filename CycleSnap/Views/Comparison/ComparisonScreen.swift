@@ -20,42 +20,33 @@ struct ComparisonScreen: View {
     }
 
     var body: some View {
-        ZStack {
-            Color(.black).ignoresSafeArea()
-
-            VStack(spacing: 24) {
-                ZStack {
-                    ForEach(comparisonUIImages.indexed(), id: \.element) { index, uiImage in
-                        Image(uiImage: uiImage)
-                            .resizeFourThreeAspectRatio()
-                            .opacity(index == 0 ? 1 : value)
-                    }
+        VStack(spacing: 20) {
+            ZStack {
+                ForEach(comparisonUIImages.indexed(), id: \.element) { index, uiImage in
+                    Image(uiImage: uiImage)
+                        .resizeFourThreeAspectRatio()
+                        .opacity(index == 0 ? 1 : value)
                 }
+            }
 
-                VStack(spacing: 24) {
-                    Slider(value: $value, in: 0 ... 1, step: 0.1)
-                        .tint(.white)
-                    HStack(spacing: 60) {
-                        BackwardAndForwardButton(
-                            action: { value = 0 },
-                            symbolName: "chevron.backward.2"
-                        )
-                        BackwardAndForwardButton(
-                            action: { value = 1 },
-                            symbolName: "chevron.forward.2"
-                        )
-                    }
+            VStack(spacing: 20) {
+                Slider(value: $value, in: 0 ... 1, step: 0.1)
+                    .tint(.primary)
+                HStack(spacing: 60) {
+                    BackwardAndForwardButton(
+                        onTap: { value = 0 },
+                        symbolName: "arrow.left.circle.fill"
+                    )
+                    BackwardAndForwardButton(
+                        onTap: { value = 1 },
+                        symbolName: "arrow.right.circle.fill"
+                    )
                 }
-                .padding(.horizontal, 32)
-                .padding(.bottom, 48)
             }
+            .padding(.horizontal, 40)
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("ComparisonScreenTitle")
-                    .foregroundColor(.white)
-            }
-        }
+        .navigationTitle("ComparisonScreenTitle")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

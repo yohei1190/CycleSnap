@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct BackwardAndForwardButton: View {
-    let action: () -> Void
+    let onTap: () -> Void
     let symbolName: String
     let generator = UISelectionFeedbackGenerator()
 
     var body: some View {
         Button {
-            action()
+            onTap()
             generator.selectionChanged()
         } label: {
             Image(systemName: symbolName)
-                .frame(width: 44, height: 44)
-                .background(Circle().fill(.white.opacity(0.15)))
-                .foregroundColor(.white)
-                .font(.title2)
+                .foregroundColor(.primary)
+                .font(.system(size: 44))
         }
     }
 }
@@ -29,10 +27,9 @@ struct BackwardAndForwardButton: View {
 struct BackwardAndForwardButton_Previews: PreviewProvider {
     static var previews: some View {
         BackwardAndForwardButton(
-            action: {},
-            symbolName: "chevron.backward.2"
+            onTap: {},
+            symbolName: "arrow.left.circle.fill"
         )
-        .background(.black)
         .previewLayout(.sizeThatFits)
     }
 }
