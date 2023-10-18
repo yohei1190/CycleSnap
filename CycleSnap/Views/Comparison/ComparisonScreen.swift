@@ -21,6 +21,11 @@ struct ComparisonScreen: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            HStack {
+                Text("ComparisonScreenTitle")
+                    .font(.title3)
+            }
+
             ZStack {
                 ForEach(comparisonUIImages.indexed(), id: \.element) { index, uiImage in
                     Image(uiImage: uiImage)
@@ -45,8 +50,8 @@ struct ComparisonScreen: View {
             }
             .padding(.horizontal, 40)
         }
-        .navigationTitle("ComparisonScreenTitle")
-        .navigationBarTitleDisplayMode(.inline)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("accentBackgroundColor"))
     }
 }
 
@@ -54,11 +59,9 @@ struct ComparisonScreen_Previews: PreviewProvider {
     static let photos = Realm.previewRealm.objects(Category.self).first!.photos
 
     static var previews: some View {
-        NavigationStack {
-            ComparisonScreen(
-                firstPhoto: photos.first!,
-                lastPhoto: photos.last!
-            )
-        }
+        ComparisonScreen(
+            firstPhoto: photos.first!,
+            lastPhoto: photos.last!
+        )
     }
 }

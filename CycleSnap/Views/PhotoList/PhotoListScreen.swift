@@ -17,6 +17,7 @@ struct PhotoListScreen: View {
 
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
+    @State private var isPresentingComparison = false
     @State private var selectedPhoto: Photo?
     @State private var deletingPhoto: Photo?
 
@@ -36,7 +37,7 @@ struct PhotoListScreen: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
                     CameraStartingButton(onTap: handleTapCameraStartingButton)
@@ -51,21 +52,9 @@ struct PhotoListScreen: View {
             Spacer()
 
             if photoListVM.photoList.count >= 2 {
-                HStack {
-                    NavigationLink {
-                        ComparisonScreen(
-                            firstPhoto: photoListVM.photoList.first!,
-                            lastPhoto: photoListVM.photoList.last!
-                        )
-                    } label: {
-                        Label("ToComparisonScreenLabel", systemImage: "photo.stack.fill")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(RoundedRectangle(cornerRadius: 40).fill(.blue))
-                            .shadow(radius: 4)
-                    }
+                ComparisonSheetButton {
+                    isPresentingComparison = true
                 }
-                .padding(.bottom)
             }
         }
         .navigationTitle(photoListVM.category.name)
@@ -86,6 +75,17 @@ struct PhotoListScreen: View {
             }
             Button("Cancel", role: .cancel) {
                 deletingPhoto = nil
+            }
+        }
+        .sheet(isPresented: $isPresentingComparison) {
+            if let firstPhoto = photoListVM.photoList.first,
+               let lastPhoto = photoListVM.photoList.last
+            {
+                ComparisonScreen(
+                    firstPhoto: firstPhoto,
+                    lastPhoto: lastPhoto
+                )
+                .presentationDragIndicator(.visible)
             }
         }
         .sheet(item: $selectedPhoto) { photo in
