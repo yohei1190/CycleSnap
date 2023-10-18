@@ -42,7 +42,7 @@ struct PhotoDetailSheet: View {
 
             Label("\(selection + 1) / \(photoList.count)", systemImage: "photo.stack")
         }
-        .padding(.vertical)
+        .padding(.vertical, 40)
     }
 }
 
