@@ -20,41 +20,37 @@ struct PhotoCellView: View {
     }
 
     var body: some View {
-        Group {
-            if let loadedImage {
-                Image(uiImage: loadedImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: screenWidth / 3, height: screenWidth / 3)
-                    .clipped()
-                    .overlay(alignment: .bottomTrailing) {
-                        Text(photo.captureDate, style: .date)
-                            .font(.caption2)
-                            .foregroundColor(.white)
-                            .background(.black.opacity(0.4))
-                    }
-                    .contextMenu {
-                        Button(role: .destructive, action: { onDelete(photo) }) {
-                            Label("Delete", systemImage: "trash")
-                        }
-                    }
-            } else {
-                ZStack {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: screenWidth / 3, height: screenWidth / 3)
-                    ProgressView()
+        AsyncImage(url: DocumentsFileHelper.getURL(at: photo.path)) { image in
+            image
+                .resizable()
+                .scaledToFill()
+                .frame(width: screenWidth / 3, height: screenWidth / 3)
+                .clipped()
+                .overlay(alignment: .bottomTrailing) {
+                    Text(photo.captureDate, style: .date)
+                        .font(.caption2)
+                        .foregroundColor(.white)
+                        .background(.black.opacity(0.4))
                 }
+                .contextMenu {
+                    Button(role: .destructive, action: { onDelete(photo) }) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
+        } placeholder: {
+            ZStack {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: screenWidth / 3, height: screenWidth / 3)
+                ProgressView()
             }
-        }
-        .task {
-            loadedImage = await loadUIImageAsync(at: photo.path)
         }
     }
 }
 
 struct PhotoCellView_Previews: PreviewProvider {
     static let photo = Realm.previewRealm.objects(Category.self).first!.photos.first!
+
     static var previews: some View {
         PhotoCellView(photo: photo, onDelete: { _ in })
     }
