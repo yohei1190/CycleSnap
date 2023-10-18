@@ -5,6 +5,7 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
+import Algorithms
 import RealmSwift
 import SwiftUI
 
@@ -18,14 +19,9 @@ struct PhotoListScreen: View {
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
     @State private var isPresentingComparison = false
-    @State private var selectedPhoto: Photo?
     @State private var deletingPhoto: Photo?
 
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
-
-    private func handleTap(photo: Photo) {
-        selectedPhoto = photo
-    }
 
     private func handleDelete(photo: Photo) {
         deletingPhoto = photo
@@ -42,9 +38,13 @@ struct PhotoListScreen: View {
                 LazyVGrid(columns: columns, spacing: 4) {
                     CameraStartingButton(onTap: handleTapCameraStartingButton)
 
-                    ForEach(photoListVM.photoList) { photo in
+                    ForEach(photoListVM.photoList.indexed(), id: \.element) { index, photo in
                         if !photo.isInvalidated {
-                            PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDelete)
+                            NavigationLink {
+                                PhotoDetailScreen(selection: index, photoList: photoListVM.photoList)
+                            } label: {
+                                PhotoCellView(photo: photo, onDelete: handleDelete)
+                            }
                         }
                     }
                 }
@@ -87,9 +87,6 @@ struct PhotoListScreen: View {
                 )
                 .presentationDragIndicator(.visible)
             }
-        }
-        .sheet(item: $selectedPhoto) { photo in
-            PhotoCloseUpSheet(photo: photo)
         }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(

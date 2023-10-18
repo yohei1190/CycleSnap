@@ -22,7 +22,7 @@ enum FileError: LocalizedError {
 enum DocumentsFileHelper {
     private static let photosFolderName = "photos"
 
-    private static func getURL(at relativePath: String) -> URL {
+    static func getURL(at relativePath: String) -> URL {
         URL.documentsDirectory.appendingPathComponent(relativePath)
     }
 
