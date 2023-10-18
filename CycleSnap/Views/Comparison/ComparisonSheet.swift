@@ -1,5 +1,5 @@
 //
-//  ComparisonScreen.swift
+//  ComparisonSheet.swift
 //  CycleSnap
 //
 //  Created by yohei shimizu on 2023/10/08.
@@ -9,7 +9,7 @@ import Algorithms
 import RealmSwift
 import SwiftUI
 
-struct ComparisonScreen: View {
+struct ComparisonSheet: View {
     @State private var value: CGFloat = 0
     @State private var comparisonUIImages: [UIImage] = []
 
@@ -55,11 +55,11 @@ struct ComparisonScreen: View {
     }
 }
 
-struct ComparisonScreen_Previews: PreviewProvider {
+struct ComparisonSheet_Previews: PreviewProvider {
     static let photos = Realm.previewRealm.objects(Category.self).first!.photos
 
     static var previews: some View {
-        ComparisonScreen(
+        ComparisonSheet(
             firstPhoto: photos.first!,
             lastPhoto: photos.last!
         )

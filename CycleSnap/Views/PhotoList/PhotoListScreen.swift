@@ -81,7 +81,7 @@ struct PhotoListScreen: View {
             if let firstPhoto = photoListVM.photoList.first,
                let lastPhoto = photoListVM.photoList.last
             {
-                ComparisonScreen(
+                ComparisonSheet(
                     firstPhoto: firstPhoto,
                     lastPhoto: lastPhoto
                 )
