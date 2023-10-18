@@ -17,16 +17,13 @@ struct PhotoListScreen: View {
 
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
-    @State private var selectedPhoto: Photo?
+    @State private var isPresentingComparison = false
     @State private var deletingPhoto: Photo?
+    @State private var selectedPhoto: Photo?
 
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
-    private func handleTap(photo: Photo) {
-        selectedPhoto = photo
-    }
-
-    private func handleDelete(photo: Photo) {
+    private func handleDelete(_ photo: Photo) {
         deletingPhoto = photo
         isPresentingDeleteDialog = true
     }
@@ -35,15 +32,21 @@ struct PhotoListScreen: View {
         isPresentingCamera = true
     }
 
+    private func handleTapComparisonButton() {
+        isPresentingComparison = true
+    }
+
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
                     CameraStartingButton(onTap: handleTapCameraStartingButton)
 
                     ForEach(photoListVM.photoList) { photo in
                         if !photo.isInvalidated {
-                            PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDelete)
+                            Button(action: { selectedPhoto = photo }) {
+                                PhotoCellView(photo: photo, onDelete: handleDelete)
+                            }
                         }
                     }
                 }
@@ -51,21 +54,7 @@ struct PhotoListScreen: View {
             Spacer()
 
             if photoListVM.photoList.count >= 2 {
-                HStack {
-                    NavigationLink {
-                        ComparisonScreen(
-                            firstPhoto: photoListVM.photoList.first!,
-                            lastPhoto: photoListVM.photoList.last!
-                        )
-                    } label: {
-                        Label("ToComparisonScreenLabel", systemImage: "photo.stack.fill")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(RoundedRectangle(cornerRadius: 40).fill(.blue))
-                            .shadow(radius: 4)
-                    }
-                }
-                .padding(.bottom)
+                ComparisonSheetButton(onTap: handleTapComparisonButton)
             }
         }
         .navigationTitle(photoListVM.category.name)
@@ -89,7 +78,19 @@ struct PhotoListScreen: View {
             }
         }
         .sheet(item: $selectedPhoto) { photo in
-            PhotoCloseUpSheet(photo: photo)
+            PhotoDetailSheet(photo: photo, photoList: photoListVM.photoList)
+                .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $isPresentingComparison) {
+            if let firstPhoto = photoListVM.photoList.first,
+               let lastPhoto = photoListVM.photoList.last
+            {
+                ComparisonSheet(
+                    firstPhoto: firstPhoto,
+                    lastPhoto: lastPhoto
+                )
+                .presentationDragIndicator(.visible)
+            }
         }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(
