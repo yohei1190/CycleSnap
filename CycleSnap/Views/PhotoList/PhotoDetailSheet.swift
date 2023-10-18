@@ -1,5 +1,5 @@
 //
-//  PhotoDetailScreen.swift
+//  PhotoDetailSheet.swift
 //  CycleSnap
 //
 //  Created by yohei shimizu on 2023/10/08.
@@ -9,12 +9,13 @@ import Algorithms
 import RealmSwift
 import SwiftUI
 
-struct PhotoDetailScreen: View {
+struct PhotoDetailSheet: View {
     @State private var selection: Int
     let photoList: [Photo]
 
-    init(selection: Int, photoList: [Photo]) {
-        _selection = State(wrappedValue: selection)
+    init(photo: Photo, photoList: [Photo]) {
+        let selectedPhotoIndex = photoList.firstIndex(of: photo)!
+        _selection = State(wrappedValue: selectedPhotoIndex)
         self.photoList = photoList
     }
 
@@ -40,17 +41,15 @@ struct PhotoDetailScreen: View {
             Spacer()
 
             Label("\(selection + 1) / \(photoList.count)", systemImage: "photo.stack")
-                .font(.title3)
         }
+        .padding(.vertical)
     }
 }
 
-struct PhotoCloseUpSheet_Previews: PreviewProvider {
+struct PhotoDetailSheet_Previews: PreviewProvider {
     static let photoList = Realm.previewRealm.objects(Category.self).first!.photos
 
     static var previews: some View {
-        NavigationStack {
-            PhotoDetailScreen(selection: 2, photoList: Array(photoList))
-        }
+        PhotoDetailSheet(photo: photoList.first!, photoList: Array(photoList))
     }
 }

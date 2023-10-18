@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
-import Algorithms
 import RealmSwift
 import SwiftUI
 
@@ -20,10 +19,11 @@ struct PhotoListScreen: View {
     @State private var isPresentingCamera = false
     @State private var isPresentingComparison = false
     @State private var deletingPhoto: Photo?
+    @State private var selectedPhoto: Photo?
 
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
-    private func handleDelete(photo: Photo) {
+    private func handleDelete(_ photo: Photo) {
         deletingPhoto = photo
         isPresentingDeleteDialog = true
     }
@@ -32,17 +32,19 @@ struct PhotoListScreen: View {
         isPresentingCamera = true
     }
 
+    private func handleTapComparisonButton() {
+        isPresentingComparison = true
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
                     CameraStartingButton(onTap: handleTapCameraStartingButton)
 
-                    ForEach(photoListVM.photoList.indexed(), id: \.element) { index, photo in
+                    ForEach(photoListVM.photoList) { photo in
                         if !photo.isInvalidated {
-                            NavigationLink {
-                                PhotoDetailScreen(selection: index, photoList: photoListVM.photoList)
-                            } label: {
+                            Button(action: { selectedPhoto = photo }) {
                                 PhotoCellView(photo: photo, onDelete: handleDelete)
                             }
                         }
@@ -52,9 +54,7 @@ struct PhotoListScreen: View {
             Spacer()
 
             if photoListVM.photoList.count >= 2 {
-                ComparisonSheetButton {
-                    isPresentingComparison = true
-                }
+                ComparisonSheetButton(onTap: handleTapComparisonButton)
             }
         }
         .navigationTitle(photoListVM.category.name)
@@ -76,6 +76,10 @@ struct PhotoListScreen: View {
             Button("Cancel", role: .cancel) {
                 deletingPhoto = nil
             }
+        }
+        .sheet(item: $selectedPhoto) { photo in
+            PhotoDetailSheet(photo: photo, photoList: photoListVM.photoList)
+                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $isPresentingComparison) {
             if let firstPhoto = photoListVM.photoList.first,
