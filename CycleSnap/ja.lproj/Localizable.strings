@@ -11,6 +11,7 @@
 "Save" = "保存";
 "Close" = "閉じる";
 "Delete" = "削除";
+"Back" = "戻る";
 
 // CategoryNameAlert
 "RenameCategory" = "カテゴリー名変更";
@@ -27,8 +28,11 @@
 "CategoryDeletingAlertMessage" = "この操作によりこのカテゴリーにある写真がすべて削除されます";
 
 // PhotoListScreen
+// PhotoListTab
 "DeletePhoto" = "写真を削除";
-"ToComparisonScreenLabel" = "新旧写真を比較";
+"PhotoListPickerLabel" = "写真一覧";
+"PhotoComparisonPickerLabel" = "写真を比較";
+
 
 // PhotoListToolbarMenu
 "OldestFirst" = "古い順";

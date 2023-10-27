@@ -11,6 +11,7 @@
 "Save" = "Save";
 "Close" = "Close";
 "Delete" = "Delete";
+"Back" = "Back";
 
 // CategoryNameAlert
 "RenameCategory" = "Rename Category";
@@ -27,8 +28,10 @@
 "CategoryDeletingAlertMessage" = "This action will delete all photos in this category.";
 
 // PhotoListScreen
+// PhotoListTab
 "DeletePhoto" = "Delete Photo";
-"ToComparisonScreenLabel" = "Compare Old and New Photos";
+"PhotoListPickerLabel" = "Photo list";
+"PhotoComparisonPickerLabel" = "Photo Comparison";
 
 // PhotoListToolbarMenu
 "OldestFirst" = "Oldest First";

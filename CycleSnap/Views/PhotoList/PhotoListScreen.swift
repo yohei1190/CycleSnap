@@ -8,14 +8,9 @@
 import SwiftUI
 
 struct PhotoListScreen: View {
-    @StateObject var photoListVM: PhotoListViewModel
     @Environment(\.dismiss) private var dismiss
+    @StateObject var photoListVM: PhotoListViewModel
 
-    @State private var isPresentingDeleteDialog = false
-    @State private var isPresentingCamera = false
-    @State private var isPresentingComparison = false
-    @State private var deletingPhoto: Photo?
-    @State private var selectedPhoto: Photo?
     @State private var selectedTab = "photoListTab"
 
     init(category: Category) {
@@ -26,40 +21,18 @@ struct PhotoListScreen: View {
         photoListVM.photoList
     }
 
-    private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
-
-    private func handleTap(_ photo: Photo) {
-        selectedPhoto = photo
-    }
-
-    private func handleDeleteConfirmation(_ photo: Photo) {
-        deletingPhoto = photo
-        isPresentingDeleteDialog = true
-    }
-
-    private func handleDelete() {
-        if let deletingPhoto {
-            photoListVM.delete(deletingPhoto)
-        }
-        deletingPhoto = nil
-    }
-
-    private func handleTapCameraStartingButton() {
-        isPresentingCamera = true
-    }
-
     var body: some View {
         NavigationStack {
             VStack {
                 Picker("", selection: $selectedTab) {
-                    Text("Photo List").tag("photoListTab")
-                    Text("Photo Comparison").tag("photoComparisonTab")
+                    Text("PhotoListPickerLabel").tag("photoListTab")
+                    Text("PhotoComparisonPickerLabel").tag("photoComparisonTab")
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
                 TabView(selection: $selectedTab) {
-                    PhotoListTab()
+                    PhotoListTab(photoListVM: photoListVM)
                         .tag("photoListTab")
 
                     PhotoComparisonTab()
@@ -71,6 +44,15 @@ struct PhotoListScreen: View {
             }
             .navigationTitle(photoListVM.category.name)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.backward")
+                                .bold()
+                            Text("Back")
+                        }
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     PhotoListToolbarMenu(
                         isLatest: photoListVM.category.isLatestFirst,
@@ -78,24 +60,6 @@ struct PhotoListScreen: View {
                     )
                 }
             }
-        }
-        .overlay(alignment: .bottomTrailing) {
-            CameraStartingButton(onTap: handleTapCameraStartingButton)
-                .padding()
-        }
-        .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
-            Button("DeletePhoto", role: .destructive, action: handleDelete)
-            Button("Cancel", role: .cancel, action: { deletingPhoto = nil })
-        }
-        .sheet(item: $selectedPhoto) { photo in
-            PhotoDetailSheet(selectedPhoto: photo, photoList: photoList)
-                .presentationDragIndicator(.visible)
-        }
-        .fullScreenCover(isPresented: $isPresentingCamera) {
-            CameraShootingView(
-                category: photoListVM.category,
-                latestPhotoPath: photoListVM.category.photos.last?.path
-            )
         }
     }
 }
