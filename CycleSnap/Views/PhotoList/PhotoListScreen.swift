@@ -11,21 +11,36 @@ import SwiftUI
 struct PhotoListScreen: View {
     @StateObject var photoListVM: PhotoListViewModel
 
-    init(category: Category) {
-        _photoListVM = StateObject(wrappedValue: PhotoListViewModel(category: category))
-    }
-
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
     @State private var isPresentingComparison = false
     @State private var deletingPhoto: Photo?
     @State private var selectedPhoto: Photo?
 
+    init(category: Category) {
+        _photoListVM = StateObject(wrappedValue: PhotoListViewModel(category: category))
+    }
+
+    private var photoList: [Photo] {
+        photoListVM.photoList
+    }
+
     private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
 
-    private func handleDelete(_ photo: Photo) {
+    private func handleTap(_ photo: Photo) {
+        selectedPhoto = photo
+    }
+
+    private func handleDeleteConfirmation(_ photo: Photo) {
         deletingPhoto = photo
         isPresentingDeleteDialog = true
+    }
+
+    private func handleDelete() {
+        if let deletingPhoto {
+            photoListVM.delete(deletingPhoto)
+        }
+        deletingPhoto = nil
     }
 
     private func handleTapCameraStartingButton() {
@@ -33,14 +48,12 @@ struct PhotoListScreen: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
-                    ForEach(photoListVM.photoList) { photo in
+                    ForEach(photoList) { photo in
                         if !photo.isInvalidated {
-                            Button(action: { selectedPhoto = photo }) {
-                                PhotoCellView(photo: photo, onDelete: handleDelete)
-                            }
+                            PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDeleteConfirmation)
                         }
                     }
                 }
@@ -61,23 +74,16 @@ struct PhotoListScreen: View {
             }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
-            Button("DeletePhoto", role: .destructive) {
-                if let deletingPhoto {
-                    photoListVM.delete(deletingPhoto)
-                }
-                deletingPhoto = nil
-            }
-            Button("Cancel", role: .cancel) {
-                deletingPhoto = nil
-            }
+            Button("DeletePhoto", role: .destructive, action: handleDelete)
+            Button("Cancel", role: .cancel, action: { deletingPhoto = nil })
         }
         .sheet(item: $selectedPhoto) { photo in
-            PhotoDetailSheet(photo: photo, photoList: photoListVM.photoList)
+            PhotoDetailSheet(photo: photo, photoList: photoList)
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $isPresentingComparison) {
-            if let firstPhoto = photoListVM.photoList.first,
-               let lastPhoto = photoListVM.photoList.last
+            if let firstPhoto = photoList.first,
+               let lastPhoto = photoList.last
             {
                 ComparisonSheet(
                     firstPhoto: firstPhoto,

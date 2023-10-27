@@ -19,44 +19,51 @@ struct CategoryListScreen: View {
         _categoryListVM = StateObject(wrappedValue: categoryListVM)
     }
 
+    private var categoryList: [Category] {
+        categoryListVM.categoryList
+    }
+
     private func handleAdd() {
-        withAnimation {
-            selectedCategory = nil
-            isPresentingCategoryNameSheet = true
-        }
+        selectedCategory = nil
+        isPresentingCategoryNameSheet = true
     }
 
     private func handleEdit(category: Category) {
-        withAnimation {
-            selectedCategory = category
-            isPresentingCategoryNameSheet = true
-        }
+        selectedCategory = category
+        isPresentingCategoryNameSheet = true
     }
 
-    private func handleDelete(category: Category) {
+    private func handleDeleteConfirmation(category: Category) {
         selectedCategory = category
         isPresentingCategoryDeletingAlert = true
     }
 
-    private func handleDelete(indexSet: IndexSet) {
-        selectedCategory = categoryListVM.categoryList[indexSet.first!]
+    private func handleDeleteConfirmation(indexSet: IndexSet) {
+        selectedCategory = categoryList[indexSet.first!]
         isPresentingCategoryDeletingAlert = true
+    }
+
+    private func handleDelete() {
+        if let selectedCategory {
+            categoryListVM.delete(selectedCategory)
+        }
+        selectedCategory = nil
     }
 
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(categoryListVM.categoryList) { category in
+                    ForEach(categoryList) { category in
                         if !category.isInvalidated {
                             NavigationLink {
                                 PhotoListScreen(category: category)
                             } label: {
-                                CategoryCellView(category: category, onEdit: handleEdit, onDelete: handleDelete)
+                                CategoryCellView(category: category, onEdit: handleEdit, onDelete: handleDeleteConfirmation)
                             }
                         }
                     }
-                    .onDelete(perform: handleDelete)
+                    .onDelete(perform: handleDeleteConfirmation)
                     .onMove(perform: categoryListVM.move)
                 }
                 .listStyle(.plain)
@@ -73,12 +80,12 @@ struct CategoryListScreen: View {
             }
             .navigationTitle("Categories")
             .toolbar {
-                if !categoryListVM.categoryList.isEmpty {
+                if !categoryList.isEmpty {
                     EditButton()
                 }
             }
             .overlay {
-                if categoryListVM.categoryList.isEmpty {
+                if categoryList.isEmpty {
                     VStack(spacing: 12) {
                         Text("EmptyCategory")
                             .font(.title)
@@ -98,13 +105,7 @@ struct CategoryListScreen: View {
                 )
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
-                Button("DeleteCategory", role: .destructive) {
-                    if let selectedCategory {
-                        categoryListVM.delete(selectedCategory)
-                    }
-                    selectedCategory = nil
-                }
-            } message: {
+                Button("DeleteCategory", role: .destructive, action: handleDelete)
                 Text("CategoryDeletingAlertMessage")
             }
         }
