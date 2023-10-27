@@ -9,12 +9,14 @@ import SwiftUI
 
 struct PhotoListScreen: View {
     @StateObject var photoListVM: PhotoListViewModel
+    @Environment(\.dismiss) private var dismiss
 
     @State private var isPresentingDeleteDialog = false
     @State private var isPresentingCamera = false
     @State private var isPresentingComparison = false
     @State private var deletingPhoto: Photo?
     @State private var selectedPhoto: Photo?
+    @State private var selectedTab = "photoListTab"
 
     init(category: Category) {
         _photoListVM = StateObject(wrappedValue: PhotoListViewModel(category: category))
@@ -47,30 +49,39 @@ struct PhotoListScreen: View {
     }
 
     var body: some View {
-        VStack {
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 4) {
-                    ForEach(photoList) { photo in
-                        if !photo.isInvalidated {
-                            PhotoCellView(photo: photo, onTap: handleTap, onDelete: handleDeleteConfirmation)
-                        }
-                    }
+        NavigationStack {
+            VStack {
+                Picker("", selection: $selectedTab) {
+                    Text("Photo List").tag("photoListTab")
+                    Text("Photo Comparison").tag("photoComparisonTab")
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+
+                TabView(selection: $selectedTab) {
+                    PhotoListTab()
+                        .tag("photoListTab")
+
+                    PhotoComparisonTab()
+                        .tag("photoComparisonTab")
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
+                Spacer()
+            }
+            .navigationTitle(photoListVM.category.name)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    PhotoListToolbarMenu(
+                        isLatest: photoListVM.category.isLatestFirst,
+                        onSort: photoListVM.sort
+                    )
                 }
             }
-            Spacer()
         }
         .overlay(alignment: .bottomTrailing) {
             CameraStartingButton(onTap: handleTapCameraStartingButton)
                 .padding()
-        }
-        .navigationTitle(photoListVM.category.name)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                PhotoListToolbarMenu(
-                    isLatest: photoListVM.category.isLatestFirst,
-                    onSort: photoListVM.sort
-                )
-            }
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
             Button("DeletePhoto", role: .destructive, action: handleDelete)
@@ -79,17 +90,6 @@ struct PhotoListScreen: View {
         .sheet(item: $selectedPhoto) { photo in
             PhotoDetailSheet(selectedPhoto: photo, photoList: photoList)
                 .presentationDragIndicator(.visible)
-        }
-        .sheet(isPresented: $isPresentingComparison) {
-            if let firstPhoto = photoList.first,
-               let lastPhoto = photoList.last
-            {
-                ComparisonSheet(
-                    firstPhoto: firstPhoto,
-                    lastPhoto: lastPhoto
-                )
-                .presentationDragIndicator(.visible)
-            }
         }
         .fullScreenCover(isPresented: $isPresentingCamera) {
             CameraShootingView(

@@ -33,6 +33,8 @@
 		47A740922ABABF0800C67B1C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A740912ABABF0800C67B1C /* ContentView.swift */; };
 		47A740942ABABF0C00C67B1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740932ABABF0C00C67B1C /* Assets.xcassets */; };
 		47A740972ABABF0C00C67B1C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */; };
+		47AEAB612AEBED0000F4BE18 /* PhotoListTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AEAB602AEBED0000F4BE18 /* PhotoListTab.swift */; };
+		47AEAB652AEBED6400F4BE18 /* PhotoComparisonTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */; };
 		47B1AF012AD39119008A3BD0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 47B1AF002AD39119008A3BD0 /* Algorithms */; };
 		47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */; };
 		47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */; };
@@ -67,6 +69,8 @@
 		47A740912ABABF0800C67B1C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		47A740932ABABF0C00C67B1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		47AEAB602AEBED0000F4BE18 /* PhotoListTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListTab.swift; sourceTree = "<group>"; };
+		47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoComparisonTab.swift; sourceTree = "<group>"; };
 		47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
 		47E0D7302ADD706A004DD422 /* PhotoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellView.swift; sourceTree = "<group>"; };
@@ -185,6 +189,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		47AEAB622AEBED1700F4BE18 /* PhotoListTab */ = {
+			isa = PBXGroup;
+			children = (
+				47AEAB602AEBED0000F4BE18 /* PhotoListTab.swift */,
+				47E0D7302ADD706A004DD422 /* PhotoCellView.swift */,
+				475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */,
+				479BDE862ADE443600109146 /* CameraStartingButton.swift */,
+				472AC04C2AD2AFB800CD123C /* PhotoDetailSheet.swift */,
+			);
+			path = PhotoListTab;
+			sourceTree = "<group>";
+		};
+		47AEAB632AEBED2000F4BE18 /* PhotoComparisonTab */ = {
+			isa = PBXGroup;
+			children = (
+				47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */,
+			);
+			path = PhotoComparisonTab;
+			sourceTree = "<group>";
+		};
 		47BD869D2ACB8608000894CC /* CategoryList */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,10 +223,8 @@
 			isa = PBXGroup;
 			children = (
 				475DF8F02AC553E000B96808 /* PhotoListScreen.swift */,
-				47E0D7302ADD706A004DD422 /* PhotoCellView.swift */,
-				475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */,
-				479BDE862ADE443600109146 /* CameraStartingButton.swift */,
-				472AC04C2AD2AFB800CD123C /* PhotoDetailSheet.swift */,
+				47AEAB622AEBED1700F4BE18 /* PhotoListTab */,
+				47AEAB632AEBED2000F4BE18 /* PhotoComparisonTab */,
 			);
 			path = PhotoList;
 			sourceTree = "<group>";
@@ -319,10 +341,12 @@
 				47EA5BE62AD2A336002A6F76 /* ComparisonSheet.swift in Sources */,
 				47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */,
 				4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */,
+				47AEAB652AEBED6400F4BE18 /* PhotoComparisonTab.swift in Sources */,
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
 				478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */,
 				47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */,
+				47AEAB612AEBED0000F4BE18 /* PhotoListTab.swift in Sources */,
 				479BDE8B2ADE85E000109146 /* CategoryNameSheet.swift in Sources */,
 				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,
 				475043402AC3A46000DD9AB2 /* CategoryCellView.swift in Sources */,
