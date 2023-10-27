@@ -37,7 +37,6 @@
 		47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */; };
 		47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7302ADD706A004DD422 /* PhotoCellView.swift */; };
 		47EA5BE62AD2A336002A6F76 /* ComparisonSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* ComparisonSheet.swift */; };
-		47ECF47A2ADF8038004F6CF8 /* ComparisonSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47ECF4792ADF8038004F6CF8 /* ComparisonSheetButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,7 +69,6 @@
 		47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
 		47E0D7302ADD706A004DD422 /* PhotoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellView.swift; sourceTree = "<group>"; };
 		47EA5BE52AD2A336002A6F76 /* ComparisonSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonSheet.swift; sourceTree = "<group>"; };
-		47ECF4792ADF8038004F6CF8 /* ComparisonSheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonSheetButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +198,6 @@
 				475DF8F02AC553E000B96808 /* PhotoListScreen.swift */,
 				47E0D7302ADD706A004DD422 /* PhotoCellView.swift */,
 				475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */,
-				47ECF4792ADF8038004F6CF8 /* ComparisonSheetButton.swift */,
 				479BDE862ADE443600109146 /* CameraStartingButton.swift */,
 				472AC04C2AD2AFB800CD123C /* PhotoDetailSheet.swift */,
 			);
@@ -321,7 +318,6 @@
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
 				478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */,
-				47ECF47A2ADF8038004F6CF8 /* ComparisonSheetButton.swift in Sources */,
 				47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */,
 				479BDE8B2ADE85E000109146 /* CategoryNameSheet.swift in Sources */,
 				473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */,

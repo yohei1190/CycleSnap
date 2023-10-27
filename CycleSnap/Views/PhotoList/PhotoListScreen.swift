@@ -52,10 +52,6 @@ struct PhotoListScreen: View {
                 }
             }
             Spacer()
-
-            if photoListVM.photoList.count >= 2 {
-                ComparisonSheetButton(onTap: handleTapComparisonButton)
-            }
         }
         .navigationTitle(photoListVM.category.name)
         .toolbar {
