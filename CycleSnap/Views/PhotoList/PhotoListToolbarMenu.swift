@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/29.
 //
 
-import RealmSwift
 import SwiftUI
 
 enum SortOrder {

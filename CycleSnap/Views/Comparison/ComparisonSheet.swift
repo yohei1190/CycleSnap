@@ -6,7 +6,6 @@
 //
 
 import Algorithms
-import RealmSwift
 import SwiftUI
 
 struct ComparisonSheet: View {
@@ -56,12 +55,11 @@ struct ComparisonSheet: View {
 }
 
 struct ComparisonSheet_Previews: PreviewProvider {
-    static let photos = Realm.previewRealm.objects(Category.self).first!.photos
-
     static var previews: some View {
+        let photoList = PreviewData.photoList
         ComparisonSheet(
-            firstPhoto: photos.first!,
-            lastPhoto: photos.last!
+            firstPhoto: photoList.first!,
+            lastPhoto: photoList.last!
         )
     }
 }

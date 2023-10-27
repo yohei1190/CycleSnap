@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/10/04.
 //
 
-import RealmSwift
 import SwiftUI
 
 struct CameraPreviewView: View {
@@ -55,12 +54,10 @@ struct CameraPreviewView: View {
 }
 
 struct CameraPreviewView_Previews: PreviewProvider {
-    static let category = Realm.previewRealm.objects(Category.self).first!
-
     static var previews: some View {
         CameraPreviewView(
             capturedImage: .constant(nil),
-            cameraVM: CameraViewModel(category: category),
+            cameraVM: CameraViewModel(category: PreviewData.category),
             dismiss: {}
         )
     }

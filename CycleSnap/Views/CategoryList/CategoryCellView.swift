@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/27.
 //
 
-import RealmSwift
 import SwiftUI
 
 struct CategoryCellView: View {
@@ -69,7 +68,7 @@ struct CategoryCellView: View {
 struct CategoryCellView_Previews: PreviewProvider {
     static var previews: some View {
         CategoryCellView(
-            category: Realm.previewRealm.objects(Category.self).first!,
+            category: PreviewData.category,
             onEdit: { _ in },
             onDelete: { _ in }
         )

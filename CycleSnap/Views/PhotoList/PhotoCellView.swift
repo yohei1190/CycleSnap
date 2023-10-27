@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/10/16.
 //
 
-import RealmSwift
 import SwiftUI
 
 struct PhotoCellView: View {
@@ -52,9 +51,7 @@ struct PhotoCellView: View {
 }
 
 struct PhotoCellView_Previews: PreviewProvider {
-    static let photo = Realm.previewRealm.objects(Category.self).first!.photos.first!
-
     static var previews: some View {
-        PhotoCellView(photo: photo, onTap: { _ in }, onDelete: { _ in })
+        PhotoCellView(photo: PreviewData.photo, onTap: { _ in }, onDelete: { _ in })
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		472AC04D2AD2AFB800CD123C /* PhotoDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472AC04C2AD2AFB800CD123C /* PhotoDetailSheet.swift */; };
+		4734BFC42AEBCCE600F622F5 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4734BFC32AEBCCE600F622F5 /* PreviewData.swift */; };
 		473A31632ACCE1C6004F5626 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31622ACCE1C6004F5626 /* CameraService.swift */; };
 		473A31652ACCE1DC004F5626 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31642ACCE1DC004F5626 /* ImagePickerView.swift */; };
 		473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473A31662ACD1B52004F5626 /* CameraShootingView.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		472AC04C2AD2AFB800CD123C /* PhotoDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailSheet.swift; sourceTree = "<group>"; };
+		4734BFC32AEBCCE600F622F5 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		473A31622ACCE1C6004F5626 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		473A31642ACCE1DC004F5626 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		473A31662ACD1B52004F5626 /* CameraShootingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShootingView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */,
+				4734BFC32AEBCCE600F622F5 /* PreviewData.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4734BFC42AEBCCE600F622F5 /* PreviewData.swift in Sources */,
 				475DF8F82AC592A900B96808 /* RealmConfiguration.swift in Sources */,
 				475DF8F52AC58F6600B96808 /* Photo.swift in Sources */,
 				473A31672ACD1B52004F5626 /* CameraShootingView.swift in Sources */,

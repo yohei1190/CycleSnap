@@ -6,15 +6,14 @@
 //
 
 import Algorithms
-import RealmSwift
 import SwiftUI
 
 struct PhotoDetailSheet: View {
     @State private var selection: Int
     let photoList: [Photo]
 
-    init(photo: Photo, photoList: [Photo]) {
-        let selectedPhotoIndex = photoList.firstIndex(of: photo)!
+    init(selectedPhoto: Photo, photoList: [Photo]) {
+        let selectedPhotoIndex = photoList.firstIndex(of: selectedPhoto)!
         _selection = State(wrappedValue: selectedPhotoIndex)
         self.photoList = photoList
     }
@@ -47,9 +46,7 @@ struct PhotoDetailSheet: View {
 }
 
 struct PhotoDetailSheet_Previews: PreviewProvider {
-    static let photoList = Realm.previewRealm.objects(Category.self).first!.photos
-
     static var previews: some View {
-        PhotoDetailSheet(photo: photoList.first!, photoList: Array(photoList))
+        PhotoDetailSheet(selectedPhoto: PreviewData.photo, photoList: Array(PreviewData.photoList))
     }
 }

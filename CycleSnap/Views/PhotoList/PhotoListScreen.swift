@@ -5,7 +5,6 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
-import RealmSwift
 import SwiftUI
 
 struct PhotoListScreen: View {
@@ -78,7 +77,7 @@ struct PhotoListScreen: View {
             Button("Cancel", role: .cancel, action: { deletingPhoto = nil })
         }
         .sheet(item: $selectedPhoto) { photo in
-            PhotoDetailSheet(photo: photo, photoList: photoList)
+            PhotoDetailSheet(selectedPhoto: photo, photoList: photoList)
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $isPresentingComparison) {
@@ -102,11 +101,9 @@ struct PhotoListScreen: View {
 }
 
 struct PhotoListScreen_Previews: PreviewProvider {
-    static let category = Realm.previewRealm.objects(Category.self).first!
-
     static var previews: some View {
         NavigationStack {
-            PhotoListScreen(category: category)
+            PhotoListScreen(category: PreviewData.category)
         }
     }
 }
