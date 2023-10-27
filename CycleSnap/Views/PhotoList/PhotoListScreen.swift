@@ -32,16 +32,10 @@ struct PhotoListScreen: View {
         isPresentingCamera = true
     }
 
-    private func handleTapComparisonButton() {
-        isPresentingComparison = true
-    }
-
     var body: some View {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 4) {
-                    CameraStartingButton(onTap: handleTapCameraStartingButton)
-
                     ForEach(photoListVM.photoList) { photo in
                         if !photo.isInvalidated {
                             Button(action: { selectedPhoto = photo }) {
@@ -52,6 +46,10 @@ struct PhotoListScreen: View {
                 }
             }
             Spacer()
+        }
+        .overlay(alignment: .bottomTrailing) {
+            CameraStartingButton(onTap: handleTapCameraStartingButton)
+                .padding()
         }
         .navigationTitle(photoListVM.category.name)
         .toolbar {

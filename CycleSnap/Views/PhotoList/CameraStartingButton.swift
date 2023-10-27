@@ -11,15 +11,15 @@ struct CameraStartingButton: View {
     let onTap: () -> Void
 
     var body: some View {
-        Rectangle()
-            .fill(Color.gray.opacity(0.2))
+        Circle()
+            .fill(Color.blue)
             .scaledToFill()
             .overlay {
-                Image(systemName: "plus")
-                    .foregroundColor(.blue)
-                    .font(.title2)
-                    .bold()
+                Image(systemName: "camera")
+                    .foregroundColor(.white)
+                    .font(.title)
             }
+            .frame(width: 80, height: 80)
             .onTapGesture(perform: onTap)
     }
 }
