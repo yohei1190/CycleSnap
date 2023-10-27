@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryListScreen: View {
     @StateObject private var categoryListVM: CategoryListViewModel
 
+    @State private var destinationCategory: Category?
     @State private var selectedCategory: Category?
     @State private var isPresentingCategoryNameSheet = false
     @State private var isPresentingCategoryDeletingAlert = false
@@ -21,6 +22,10 @@ struct CategoryListScreen: View {
 
     private var categoryList: [Category] {
         categoryListVM.categoryList
+    }
+
+    private func handleTap(category: Category) {
+        destinationCategory = category
     }
 
     private func handleAdd() {
@@ -56,10 +61,12 @@ struct CategoryListScreen: View {
                 List {
                     ForEach(categoryList) { category in
                         if !category.isInvalidated {
-                            NavigationLink {
-                                PhotoListScreen(category: category)
-                            } label: {
-                                CategoryCellView(category: category, onEdit: handleEdit, onDelete: handleDeleteConfirmation)
+                            Button(action: { handleTap(category: category) }) {
+                                CategoryCellView(
+                                    category: category,
+                                    onEdit: handleEdit,
+                                    onDelete: handleDeleteConfirmation
+                                )
                             }
                         }
                     }
@@ -103,6 +110,9 @@ struct CategoryListScreen: View {
                     add: categoryListVM.add,
                     update: categoryListVM.update
                 )
+            }
+            .fullScreenCover(item: $destinationCategory) { category in
+                PhotoListScreen(category: category)
             }
             .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("DeleteCategory", role: .destructive, action: handleDelete)
