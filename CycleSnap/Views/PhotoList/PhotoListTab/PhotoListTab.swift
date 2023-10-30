@@ -64,6 +64,12 @@ struct PhotoListTab: View {
             PhotoDetailSheet(selectedPhoto: photo, photoList: photoList)
                 .presentationDragIndicator(.visible)
         }
+        .fullScreenCover(isPresented: $isPresentingCamera) {
+            CameraShootingView(
+                category: photoListVM.category,
+                latestPhotoPath: photoListVM.category.photos.last?.path
+            )
+        }
     }
 }
 
