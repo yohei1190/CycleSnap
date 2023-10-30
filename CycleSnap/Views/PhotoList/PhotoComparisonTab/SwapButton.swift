@@ -1,5 +1,5 @@
 //
-//  SwapButtonm.swift
+//  SwapButton.swift
 //  CycleSnap
 //
 //  Created by yohei shimizu on 2023/10/06.
