@@ -35,7 +35,7 @@ struct PhotoListScreen: View {
                     PhotoListTab(photoListVM: photoListVM)
                         .tag("photoListTab")
 
-                    PhotoComparisonTab()
+                    PhotoComparisonTab(photoList: photoList)
                         .tag("photoComparisonTab")
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -43,6 +43,7 @@ struct PhotoListScreen: View {
                 Spacer()
             }
             .navigationTitle(photoListVM.category.name)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { dismiss() }) {

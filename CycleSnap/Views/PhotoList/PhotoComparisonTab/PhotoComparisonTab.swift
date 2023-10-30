@@ -2,19 +2,30 @@
 //  PhotoComparisonTab.swift
 //  CycleSnap
 //
-//  Created by yohei shimizu on 2023/10/27.
+//  Created by yohei shimizu on 2023/10/08.
 //
 
+import Algorithms
 import SwiftUI
 
 struct PhotoComparisonTab: View {
+    let photoList: [Photo]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if photoList.count >= 2 {
+            if let firstPhoto = photoList.first, let lastPhoto = photoList.last {
+                let uiImages = [firstPhoto, lastPhoto].compactMap { DocumentsFileHelper.loadUIImage(at: $0.path)
+                }
+                ComparisonView(uiImages: uiImages)
+            }
+        } else {
+            Text("写真を2枚以上撮影すると、写真の比較を行うことができます")
+        }
     }
 }
 
 struct PhotoComparisonTab_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoComparisonTab()
+        PhotoComparisonTab(photoList: Array(PreviewData.photoList))
     }
 }

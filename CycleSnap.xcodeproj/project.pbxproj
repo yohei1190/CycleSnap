@@ -22,7 +22,7 @@
 		475DF8FD2AC6A06C00B96808 /* DocumentsFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */; };
 		477E86EB2AD3754900CFEF12 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 477E86ED2AD3754900CFEF12 /* Localizable.strings */; };
 		478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478D8B482AD00E78007E4007 /* View+Extensions.swift */; };
-		4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */; };
+		4795F4BF2ACF7A85004A1604 /* SwapButtonm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BE2ACF7A85004A1604 /* SwapButtonm.swift */; };
 		479963392AC4E585009EDBE2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 479963382AC4E585009EDBE2 /* Realm */; };
 		4799633B2AC4E585009EDBE2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4799633A2AC4E585009EDBE2 /* RealmSwift */; };
 		4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799633D2AC4E6DB009EDBE2 /* Category.swift */; };
@@ -34,12 +34,12 @@
 		47A740942ABABF0C00C67B1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740932ABABF0C00C67B1C /* Assets.xcassets */; };
 		47A740972ABABF0C00C67B1C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */; };
 		47AEAB612AEBED0000F4BE18 /* PhotoListTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AEAB602AEBED0000F4BE18 /* PhotoListTab.swift */; };
-		47AEAB652AEBED6400F4BE18 /* PhotoComparisonTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */; };
+		47AEAB652AEBED6400F4BE18 /* ComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AEAB642AEBED6400F4BE18 /* ComparisonView.swift */; };
 		47B1AF012AD39119008A3BD0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 47B1AF002AD39119008A3BD0 /* Algorithms */; };
 		47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */; };
 		47E0D72F2ADD4DDD004DD422 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */; };
 		47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E0D7302ADD706A004DD422 /* PhotoCellView.swift */; };
-		47EA5BE62AD2A336002A6F76 /* ComparisonSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* ComparisonSheet.swift */; };
+		47EA5BE62AD2A336002A6F76 /* PhotoComparisonTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA5BE52AD2A336002A6F76 /* PhotoComparisonTab.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +59,7 @@
 		477E86EC2AD3754900CFEF12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		477E86EE2AD3755900CFEF12 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		478D8B482AD00E78007E4007 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
-		4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardAndForwardButton.swift; sourceTree = "<group>"; };
+		4795F4BE2ACF7A85004A1604 /* SwapButtonm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapButtonm.swift; sourceTree = "<group>"; };
 		4799633D2AC4E6DB009EDBE2 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		479BDE862ADE443600109146 /* CameraStartingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStartingButton.swift; sourceTree = "<group>"; };
 		479BDE882ADE4DF700109146 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
@@ -70,11 +70,11 @@
 		47A740932ABABF0C00C67B1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47A740962ABABF0C00C67B1C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47AEAB602AEBED0000F4BE18 /* PhotoListTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListTab.swift; sourceTree = "<group>"; };
-		47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoComparisonTab.swift; sourceTree = "<group>"; };
+		47AEAB642AEBED6400F4BE18 /* ComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonView.swift; sourceTree = "<group>"; };
 		47E0D7092ADC087A004DD422 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		47E0D72E2ADD4DDC004DD422 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
 		47E0D7302ADD706A004DD422 /* PhotoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellView.swift; sourceTree = "<group>"; };
-		47EA5BE52AD2A336002A6F76 /* ComparisonSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonSheet.swift; sourceTree = "<group>"; };
+		47EA5BE52AD2A336002A6F76 /* PhotoComparisonTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoComparisonTab.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +115,6 @@
 				47BD869D2ACB8608000894CC /* CategoryList */,
 				47BD86A02ACB8A11000894CC /* PhotoList */,
 				473A31612ACCE1A5004F5626 /* Camera */,
-				47EA5BE42AD2A31F002A6F76 /* Comparison */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,7 +203,9 @@
 		47AEAB632AEBED2000F4BE18 /* PhotoComparisonTab */ = {
 			isa = PBXGroup;
 			children = (
-				47AEAB642AEBED6400F4BE18 /* PhotoComparisonTab.swift */,
+				47EA5BE52AD2A336002A6F76 /* PhotoComparisonTab.swift */,
+				47AEAB642AEBED6400F4BE18 /* ComparisonView.swift */,
+				4795F4BE2ACF7A85004A1604 /* SwapButtonm.swift */,
 			);
 			path = PhotoComparisonTab;
 			sourceTree = "<group>";
@@ -237,15 +238,6 @@
 				479BDE882ADE4DF700109146 /* CameraViewModel.swift */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		47EA5BE42AD2A31F002A6F76 /* Comparison */ = {
-			isa = PBXGroup;
-			children = (
-				47EA5BE52AD2A336002A6F76 /* ComparisonSheet.swift */,
-				4795F4BE2ACF7A85004A1604 /* BackwardAndForwardButton.swift */,
-			);
-			path = Comparison;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,12 +328,12 @@
 				475DF8F12AC553E000B96808 /* PhotoListScreen.swift in Sources */,
 				47E0D70A2ADC087A004DD422 /* CategoryListViewModel.swift in Sources */,
 				479BDE892ADE4DF700109146 /* CameraViewModel.swift in Sources */,
-				4795F4BF2ACF7A85004A1604 /* BackwardAndForwardButton.swift in Sources */,
+				4795F4BF2ACF7A85004A1604 /* SwapButtonm.swift in Sources */,
 				4750433E2AC39AC300DD9AB2 /* CategoryListScreen.swift in Sources */,
-				47EA5BE62AD2A336002A6F76 /* ComparisonSheet.swift in Sources */,
+				47EA5BE62AD2A336002A6F76 /* PhotoComparisonTab.swift in Sources */,
 				47E0D7312ADD706A004DD422 /* PhotoCellView.swift in Sources */,
 				4799633E2AC4E6DB009EDBE2 /* Category.swift in Sources */,
-				47AEAB652AEBED6400F4BE18 /* PhotoComparisonTab.swift in Sources */,
+				47AEAB652AEBED6400F4BE18 /* ComparisonView.swift in Sources */,
 				47A740922ABABF0800C67B1C /* ContentView.swift in Sources */,
 				475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */,
 				478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */,
