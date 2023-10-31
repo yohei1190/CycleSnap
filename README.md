@@ -2,7 +2,9 @@
 <img src="./Docs/Logos/logo.PNG" width="500">
 
 Cycle Snapは、写真で簡単に小さな変化を記録できるアプリです。
-// App Store Link...
+
+<a href="https://apps.apple.com/jp/app/cycle-snap/id6469919745" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/ja-jp?size=250x83&amp;releaseDate=1668816000&h=208fad97f748bc6c581dd384ccf2b393" alt="Download on the App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
+
 
 
 ## アプリを作った背景
