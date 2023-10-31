@@ -28,7 +28,7 @@ struct CameraPreviewView: View {
                     Button {
                         capturedImage = nil
                     } label: {
-                        Text("Retake")
+                        Text("再撮影")
                             .frame(minWidth: 44, minHeight: 44)
                     }
                     Spacer()
@@ -40,7 +40,7 @@ struct CameraPreviewView: View {
                         capturedImage = nil
                         dismiss()
                     } label: {
-                        Text("Save")
+                        Text("保存")
                             .frame(minWidth: 44, minHeight: 44)
                     }
                 }

@@ -53,12 +53,12 @@ struct CategoryCellView: View {
         .contextMenu {
             Button(action: { onEdit(category) }) {
                 HStack {
-                    Label("EditCategoryName", systemImage: "square.and.pencil")
+                    Label("カテゴリー名を編集", systemImage: "square.and.pencil")
                 }
             }
             Button(role: .destructive, action: { onDelete(category) }) {
                 HStack {
-                    Label("Delete", systemImage: "trash")
+                    Label("カテゴリーを削除", systemImage: "trash")
                 }
             }
         }

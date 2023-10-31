@@ -36,18 +36,18 @@ struct CategoryNameSheet: View {
             // キーボードの1文字目が予測変換対象外になるバグがあるため、NavigationStackを削除してHstackでボタンを配置
             HStack {
                 Button(action: { dismiss() }) {
-                    Text("Cancel").frame(minWidth: 80, minHeight: 44)
+                    Text("キャンセル").frame(minWidth: 80, minHeight: 44)
                 }
                 Spacer()
-                Text(updatingCategory != nil ? "RenameCategory" : "NewCategory").bold()
+                Text(updatingCategory != nil ? "カテゴリーを編集" : "新規カテゴリー").bold()
                 Spacer()
                 Button(action: addOrUpdate) {
-                    Text("Save").frame(minWidth: 80, minHeight: 44)
+                    Text("保存").frame(minWidth: 80, minHeight: 44)
                 }
                 .disabled(trimmedCategoryName.isEmpty)
             }
 
-            TextField("CategoryName", text: $editingCategoryName, onCommit: addOrUpdate)
+            TextField("カテゴリー名", text: $editingCategoryName, onCommit: addOrUpdate)
                 .frame(minHeight: 44)
                 .focused($isFocus)
                 .overlay(alignment: .trailing) {

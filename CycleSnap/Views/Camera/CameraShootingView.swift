@@ -52,7 +52,7 @@ struct CameraShootingView: View {
                         cameraVM.stop()
                         dismiss()
                     } label: {
-                        Text("Cancel")
+                        Text("キャンセル")
                             .frame(minWidth: 44, minHeight: 44)
                     }
 
@@ -112,13 +112,13 @@ struct CameraShootingView: View {
                 isPresentingSettingAlert = true
             }
         }
-        .alert("CameraPermissionAlertTitle", isPresented: $isPresentingSettingAlert) {
-            Button("GoToSettings") {
+        .alert("カメラへのアクセスを許可してください", isPresented: $isPresentingSettingAlert) {
+            Button("設定に移動") {
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
-            Button("Cancel", role: .cancel, action: { dismiss() })
+            Button("キャンセル", role: .cancel, action: { dismiss() })
         } message: {
-            Text("CameraPermissionAlertMessage")
+            Text("カメラアクセスにより写真を撮影できるようになります。このアクセスは後でシステム設定から変更できます。")
         }
     }
 }

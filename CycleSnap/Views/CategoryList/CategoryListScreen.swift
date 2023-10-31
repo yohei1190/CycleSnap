@@ -75,27 +75,27 @@ struct CategoryListScreen: View {
                 HStack {
                     Spacer()
                     Button(action: handleAdd) {
-                        Label("AddCategory", systemImage: "plus.circle.fill")
+                        Label("カテゴリーを追加", systemImage: "plus.circle.fill")
                             .frame(minWidth: 44, minHeight: 44)
                     }
                 }
                 .padding(.trailing)
                 .background(.ultraThinMaterial)
             }
-            .navigationTitle("Categories")
+            .navigationTitle("カテゴリー")
             .toolbar {
                 if !categoryList.isEmpty {
                     EditButton()
+                        .frame(minWidth: 44, minHeight: 44)
                 }
             }
             .overlay {
                 if categoryList.isEmpty {
                     VStack(spacing: 12) {
-                        Text("EmptyCategory")
-                            .font(.title)
+                        Text("カテゴリーはありません")
+                            .font(.title2)
                             .bold()
-                        Text("EmptyCategoryMessage")
-                            .font(.title3)
+                        Text("右下のボタンから最初のカテゴリーを追加しましょう")
                             .opacity(0.6)
                     }
                     .padding(.horizontal, 32)
@@ -108,9 +108,10 @@ struct CategoryListScreen: View {
                     update: categoryListVM.update
                 )
             }
-            .alert("CategoryDeletingAlertTitle \(selectedCategory?.name ?? "")", isPresented: $isPresentingCategoryDeletingAlert) {
-                Button("DeleteCategory", role: .destructive, action: handleDelete)
-                Text("CategoryDeletingAlertMessage")
+            .alert("\(selectedCategory?.name ?? "") を削除しますか？", isPresented: $isPresentingCategoryDeletingAlert) {
+                Button("削除", role: .destructive, action: handleDelete)
+            } message: {
+                Text("この操作によりこのカテゴリーにある写真がすべて削除されます")
             }
         }
     }
