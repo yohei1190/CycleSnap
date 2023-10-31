@@ -53,12 +53,14 @@ struct CameraPreviewView: View {
     }
 }
 
-struct CameraPreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraPreviewView(
-            capturedImage: .constant(nil),
-            cameraVM: CameraViewModel(category: PreviewData.category),
-            dismiss: {}
-        )
+#if DEBUG
+    struct CameraPreviewView_Previews: PreviewProvider {
+        static var previews: some View {
+            CameraPreviewView(
+                capturedImage: .constant(nil),
+                cameraVM: CameraViewModel(category: PreviewData.category),
+                dismiss: {}
+            )
+        }
     }
-}
+#endif

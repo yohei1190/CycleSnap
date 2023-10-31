@@ -53,8 +53,10 @@ struct PhotoListScreen: View {
     }
 }
 
-struct PhotoListScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoListScreen(category: PreviewData.category)
+#if DEBUG
+    struct PhotoListScreen_Previews: PreviewProvider {
+        static var previews: some View {
+            PhotoListScreen(category: PreviewData.category)
+        }
     }
-}
+#endif

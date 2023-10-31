@@ -73,8 +73,10 @@ struct PhotoListTab: View {
     }
 }
 
-struct PhotoListTab_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoListTab(photoListVM: PhotoListViewModel(category: PreviewData.category))
+#if DEBUG
+    struct PhotoListTab_Previews: PreviewProvider {
+        static var previews: some View {
+            PhotoListTab(photoListVM: PhotoListViewModel(category: PreviewData.category))
+        }
     }
-}
+#endif

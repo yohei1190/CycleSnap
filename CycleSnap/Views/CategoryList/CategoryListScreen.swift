@@ -117,8 +117,10 @@ struct CategoryListScreen: View {
     }
 }
 
-struct CategoryListScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryListScreen(categoryListVM: CategoryListViewModel(realm: Realm.previewRealm))
+#if DEBUG
+    struct CategoryListScreen_Previews: PreviewProvider {
+        static var previews: some View {
+            CategoryListScreen(categoryListVM: CategoryListViewModel(realm: Realm.previewRealm))
+        }
     }
-}
+#endif

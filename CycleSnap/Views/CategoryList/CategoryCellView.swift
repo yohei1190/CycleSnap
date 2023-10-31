@@ -65,12 +65,14 @@ struct CategoryCellView: View {
     }
 }
 
-struct CategoryCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryCellView(
-            category: PreviewData.category,
-            onEdit: { _ in },
-            onDelete: { _ in }
-        )
+#if DEBUG
+    struct CategoryCellView_Previews: PreviewProvider {
+        static var previews: some View {
+            CategoryCellView(
+                category: PreviewData.category,
+                onEdit: { _ in },
+                onDelete: { _ in }
+            )
+        }
     }
-}
+#endif
