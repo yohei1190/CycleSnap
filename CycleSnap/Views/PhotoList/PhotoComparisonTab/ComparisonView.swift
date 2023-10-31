@@ -27,12 +27,9 @@ struct ComparisonView: View {
                 .padding(.bottom)
             }
 
-            Form {
-                Slider(value: $value, in: 0 ... 1, step: 0.1)
-                    .tint(.primary)
-                    .padding(.horizontal, 60)
-            }
-            .formStyle(.columns)
+            Slider(value: $value, in: 0 ... 1, step: 0.1)
+                .tint(.primary)
+                .padding(.horizontal, 60)
 
             Spacer()
         }
