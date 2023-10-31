@@ -5,59 +5,43 @@
 //  Created by yohei shimizu on 2023/09/28.
 //
 
-import RealmSwift
 import SwiftUI
 
 struct PhotoListScreen: View {
     @StateObject var photoListVM: PhotoListViewModel
 
+    @State private var selectedTab = "photoListTab"
+
     init(category: Category) {
         _photoListVM = StateObject(wrappedValue: PhotoListViewModel(category: category))
     }
 
-    @State private var isPresentingDeleteDialog = false
-    @State private var isPresentingCamera = false
-    @State private var isPresentingComparison = false
-    @State private var deletingPhoto: Photo?
-    @State private var selectedPhoto: Photo?
-
-    private let columns: [GridItem] = Array(repeating: .init(.fixed(UIScreen.main.bounds.size.width / 3), spacing: 4), count: 3)
-
-    private func handleDelete(_ photo: Photo) {
-        deletingPhoto = photo
-        isPresentingDeleteDialog = true
-    }
-
-    private func handleTapCameraStartingButton() {
-        isPresentingCamera = true
-    }
-
-    private func handleTapComparisonButton() {
-        isPresentingComparison = true
+    private var photoList: [Photo] {
+        photoListVM.photoList
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 4) {
-                    CameraStartingButton(onTap: handleTapCameraStartingButton)
-
-                    ForEach(photoListVM.photoList) { photo in
-                        if !photo.isInvalidated {
-                            Button(action: { selectedPhoto = photo }) {
-                                PhotoCellView(photo: photo, onDelete: handleDelete)
-                            }
-                        }
-                    }
-                }
+        VStack {
+            Picker("", selection: $selectedTab) {
+                Text("PhotoListPickerLabel").tag("photoListTab")
+                Text("PhotoComparisonPickerLabel").tag("photoComparisonTab")
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
+            TabView(selection: $selectedTab) {
+                PhotoListTab(photoListVM: photoListVM)
+                    .tag("photoListTab")
+
+                PhotoComparisonTab(photoList: photoList)
+                    .tag("photoComparisonTab")
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
             Spacer()
-
-            if photoListVM.photoList.count >= 2 {
-                ComparisonSheetButton(onTap: handleTapComparisonButton)
-            }
         }
         .navigationTitle(photoListVM.category.name)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 PhotoListToolbarMenu(
@@ -66,47 +50,11 @@ struct PhotoListScreen: View {
                 )
             }
         }
-        .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
-            Button("DeletePhoto", role: .destructive) {
-                if let deletingPhoto {
-                    photoListVM.delete(deletingPhoto)
-                }
-                deletingPhoto = nil
-            }
-            Button("Cancel", role: .cancel) {
-                deletingPhoto = nil
-            }
-        }
-        .sheet(item: $selectedPhoto) { photo in
-            PhotoDetailSheet(photo: photo, photoList: photoListVM.photoList)
-                .presentationDragIndicator(.visible)
-        }
-        .sheet(isPresented: $isPresentingComparison) {
-            if let firstPhoto = photoListVM.photoList.first,
-               let lastPhoto = photoListVM.photoList.last
-            {
-                ComparisonSheet(
-                    firstPhoto: firstPhoto,
-                    lastPhoto: lastPhoto
-                )
-                .presentationDragIndicator(.visible)
-            }
-        }
-        .fullScreenCover(isPresented: $isPresentingCamera) {
-            CameraShootingView(
-                category: photoListVM.category,
-                latestPhotoPath: photoListVM.category.photos.last?.path
-            )
-        }
     }
 }
 
 struct PhotoListScreen_Previews: PreviewProvider {
-    static let category = Realm.previewRealm.objects(Category.self).first!
-
     static var previews: some View {
-        NavigationStack {
-            PhotoListScreen(category: category)
-        }
+        PhotoListScreen(category: PreviewData.category)
     }
 }

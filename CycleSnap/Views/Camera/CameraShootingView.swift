@@ -6,7 +6,6 @@
 //
 
 import AVFoundation
-import RealmSwift
 import SwiftUI
 
 struct CameraShootingView: View {
@@ -127,7 +126,7 @@ struct CameraShootingView: View {
 struct CameraShootingView_Previews: PreviewProvider {
     static var previews: some View {
         CameraShootingView(
-            category: Realm.previewRealm.objects(Category.self).first!,
+            category: PreviewData.category,
             latestPhotoPath: nil
         )
     }
