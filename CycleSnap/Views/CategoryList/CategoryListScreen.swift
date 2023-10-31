@@ -92,10 +92,9 @@ struct CategoryListScreen: View {
                 if categoryList.isEmpty {
                     VStack(spacing: 12) {
                         Text("カテゴリーはありません")
-                            .font(.title)
+                            .font(.title2)
                             .bold()
                         Text("右下のボタンから最初のカテゴリーを追加しましょう")
-                            .font(.title3)
                             .opacity(0.6)
                     }
                     .padding(.horizontal, 32)

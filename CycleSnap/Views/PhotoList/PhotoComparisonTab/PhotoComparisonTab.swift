@@ -20,6 +20,7 @@ struct PhotoComparisonTab: View {
             }
         } else {
             Text("写真を2枚以上撮影すると、写真の比較を行うことができます")
+                .padding()
         }
     }
 }
