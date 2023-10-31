@@ -19,13 +19,14 @@ struct PhotoListToolbarMenu: View {
     var body: some View {
         Menu {
             Button(action: { onSort(.oldest) }) {
-                Text("OldestFirst")
+                Text("古い順")
                 if !isLatest {
                     Image(systemName: "checkmark")
                 }
             }
 
-            Button(action: { onSort(.latest) }) { Text("NewestFirst")
+            Button(action: { onSort(.latest) }) {
+                Text("新しい順")
                 if isLatest {
                     Image(systemName: "checkmark")
                 }

@@ -57,8 +57,8 @@ struct PhotoListTab: View {
                 .padding()
         }
         .confirmationDialog("", isPresented: $isPresentingDeleteDialog) {
-            Button("DeletePhoto", role: .destructive, action: handleDelete)
-            Button("Cancel", role: .cancel, action: { deletingPhoto = nil })
+            Button("削除", role: .destructive, action: handleDelete)
+            Button("キャンセル", role: .cancel, action: { deletingPhoto = nil })
         }
         .sheet(item: $selectedPhoto) { photo in
             PhotoDetailSheet(selectedPhoto: photo, photoList: photoList)

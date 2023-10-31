@@ -23,8 +23,8 @@ struct PhotoListScreen: View {
     var body: some View {
         VStack {
             Picker("", selection: $selectedTab) {
-                Text("PhotoListPickerLabel").tag("photoListTab")
-                Text("PhotoComparisonPickerLabel").tag("photoComparisonTab")
+                Text("写真一覧").tag("photoListTab")
+                Text("新旧写真比較").tag("photoComparisonTab")
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()

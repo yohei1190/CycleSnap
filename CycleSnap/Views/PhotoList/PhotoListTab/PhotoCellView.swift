@@ -35,7 +35,7 @@ struct PhotoCellView: View {
                     }
                     .contextMenu {
                         Button(role: .destructive, action: { onDelete(photo) }) {
-                            Label("Delete", systemImage: "trash")
+                            Label("写真を削除", systemImage: "trash")
                         }
                     }
             } placeholder: {
