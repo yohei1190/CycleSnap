@@ -86,6 +86,7 @@ struct CategoryListScreen: View {
             .toolbar {
                 if !categoryList.isEmpty {
                     EditButton()
+                        .frame(minWidth: 44, minHeight: 44)
                 }
             }
             .overlay {
