@@ -110,6 +110,7 @@ struct CategoryListScreen: View {
             }
             .alert("\(selectedCategory?.name ?? "") を削除しますか？", isPresented: $isPresentingCategoryDeletingAlert) {
                 Button("削除", role: .destructive, action: handleDelete)
+            } message: {
                 Text("この操作によりこのカテゴリーにある写真がすべて削除されます")
             }
         }
