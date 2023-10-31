@@ -123,11 +123,13 @@ struct CameraShootingView: View {
     }
 }
 
-struct CameraShootingView_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraShootingView(
-            category: PreviewData.category,
-            latestPhotoPath: nil
-        )
+#if DEBUG
+    struct CameraShootingView_Previews: PreviewProvider {
+        static var previews: some View {
+            CameraShootingView(
+                category: PreviewData.category,
+                latestPhotoPath: nil
+            )
+        }
     }
-}
+#endif

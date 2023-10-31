@@ -45,8 +45,10 @@ struct PhotoDetailSheet: View {
     }
 }
 
-struct PhotoDetailSheet_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoDetailSheet(selectedPhoto: PreviewData.photo, photoList: Array(PreviewData.photoList))
+#if DEBUG
+    struct PhotoDetailSheet_Previews: PreviewProvider {
+        static var previews: some View {
+            PhotoDetailSheet(selectedPhoto: PreviewData.photo, photoList: Array(PreviewData.photoList))
+        }
     }
-}
+#endif

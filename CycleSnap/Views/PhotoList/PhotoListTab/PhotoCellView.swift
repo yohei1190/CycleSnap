@@ -50,8 +50,10 @@ struct PhotoCellView: View {
     }
 }
 
-struct PhotoCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoCellView(photo: PreviewData.photo, onTap: { _ in }, onDelete: { _ in })
+#if DEBUG
+    struct PhotoCellView_Previews: PreviewProvider {
+        static var previews: some View {
+            PhotoCellView(photo: PreviewData.photo, onTap: { _ in }, onDelete: { _ in })
+        }
     }
-}
+#endif

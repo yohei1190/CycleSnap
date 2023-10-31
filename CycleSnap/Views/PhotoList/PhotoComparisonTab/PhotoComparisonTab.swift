@@ -25,8 +25,10 @@ struct PhotoComparisonTab: View {
     }
 }
 
-struct PhotoComparisonTab_Previews: PreviewProvider {
-    static var previews: some View {
-        PhotoComparisonTab(photoList: Array(PreviewData.photoList))
+#if DEBUG
+    struct PhotoComparisonTab_Previews: PreviewProvider {
+        static var previews: some View {
+            PhotoComparisonTab(photoList: Array(PreviewData.photoList))
+        }
     }
-}
+#endif
