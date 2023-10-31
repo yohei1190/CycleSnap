@@ -20,7 +20,6 @@
 		475DF8F82AC592A900B96808 /* RealmConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F72AC592A900B96808 /* RealmConfiguration.swift */; };
 		475DF8FA2AC68D7700B96808 /* PhotoListToolbarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */; };
 		475DF8FD2AC6A06C00B96808 /* DocumentsFileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */; };
-		477E86EB2AD3754900CFEF12 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 477E86ED2AD3754900CFEF12 /* Localizable.strings */; };
 		478D8B492AD00E78007E4007 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478D8B482AD00E78007E4007 /* View+Extensions.swift */; };
 		4795F4BF2ACF7A85004A1604 /* SwapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4795F4BE2ACF7A85004A1604 /* SwapButton.swift */; };
 		479963392AC4E585009EDBE2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 479963382AC4E585009EDBE2 /* Realm */; };
@@ -56,8 +55,6 @@
 		475DF8F72AC592A900B96808 /* RealmConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfiguration.swift; sourceTree = "<group>"; };
 		475DF8F92AC68D7700B96808 /* PhotoListToolbarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListToolbarMenu.swift; sourceTree = "<group>"; };
 		475DF8FC2AC6A06C00B96808 /* DocumentsFileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsFileHelper.swift; sourceTree = "<group>"; };
-		477E86EC2AD3754900CFEF12 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		477E86EE2AD3755900CFEF12 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		478D8B482AD00E78007E4007 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		4795F4BE2ACF7A85004A1604 /* SwapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapButton.swift; sourceTree = "<group>"; };
 		4799633D2AC4E6DB009EDBE2 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -174,7 +171,6 @@
 				47A740912ABABF0800C67B1C /* ContentView.swift */,
 				47A740932ABABF0C00C67B1C /* Assets.xcassets */,
 				47A740952ABABF0C00C67B1C /* Preview Content */,
-				477E86ED2AD3754900CFEF12 /* Localizable.strings */,
 			);
 			path = CycleSnap;
 			sourceTree = "<group>";
@@ -309,7 +305,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				47A740972ABABF0C00C67B1C /* Preview Assets.xcassets in Resources */,
-				477E86EB2AD3754900CFEF12 /* Localizable.strings in Resources */,
 				47A740942ABABF0C00C67B1C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,18 +347,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		477E86ED2AD3754900CFEF12 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				477E86EC2AD3754900CFEF12 /* en */,
-				477E86EE2AD3755900CFEF12 /* ja */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		47A740982ABABF0C00C67B1C /* Debug */ = {
