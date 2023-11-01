@@ -278,10 +278,9 @@
 			};
 			buildConfigurationList = 47A740872ABABF0800C67B1C /* Build configuration list for PBXProject "CycleSnap" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				ja,
 			);
