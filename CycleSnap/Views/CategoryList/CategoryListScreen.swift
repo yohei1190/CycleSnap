@@ -71,22 +71,23 @@ struct CategoryListScreen: View {
                     .onMove(perform: categoryListVM.move)
                 }
                 .listStyle(.plain)
-
-                HStack {
-                    Spacer()
-                    Button(action: handleAdd) {
-                        Label("カテゴリーを追加", systemImage: "plus.circle.fill")
-                            .frame(minWidth: 44, minHeight: 44)
-                    }
-                }
-                .padding(.trailing)
-                .background(.ultraThinMaterial)
             }
             .navigationTitle("カテゴリー")
             .toolbar {
-                if !categoryList.isEmpty {
-                    EditButton()
-                        .frame(minWidth: 44, minHeight: 44)
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    if !categoryList.isEmpty {
+                        EditButton()
+                            .frame(minWidth: 44, minHeight: 44)
+                    }
+                }
+
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Spacer()
+                    Button(action: handleAdd) {
+                        Label("カテゴリーを追加", systemImage: "plus.circle.fill")
+                            .labelStyle(.titleAndIcon)
+                            .frame(minWidth: 44, minHeight: 44)
+                    }
                 }
             }
             .overlay {
