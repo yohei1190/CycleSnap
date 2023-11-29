@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class Category: Object, ObjectKeyIdentifiable {
+final class Category: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
     @Persisted var orderIndex: Int

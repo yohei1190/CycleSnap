@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 import UIKit
 
-class CameraViewModel: ObservableObject {
+final class CameraViewModel: ObservableObject {
     let category: Category
     let cameraService: CameraService = .init()
     private let realm: Realm = try! Realm()

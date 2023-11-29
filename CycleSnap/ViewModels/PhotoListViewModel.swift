@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class PhotoListViewModel: ObservableObject {
+final class PhotoListViewModel: ObservableObject {
     @Published var photoList: [Photo] = []
 
     let category: Category

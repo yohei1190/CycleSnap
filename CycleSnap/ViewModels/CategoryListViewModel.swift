@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class CategoryListViewModel: ObservableObject {
+final class CategoryListViewModel: ObservableObject {
     @Published var categoryList: [Category] = []
     private let realm: Realm
     private var notificationToken: NotificationToken?

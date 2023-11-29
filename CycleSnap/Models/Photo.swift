@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class Photo: Object, ObjectKeyIdentifiable {
+final class Photo: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var path: String
     @Persisted var captureDate: Date = .init()

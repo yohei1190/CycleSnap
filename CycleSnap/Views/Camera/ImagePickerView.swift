@@ -43,7 +43,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
         Coordinator(parent: self, didFinishProcessingPhoto: didFinishProcessingPhoto)
     }
 
-    class Coordinator: NSObject, AVCapturePhotoCaptureDelegate {
+    final class Coordinator: NSObject, AVCapturePhotoCaptureDelegate {
         let parent: ImagePickerView
         private var didFinishProcessingPhoto: (Result<AVCapturePhoto, Error>) -> Void
 

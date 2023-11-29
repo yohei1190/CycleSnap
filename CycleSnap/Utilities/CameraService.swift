@@ -8,7 +8,7 @@
 import AVFoundation
 import Foundation
 
-class CameraService {
+final class CameraService {
     var session = AVCaptureSession()
     // 写真をビューに提供するためにdelegateが必要
     var delegate: AVCapturePhotoCaptureDelegate?
